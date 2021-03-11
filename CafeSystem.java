@@ -20,7 +20,8 @@ public class CafeSystem {
     public static void main(String[] args) {
 
         // object instances
-        Menu menu = new Menu("program_files/inventory.csv", "program_files/transactions.csv", 25);
+        // menu object passing the inventory and transaction file paths
+        Menu menu = new Menu("program_files/inventory.csv", "program_files/transactions.csv", 30);
 
         // program loop while user doesn't exit
         do {

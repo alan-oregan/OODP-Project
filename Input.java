@@ -1,3 +1,4 @@
+// imports
 import java.util.Scanner;
 import java.util.Arrays; // for converting arrays
 
@@ -65,7 +66,7 @@ class Input {
         // gets the payment option
         do {
             // prints the prompt and array of options on one line with / as the delimiter
-            System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
+            System.out.printf("%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
             option = (int) this.validateDoubleInput(options[0], options[options.length - 1], false, false, 0);

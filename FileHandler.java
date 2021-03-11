@@ -1,3 +1,4 @@
+// imports
 import java.io.File; // Import the File class
 import java.io.FileWriter; // for reading files
 import java.io.IOException; // Import the IOException class to handle file write errors

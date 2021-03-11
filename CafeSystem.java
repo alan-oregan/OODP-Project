@@ -25,10 +25,6 @@ public class CafeSystem {
 
         // program loop while user doesn't exit
         do {
-
-            // clears the screen
-            menu.clearScreen();
-
             // displays menu
             menu.displayMenu();
 

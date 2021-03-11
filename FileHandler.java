@@ -16,7 +16,7 @@ class FileHandler {
 
     // variables
     private String file_path;
-    private ArrayList<String[]> dataTable = new ArrayList<String[]>();
+    private ArrayList<MenuItem> dataTable = new ArrayList<MenuItem>();
 
     // constructor
     public FileHandler(String file_path) {
@@ -25,7 +25,7 @@ class FileHandler {
     }
 
     // reads the csv file and returns it as a 2d arrayList
-    public ArrayList<String[]> readCSV() {
+    public ArrayList<MenuItem> readCSV() {
         try {
             File fileObject = new File(file_path);
             Scanner myReader = new Scanner(fileObject);
@@ -38,7 +38,19 @@ class FileHandler {
                 // getting the row as an array split by ,
                 String[] item_row = myReader.nextLine().split(",");
 
-                dataTable.add(item_row);
+                // separates the values in the row into variables
+                String item_name = item_row[0];
+
+                // takes the item price form the row as a string and converts it to a double
+                // with a minimum limit of 0 and no maximum value
+                // invalid input being -1 so we can skip the items with invalid prices
+                double item_price = in.validateDoubleInput(item_row[1], 0, 0, false, true, -1);
+
+                // skips the items with invalid prices
+                if (item_price != -1) {
+                    // add the string item name and double item price to the ArrayList of MenuItem objects
+                    dataTable.add(new MenuItem(item_name, item_price));
+                }
             }
 
             myReader.close(); // closes the Scanner

@@ -43,10 +43,9 @@ class Input {
         // the value is more than the minimum and there is no the maximum limit,
         // the value is more than the minimum and less than the maximum limit,
 
-        if ((nomin_limit && nomax_limit) ||
-            (nomin_limit && double_user_input <= max_limit) ||
-            (double_user_input >= min_limit && nomax_limit) ||
-            (double_user_input >= min_limit && double_user_input <= max_limit)) {
+        if ((nomin_limit && nomax_limit) || (nomin_limit && double_user_input <= max_limit)
+                || (double_user_input >= min_limit && nomax_limit)
+                || (double_user_input >= min_limit && double_user_input <= max_limit)) {
 
             return double_user_input;
 
@@ -54,6 +53,45 @@ class Input {
             return invalid_input;
         }
     }
+
+    // Input validation
+    public double validateDoubleInput( String string_user_input,
+        double min_limit,
+        double max_limit,
+        boolean nomin_limit,
+        boolean nomax_limit,
+        double invalid_input) {
+
+    //variables
+    double double_user_input;
+
+    // trying to convert string input to double
+    try {
+        double_user_input = Double.parseDouble(string_user_input);
+    }
+    // if conversion fails return as invalid input
+    catch (NumberFormatException e) {
+        return invalid_input;
+    }
+
+    // return the double input if:
+
+    // there is no minimum and no maximum limit,
+    // there is no the minimum and the value is less than the maximum limit,
+    // the value is more than the minimum and there is no the maximum limit,
+    // the value is more than the minimum and less than the maximum limit,
+
+    if ((nomin_limit && nomax_limit) ||
+        (nomin_limit && double_user_input <= max_limit) ||
+        (double_user_input >= min_limit && nomax_limit) ||
+        (double_user_input >= min_limit && double_user_input <= max_limit)) {
+
+        return double_user_input;
+
+    } else {
+        return invalid_input;
+    }
+}
 
     public int limitOptionChoice(String prompt, int[] options) {
 

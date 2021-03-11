@@ -1,5 +1,6 @@
 // imports
 import java.util.Date;
+import java.util.ArrayList;
 
 /*
 * Handles the processing of Transactions
@@ -9,34 +10,39 @@ class Transactions {
 
     // variables
     private String transactions_file_path;
+    private ArrayList<MenuItem> menu_list;
+    private ArrayList<String[]> transaction_data = new ArrayList<String[]>();
 
     // objects
     Input in;
 
     // constructor
-    public Transactions(String transactions_file_path) {
+    public Transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
         // setting objects
         in = new Input();
 
+        // variables
+        this.menu_list = menu_list;
         this.transactions_file_path = transactions_file_path;
     }
 
 
-    public void getTransaction() {
+    public void addTransaction(Menu menu, int menu_choice) {
 
         // an array that contains all the information to be written to the transactions.csv
         // Format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
         String[] transaction_row = new String[5];
+        MenuItem menu_choice_item = menu_list.get(menu_choice);
 
         // add time stamp
         Date time_stamp = new Date(); // gets the current time and date
         transaction_row[0] = time_stamp.toString(); //adds it as a string to the row array
 
         // add item Purchased
-        transaction_row[1] = menu_list.get(menu_choice)[0]; // gets the chosen item name from the menu ArrayList
+        transaction_row[1] = menu_choice_item.itemName(); // gets the chosen item name from the menu ArrayList
 
         // add Price (validate in future)
-        double price = Float.parseFloat(menu_list.get(menu_choice)[1]); // gets item price and converts it to a double
+        double price = menu_choice_item.itemPrice(); // gets item price and converts it to a double
         transaction_row[2] = String.format("%.2f", price);
 
         // gets the payment option
@@ -89,7 +95,7 @@ class Transactions {
         transaction_row[4] = change_given;
 
         // prints the receipt
-        this.displayReceipt(transaction_row, payment_option);
+        menu.displayReceipt(transaction_row, payment_option);
 
         // if the ArrayList is not empty, add the String[] row to the ArrayList, then clear it
         if (transaction_row.length > 0) {
@@ -98,34 +104,5 @@ class Transactions {
             // since one item at a time
             this.transaction_data.clear();
         }
-    }
-
-    public void displayReceipt(String[] transaction_row, int payment_type) {
-        System.out.printf("\n%s%s%s\n", indent, " ".repeat(this.item_separator.length() / 2 - 4), "Receipt");
-
-        System.out.println(indent + this.item_separator);
-
-        // prints receipt in an appropriate format
-        // transaction_row format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
-
-        System.out.printf("%sTime: %s\n", indent, transaction_row[0]);
-        System.out.printf("\n%sItem/s Purchased\n", indent);
-        System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, transaction_row[1], transaction_row[2]);
-
-        // receipt for cash payment
-        if (payment_type == 1) {
-            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction_row[3]);
-            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, "Change:", transaction_row[4]);
-
-            // receipt for card payment
-        } else if (payment_type == 2) {
-            System.out.printf("\n%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction_row[3]);
-        }
-
-        System.out.println(indent + this.item_separator);
-
-        in.enterToContinue();
-
-        this.clearScreen();
     }
 }

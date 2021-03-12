@@ -112,8 +112,8 @@ class Menu {
                 sub_total += item.getItemPrice();
             }
             System.out.println(indent + item_separator);
-            // + 4 to account for the difference with '%2d. '
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s %5.2f EUR\n", indent, "Sub-Total:", sub_total);
+            // + 3 to account for the difference with '%2d. '
+            System.out.printf("%s%" + "-" + (spacing + 3) + "s %5.2f EUR\n", indent, "Sub-Total:", sub_total);
         }
 
         System.out.println("\n" + system_separator);
@@ -130,8 +130,12 @@ class Menu {
             if (current_transaction_items.size() > 0) {
                 int item_index = in.getRemoveItemChoice(current_transaction_items.size());
                 current_transaction_items = tn.removeTransactionItem(item_index);
+            } else {
+                System.out.println("\nError - Please enter an item first.");
+                in.enterToContinue();
             }
         }
+
         // if choice is payment
         else if (menu_choice == menu_list.size() + 1) {
             // if there is a transaction to pay for
@@ -142,7 +146,11 @@ class Menu {
                 tn.completePayment();
                 // since payment complete
                 current_transaction_items.clear();
+            } else {
+                System.out.println("\nError - Please enter an item first.");
+                in.enterToContinue();
             }
+
         // if choice is exit
         } else if (menu_choice == menu_list.size() + 2) {
             tn.saveTransactions();

@@ -129,7 +129,9 @@ class Menu {
             // if there is a transaction item to remove
             if (current_transaction_items.size() > 0) {
                 int item_index = in.getRemoveItemChoice(current_transaction_items.size());
-                current_transaction_items = tn.removeTransactionItem(item_index);
+                if (item_index != -1) {
+                    current_transaction_items = tn.removeTransactionItem(item_index);
+                }
             } else {
                 System.out.println("\nError - Please enter an item first.");
                 in.enterToContinue();
@@ -186,7 +188,8 @@ class Menu {
 
         // receipt for card payment
         } else if (transaction.getTransactionType() == 2) {
-            System.out.printf("\n%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction.getCardType());
+            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction.getCardType());
         }
 
         System.out.println(indent + this.item_separator);

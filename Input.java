@@ -190,6 +190,27 @@ class Input {
         return user_choice;
     }
 
+    public int getRemoveItemChoice(int order_size) {
+
+        // variables
+        int exit_num = order_size;
+        int max_value = exit_num;
+
+        // getting input
+        System.out.printf("Enter Item to remove: ", exit_num);
+        int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
+
+        // processing the input
+        if (user_choice == -2) {
+            System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", max_value);
+            this.enterToContinue();
+            user_choice++;
+        }
+
+        // returning the user choice
+        return user_choice;
+    }
+
     // uses a string input to pause the program output
     // requires user to press enter to continue
     public void enterToContinue() {

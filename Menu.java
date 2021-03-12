@@ -18,7 +18,6 @@ class Menu {
     private ArrayList<MenuItem> menu_list;
     private String transactions_file_path;
     private ArrayList<MenuItem> current_transaction_items = new ArrayList<MenuItem>();
-    private String inventory_file_path;
     private int menu_choice;
     private int spacing = 25; // default spacing is 25
     private String indent = " ".repeat(4); // 4 spaces for indent to keep consistency between terminals replaces \t
@@ -37,7 +36,6 @@ class Menu {
         in = new Input();
 
         //variables
-        this.inventory_file_path = inventory_file_path;
         this.transactions_file_path = transactions_file_path;
         this.menu_list = fh.readInventoryCSV(inventory_file_path);
 
@@ -52,7 +50,6 @@ class Menu {
         in = new Input();
 
         //variables
-        this.inventory_file_path = inventory_file_path;
         this.transactions_file_path = transactions_file_path;
         this.menu_list = fh.readInventoryCSV(inventory_file_path);
         this.spacing = spacing; // changes the menu spacing according to the user preferences
@@ -97,6 +94,8 @@ class Menu {
 
         System.out.println(indent + item_separator);
 
+        System.out.printf("%s%2d. Remove Item\n", indent, item_ID++);
+
         System.out.printf("%s%2d. Payment\n", indent, item_ID++);
 
         System.out.printf("%s%2d. Exit\n", indent, item_ID++);
@@ -106,14 +105,15 @@ class Menu {
             System.out.println(indent + item_separator);
 
             double sub_total = 0; // for calculating a subtotal
+            item_ID = 1; // reset item id
             // print out each item in the transaction items and calculate sub total
             for (MenuItem item : current_transaction_items) {
-                // + 3 to account for the difference without '%2d. '
-                System.out.printf("%s%s%s%5.2f EUR\n", indent, item.getItemName(), ".".repeat(spacing - item.getItemName().length() + 4), item.getItemPrice());
+                System.out.printf("%s%2d. %s%s%5.2f EUR\n", indent, item_ID++, item.getItemName(), ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
                 sub_total += item.getItemPrice();
             }
             System.out.println(indent + item_separator);
-            System.out.printf("%sSub-Total: %.2f\n", indent, sub_total);
+            // + 4 to account for the difference with '%2d. '
+            System.out.printf("%sSub-Total: %5.2f EUR\n", indent, " ".repeat(spacing + 4), sub_total);
         }
 
         System.out.println("\n" + system_separator);
@@ -121,19 +121,30 @@ class Menu {
 
     public void menuChoice() {
 
-        menu_choice = in.getMenuChoice(menu_list.size() + 2);
+        // the number of menu items + number of system options
+        menu_choice = in.getMenuChoice(menu_list.size() + 3);
 
-        // if choice is payment
+        // if choice is remove item
         if (menu_choice == menu_list.size()) {
-            // gets the transaction information
-            // adds the transaction to the transactions ArrayList
-            // and then prints the receipt
-            tn.completePayment();
-            // since payment complete
-            current_transaction_items.clear();
-
+            // if there is a transaction item to remove
+            if (current_transaction_items.size() > 0) {
+                int item_index = in.getRemoveItemChoice(current_transaction_items.size());
+                current_transaction_items = tn.removeTransactionItem(item_index);
+            }
+        }
+        // if choice is payment
+        else if (menu_choice == menu_list.size() + 1) {
+            // if there is a transaction to pay for
+            if (current_transaction_items.size() > 0) {
+                // gets the transaction information
+                // adds the transaction to the transactions ArrayList
+                // and then prints the receipt
+                tn.completePayment();
+                // since payment complete
+                current_transaction_items.clear();
+            }
         // if choice is exit
-        } else if (menu_choice == menu_list.size() + 1) {
+        } else if (menu_choice == menu_list.size() + 2) {
             tn.saveTransactions();
             System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
             in.input.close(); // close the input scanner
@@ -143,9 +154,6 @@ class Menu {
         } else if (menu_choice != -1) {
             current_transaction_items = tn.addTransactionItem(menu_choice);
         }
-        // }
-        // // while not exit or payment
-        // while (!exit && menu_choice != menu_list.size());
     }
 
     public void displayReceipt(Transaction transaction) {

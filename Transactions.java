@@ -37,6 +37,12 @@ class Transactions {
         return transaction_items;
     }
 
+    // removes a transaction item from the ArrayList then returns the ArrayList
+    public ArrayList<MenuItem> removeTransactionItem(int item_index) {
+        transaction_items.remove(item_index);
+        return transaction_items;
+    }
+
     // gets the transaction information to complete the transaction
     // and adds it to the transactions ArrayList
     public void completePayment() {

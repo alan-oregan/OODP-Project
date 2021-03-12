@@ -1,6 +1,5 @@
 // imports
 import java.util.ArrayList;
-import java.util.Date; // for getting current timestamp
 
 /**
  * Menu class handles anything related to the menu in the coffee system.
@@ -11,53 +10,57 @@ import java.util.Date; // for getting current timestamp
 class Menu {
 
     // objects
-    FileHandler inventory_fh;
-    FileHandler transactions_fh;
+    FileHandler fh;
     Input in;
     Transactions tn;
 
     // variables
     private ArrayList<MenuItem> menu_list;
-    private ArrayList<String[]> transaction_data = new ArrayList<String[]>();
+    private String transactions_file_path;
+    private ArrayList<MenuItem> current_transaction_items = new ArrayList<MenuItem>();
+    private String inventory_file_path;
     private int menu_choice;
     private int spacing = 25; // default spacing is 25
-    private String indent = "    "; // 4 spaces for indent to keep consistency between terminals replaces \t
+    private String indent = " ".repeat(4); // 4 spaces for indent to keep consistency between terminals replaces \t
 
     // separating output for better readability
-    private String system_separator = "=".repeat(this.spacing + 20);
-    private String item_separator = "-".repeat(this.spacing + 12);
+    private String system_separator = "=".repeat(this.spacing + 21);
+    private String item_separator = "-".repeat(this.spacing + 13);
 
     // if the program should exit, do while loop checks this public variable
     public static boolean exit = false;
 
-    // constructor
-    public Menu(String inventory_path, String transaction_path) {
-        // makes a FileHandler object and reads the menu list from the inventory file
-        inventory_fh = new FileHandler(inventory_path);
-        this.menu_list = inventory_fh.readCSV();
-
-        // setting the rest of the objects
-        transactions_fh = new FileHandler(transaction_path);
-        in = new Input();
-        tn = new Transactions(menu_list, transaction_path);
-    }
-
-    // constructor with spacing
-    public Menu(String inventory_path, String transaction_path, int spacing) {
-
+    // constructor with spacing default
+    public Menu(String inventory_file_path, String transactions_file_path) {
         // object declarations
-        inventory_fh = new FileHandler(inventory_path);
-        transactions_fh = new FileHandler(transaction_path);
+        fh = new FileHandler();
         in = new Input();
 
         //variables
-        this.menu_list = inventory_fh.readCSV();
+        this.inventory_file_path = inventory_file_path;
+        this.transactions_file_path = transactions_file_path;
+        this.menu_list = fh.readInventoryCSV(inventory_file_path);
+
+        // Declaring Transactions object with menu list from the variables
+        tn = new Transactions(this, this.menu_list, transactions_file_path);
+    }
+
+    // constructor with spacing specified
+    public Menu(String inventory_file_path, String transactions_file_path, int spacing) {
+        // object declarations
+        fh = new FileHandler();
+        in = new Input();
+
+        //variables
+        this.inventory_file_path = inventory_file_path;
+        this.transactions_file_path = transactions_file_path;
+        this.menu_list = fh.readInventoryCSV(inventory_file_path);
         this.spacing = spacing; // changes the menu spacing according to the user preferences
 
         // setting separator lengths
-        system_separator = "=".repeat(this.spacing + 20);
-        item_separator = "-".repeat(this.spacing + 12);
-        tn = new Transactions(menu_list, transaction_path);
+        system_separator = "=".repeat(this.spacing + 21);
+        item_separator = "-".repeat(this.spacing + 13);
+        tn = new Transactions(this, menu_list, transactions_file_path);
     }
 
     // clears the screen using the ansi escape codes to keep things clean
@@ -82,45 +85,70 @@ class Menu {
 
         System.out.println(system_separator + "\n");
 
-        System.out.printf("%s%s\n", " ".repeat(spacing/2 + 6), "Cafe Menu");
+        System.out.printf("%s%s\n", " ".repeat(spacing/2 + 6), "Cafe Items");
 
         System.out.println(indent + item_separator);
 
         // loops through the values in the 2D ArrayList
         for (MenuItem item : menu_list) {
-            System.out.printf("%s%d. %s%s%5.2f EUR\n",
-            indent, item_ID++, item.itemName(), ".".repeat(spacing - item.itemName().length()), item.itemPrice());
+            System.out.printf("%s%2d. %s%s%5.2f EUR\n",
+            indent, item_ID++, item.getItemName(), ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
         }
 
         System.out.println(indent + item_separator);
 
-        System.out.printf("%s%d. Exit\n", indent, item_ID++);
+        System.out.printf("%s%2d. Payment\n", indent, item_ID++);
+
+        System.out.printf("%s%2d. Exit\n", indent, item_ID++);
+
+        if (current_transaction_items.size() > 0) {
+            System.out.printf("%s%s\n", " ".repeat(spacing / 2 + 4), "Current Order");
+            System.out.println(indent + item_separator);
+
+            double sub_total = 0; // for calculating a subtotal
+            // print out each item in the transaction items and calculate sub total
+            for (MenuItem item : current_transaction_items) {
+                // + 3 to account for the difference without '%2d. '
+                System.out.printf("%s%s%s%5.2f EUR\n", indent, item.getItemName(), ".".repeat(spacing - item.getItemName().length() + 4), item.getItemPrice());
+                sub_total += item.getItemPrice();
+            }
+            System.out.println(indent + item_separator);
+            System.out.printf("%sSub-Total: %.2f\n", indent, sub_total);
+        }
 
         System.out.println("\n" + system_separator);
     }
 
     public void menuChoice() {
-        menu_choice = in.getMenuChoice(menu_list.size() + 1);
 
-        // exit choice
+        menu_choice = in.getMenuChoice(menu_list.size() + 2);
+
+        // if choice is payment
         if (menu_choice == menu_list.size()) {
+            // gets the transaction information
+            // adds the transaction to the transactions ArrayList
+            // and then prints the receipt
+            tn.completePayment();
+            // since payment complete
+            current_transaction_items.clear();
+
+        // if choice is exit
+        } else if (menu_choice == menu_list.size() + 1) {
+            tn.saveTransactions();
+            System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
             in.input.close(); // close the input scanner
-
-            // if transaction data is not empty
-            if (transaction_data.isEmpty() == false) {
-                // writes the transaction data to the transactions csv
-                transactions_fh.writeCSV(transaction_data);
-            }
-
             exit = true; // set exit to true for do while to exit program
 
-        // Cafe menu choice
+        // Cafe menu choice if not invalid
         } else if (menu_choice != -1) {
-            tn.addTransaction(this, menu_choice);
+            current_transaction_items = tn.addTransactionItem(menu_choice);
         }
+        // }
+        // // while not exit or payment
+        // while (!exit && menu_choice != menu_list.size());
     }
 
-    public void displayReceipt(String[] transaction_row, int payment_type) {
+    public void displayReceipt(Transaction transaction) {
         System.out.printf("\n%s%s%s\n", indent, " ".repeat(this.item_separator.length() / 2 - 4), "Receipt");
 
         System.out.println(indent + this.item_separator);
@@ -128,18 +156,21 @@ class Menu {
         // prints receipt in an appropriate format
         // transaction_row format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
 
-        System.out.printf("%sTime: %s\n", indent, transaction_row[0]);
+        System.out.printf("%sTime: %s\n", indent, transaction.getTimestamp());
         System.out.printf("\n%sItem/s Purchased\n", indent);
-        System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, transaction_row[1], transaction_row[2]);
+
+        for (MenuItem item : transaction.getItemsPurchased()) {
+            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, item.getItemName(), item.getItemPrice());
+        }
 
         // receipt for cash payment
-        if (payment_type == 1) {
-            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction_row[3]);
-            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, "Change:", transaction_row[4]);
+        if (transaction.getTransactionType() == 1) {
+            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, "Change:", transaction.getChangeTendered());
 
-            // receipt for card payment
-        } else if (payment_type == 2) {
-            System.out.printf("\n%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction_row[3]);
+        // receipt for card payment
+        } else if (transaction.getTransactionType() == 2) {
+            System.out.printf("\n%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction.getCardType());
         }
 
         System.out.println(indent + this.item_separator);

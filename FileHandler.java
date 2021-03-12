@@ -3,8 +3,8 @@ import java.io.File; // Import the File class
 import java.io.FileWriter; // for reading files
 import java.io.IOException; // Import the IOException class to handle file write errors
 import java.io.FileNotFoundException; // Import this class to handle file read errors
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.ArrayList; // for the ArrayLists of objects to return and write to files
+import java.util.Scanner; // for writing to the files
 
 /**
  * FileHandler class handles reading to and from the files for transactions and inventory.
@@ -15,17 +15,15 @@ class FileHandler {
     Input in;
 
     // variables
-    private String file_path;
-    private ArrayList<MenuItem> dataTable = new ArrayList<MenuItem>();
+    private ArrayList<MenuItem> menu_items = new ArrayList<MenuItem>();
 
     // constructor
-    public FileHandler(String file_path) {
+    public FileHandler() {
         in = new Input();
-        this.file_path = file_path;
     }
 
     // reads the csv file and returns it as a 2d arrayList
-    public ArrayList<MenuItem> readCSV() {
+    public ArrayList<MenuItem> readInventoryCSV(String file_path) {
         try {
             File fileObject = new File(file_path);
             Scanner myReader = new Scanner(fileObject);
@@ -49,7 +47,7 @@ class FileHandler {
                 // skips the items with invalid prices
                 if (item_price != -1) {
                     // add the string item name and double item price to the ArrayList of MenuItem objects
-                    dataTable.add(new MenuItem(item_name, item_price));
+                    menu_items.add(new MenuItem(item_name, item_price));
                 }
             }
 
@@ -61,10 +59,11 @@ class FileHandler {
             in.enterToContinue();
         }
 
-        return dataTable;
+        return menu_items;
     }
 
-    public void writeCSV(ArrayList<String[]> dataTable) {
+    // append to the file with the transaction
+    public void writeToTransactionsCSV(String file_path, ArrayList<Transaction> Transactions) {
 
         try {
 
@@ -73,19 +72,40 @@ class FileHandler {
             // gets the system line separator for new lines
             String newLine = System.getProperty("line.separator");
 
-            // wtr.write(key + newLine); // adds Key for csv on the line and moves cursor to the next
+            // loops through the transactions in the Transactions ArrayList
+            for (Transaction transaction : Transactions) {
+                // writes the transaction information the line using the toString method
+                // and moves the cursor for the next line
+                wtr.write(transaction.toString() + newLine);
+            }
 
-            // loops through the rows in the 2d array
-            for (String[] row : dataTable) {
+            wtr.close(); // closes the FileWriter
 
-                // writes the items with , separator to the line for csv format
-                // finishes before the last item
-                int i;
-                for (i = 0; i < row.length-1; i++)
-                    wtr.write(row[i] + ", ");
+            // catches any IOException and prints the cause
+        } catch (IOException e) {
+            System.out.printf("Transaction File Error:\n%s\n", e);
+            in.enterToContinue();
+        }
+    }
 
-                // writes the last item without the comma and moves the cursor for the next line
-                wtr.write(row[i++] + newLine);
+    // overwrites or creates new file with key and adds the transaction information
+    public void writeToTransactionsCSV(String file_path, ArrayList<Transaction> Transactions, String key) {
+
+        try {
+
+            FileWriter wtr = new FileWriter(file_path, false); // append mode set to false
+
+            // gets the system line separator for new lines
+            String newLine = System.getProperty("line.separator");
+
+            // writes the key to the file and moves cursor to the next line
+            wtr.write(key + newLine);
+
+            // loops through the transactions in the Transactions ArrayList
+            for (Transaction transaction : Transactions) {
+                // writes the transaction information the line using the toString method
+                // and moves the cursor for the next line
+                wtr.write(transaction.toString() + newLine);
             }
 
             wtr.close(); // closes the FileWriter

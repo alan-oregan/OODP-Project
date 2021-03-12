@@ -7,19 +7,21 @@ public class MenuItem {
     private String item_name;
     private Double item_price;
 
-    // input class for verifying item the price
-    Input in = new Input();
-
     // constructor
     public MenuItem(String item_name, Double item_price) {
         this.item_name = item_name;
         this.item_price = item_price;
     }
 
-    // returns the item name
-    public String itemName() {return item_name;}
-    // returns the item_price
-    public Double itemPrice() {return item_price;}
+    // getter and setter methods
+    public void setItemName(String item_name) {this.item_name = item_name;}
 
-    public String toString() {return String.format("Item: %s, Price: %f", item_name, item_price);}
+    public String getItemName() {return item_name;}
+
+    public void setItemPrice(Double item_price) {this.item_price = item_price;}
+
+    public Double getItemPrice() {return item_price;}
+
+    // toString method
+    public String toString() {return String.format("Item: %s, Price: %.2f", item_name, item_price);}
 }

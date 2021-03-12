@@ -1,5 +1,5 @@
 // imports
-import java.util.Date;
+import java.util.Date; // for getting current timestamp
 import java.util.ArrayList;
 
 /*
@@ -9,100 +9,89 @@ import java.util.ArrayList;
 class Transactions {
 
     // variables
-    private String transactions_file_path;
     private ArrayList<MenuItem> menu_list;
-    private ArrayList<String[]> transaction_data = new ArrayList<String[]>();
+    private ArrayList<MenuItem> transaction_items = new ArrayList<MenuItem>();
+    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private String transactions_file_path;
 
     // objects
     Input in;
+    Menu menu;
+    FileHandler fh;
 
     // constructor
-    public Transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
+    public Transactions(Menu menu, ArrayList<MenuItem> menu_list, String transactions_file_path) {
         // setting objects
         in = new Input();
+        fh = new FileHandler();
+        this.menu = menu;
 
         // variables
         this.menu_list = menu_list;
         this.transactions_file_path = transactions_file_path;
     }
 
+    // adds a transaction item to the ArrayList then returns the ArrayList
+    public ArrayList<MenuItem> addTransactionItem(int menu_choice) {
+        transaction_items.add(menu_list.get(menu_choice));
+        return transaction_items;
+    }
 
-    public void addTransaction(Menu menu, int menu_choice) {
+    // gets the transaction information to complete the transaction
+    // and adds it to the transactions ArrayList
+    public void completePayment() {
 
-        // an array that contains all the information to be written to the transactions.csv
-        // Format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
-        String[] transaction_row = new String[5];
-        MenuItem menu_choice_item = menu_list.get(menu_choice);
+        // gets the current time and date using the Date default initialisation
+        Date time_stamp = new Date();
 
-        // add time stamp
-        Date time_stamp = new Date(); // gets the current time and date
-        transaction_row[0] = time_stamp.toString(); //adds it as a string to the row array
-
-        // add item Purchased
-        transaction_row[1] = menu_choice_item.itemName(); // gets the chosen item name from the menu ArrayList
-
-        // add Price (validate in future)
-        double price = menu_choice_item.itemPrice(); // gets item price and converts it to a double
-        transaction_row[2] = String.format("%.2f", price);
+        // a Transaction abject that contains all the information to be for the transaction
+        Transaction transaction = new Transaction(time_stamp, transaction_items);
 
         // gets the payment option
         int payment_option = in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 });
 
-        // amount tendered / card type
-        String tendered_amount_or_card_type = "Error";
+        transaction.setTransactionType(payment_option);
 
-        // change given
-        String change_given = "N/A";
+        // amount tendered / card type
 
         // cash is 1
         if (payment_option == 1) {
 
             // amount tendered
-            double tendered_amount = in.getTenderedAmount("Cash", price, 0);
-            tendered_amount_or_card_type = String.format("%.2f", tendered_amount);
+            double tendered_amount = in.getTenderedAmount("Cash", transaction.getItemsPrice(), 0);
+            transaction.setAmountTendered(tendered_amount);
 
             // change given (2 ways)
 
-            // fixed change
-            change_given = String.format("%.2f", (tendered_amount - price));
+            // set change as the exact change
+            transaction.setChangeTendered((tendered_amount - transaction.getItemsPrice()));
 
-            // variable change
-            // change_given = String.format("%.2f", in.getTenderedAmount("Change", 0.01, (tendered_amount - price)));
+            // let cashier input change
+            // transaction.setChangeTendered(in.getTenderedAmount("Change", 0.01, (tendered_amount - transaction.getItemsPrice())));
+        }
 
-            // card is 2
-        } else if (payment_option == 2) {
+        // card is 2
+        else if (payment_option == 2) {
 
             // get card type
             int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
 
             //returns 1 for Visa
             if (card_type == 1) {
-                tendered_amount_or_card_type = "Visa";
+                transaction.setCardType("Visa");
 
                 //returns  2 for mastercard
             } else if (card_type == 2) {
-                tendered_amount_or_card_type = "Mastercard";
+                transaction.setCardType("Mastercard");
             }
-
-            // change given (if card then no change given)
-            change_given = "N/A";
         }
 
-        // tendered amount / card type
-        transaction_row[3] = tendered_amount_or_card_type;
+        transactions.add(transaction);
 
-        // change given
-        transaction_row[4] = change_given;
+        menu.displayReceipt(transaction);
+    }
 
-        // prints the receipt
-        menu.displayReceipt(transaction_row, payment_option);
-
-        // if the ArrayList is not empty, add the String[] row to the ArrayList, then clear it
-        if (transaction_row.length > 0) {
-            this.transaction_data.add(transaction_row);
-            transaction_row = new String[transaction_row.length];
-            // since one item at a time
-            this.transaction_data.clear();
-        }
+    public void saveTransactions() {
+        fh.writeToTransactionsCSV(transactions_file_path, transactions);
     }
 }

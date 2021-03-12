@@ -113,7 +113,7 @@ class Menu {
             }
             System.out.println(indent + item_separator);
             // + 4 to account for the difference with '%2d. '
-            System.out.printf("%sSub-Total: %5.2f EUR\n", indent, " ".repeat(spacing + 4), sub_total);
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s %5.2f EUR\n", indent, "Sub-Total:", sub_total);
         }
 
         System.out.println("\n" + system_separator);

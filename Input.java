@@ -20,8 +20,8 @@ class Input {
     public double validateDoubleInput(
             double min_limit,
             double max_limit,
-            boolean nomin_limit,
-            boolean nomax_limit,
+            boolean no_min_limit,
+            boolean no_max_limit,
             double invalid_input) {
 
         // variables
@@ -43,8 +43,8 @@ class Input {
         // the value is more than the minimum and there is no the maximum limit,
         // the value is more than the minimum and less than the maximum limit,
 
-        if ((nomin_limit && nomax_limit) || (nomin_limit && double_user_input <= max_limit)
-                || (double_user_input >= min_limit && nomax_limit)
+        if ((no_min_limit && no_max_limit) || (no_min_limit && double_user_input <= max_limit)
+                || (double_user_input >= min_limit && no_max_limit)
                 || (double_user_input >= min_limit && double_user_input <= max_limit)) {
 
             return double_user_input;
@@ -58,8 +58,8 @@ class Input {
     public double validateDoubleInput( String string_user_input,
         double min_limit,
         double max_limit,
-        boolean nomin_limit,
-        boolean nomax_limit,
+        boolean no_min_limit,
+        boolean no_max_limit,
         double invalid_input) {
 
     //variables
@@ -81,9 +81,9 @@ class Input {
     // the value is more than the minimum and there is no the maximum limit,
     // the value is more than the minimum and less than the maximum limit,
 
-    if ((nomin_limit && nomax_limit) ||
-        (nomin_limit && double_user_input <= max_limit) ||
-        (double_user_input >= min_limit && nomax_limit) ||
+    if ((no_min_limit && no_max_limit) ||
+        (no_min_limit && double_user_input <= max_limit) ||
+        (double_user_input >= min_limit && no_max_limit) ||
         (double_user_input >= min_limit && double_user_input <= max_limit)) {
 
         return double_user_input;

@@ -195,8 +195,6 @@ class Menu {
         System.out.println(indent + this.item_separator);
 
         in.enterToContinue();
-
-        this.clearScreen();
     }
 
     public static boolean continueMenu() {

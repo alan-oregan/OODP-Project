@@ -104,7 +104,7 @@ class Input {
         // gets the payment option
         do {
             // prints the prompt and array of options on one line with / as the delimiter
-            System.out.printf("%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
+            System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
             option = (int) this.validateDoubleInput(options[0], options[options.length - 1], false, false, 0);
@@ -136,7 +136,7 @@ class Input {
         // gets cash tendered
         do {
             // gets the amount tendered
-            System.out.printf("Enter %s tendered (EUR): ", type);
+            System.out.printf("\nEnter %s tendered (EUR): ", type);
             tendered_amount = this.validateDoubleInput(min, max, false, no_max_limit, 0);
             if (tendered_amount == 0) {
                 invalid = true;
@@ -175,7 +175,7 @@ class Input {
         int max_value = exit_num;
 
         // getting input
-        System.out.printf("Enter your choice: ", exit_num);
+        System.out.printf("\nEnter your choice: ", exit_num);
         int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
 
         // processing the input
@@ -196,7 +196,7 @@ class Input {
         int max_value = exit_num;
 
         // getting input
-        System.out.printf("Enter Item to remove: ", exit_num);
+        System.out.printf("\nEnter Item to remove: ", exit_num);
         int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
 
         // processing the input

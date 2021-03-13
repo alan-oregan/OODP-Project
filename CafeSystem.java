@@ -22,7 +22,7 @@ public class CafeSystem {
 
         // object instances
         // menu object passing the inventory and transaction file paths
-        Menu menu = new Menu("program_files/inventory.csv", "program_files/transactions.csv");
+        Menu menu = new Menu("program_files/inventory.csv", "program_files/transactions.csv", 40);
 
         // program loop while user doesn't exit
         do {

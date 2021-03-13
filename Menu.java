@@ -167,29 +167,29 @@ class Menu {
     }
 
     public void displayReceipt(Transaction transaction) {
-        System.out.printf("\n%s%s%s\n", indent, " ".repeat(this.item_separator.length() / 2 - 4), "Receipt");
+        System.out.printf("\n%s%s\n", " ".repeat(spacing / 2 + 7), "Receipt");
 
         System.out.println(indent + this.item_separator);
 
         // prints receipt in an appropriate format
         // transaction_row format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
 
-        System.out.printf("%sTime: %s\n", indent, transaction.getTimestamp());
+        System.out.printf("%sTime: %" + (spacing + 7) + "s\n", indent, transaction.getTimestamp());
         System.out.printf("\n%sItem/s Purchased\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
-            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, item.getItemName(), item.getItemPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, item.getItemName(), item.getItemPrice());
         }
 
         // receipt for cash payment
         if (transaction.getTransactionType() == 1) {
-            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + spacing + "s%5s EUR\n", indent, "Change:", transaction.getChangeTendered());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Change:", transaction.getChangeTendered());
 
         // receipt for card payment
         } else if (transaction.getTransactionType() == 2) {
-            System.out.printf("\n%s%" + "-" + spacing + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing - 1) + "s%10s\n", indent, "Card type:", transaction.getCardType());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", transaction.getCardType());
         }
 
         System.out.println(indent + this.item_separator);

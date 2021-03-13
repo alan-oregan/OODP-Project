@@ -12,6 +12,7 @@
 // https://www.w3schools.com/java/java_arraylist.asp
 // https://www.tutorialspoint.com/convert-from-string-to-double-in-java#:~:text=To%20convert%20String%20to%20double%2C%20use%20the%20valueOf()%20method.
 // https://www.geeksforgeeks.org/format-specifiers-in-java/
+// https://stackoverflow.com/questions/6264576/number-of-decimal-digits-in-a-double
 
 // main class
 public class CafeSystem {

@@ -155,10 +155,16 @@ class Menu {
 
         // if choice is exit
         } else if (menu_choice == menu_list.size() + 2) {
-            tn.saveTransactions();
-            System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
-            in.input.close(); // close the input scanner
-            exit = true; // set exit to true for do while to exit program
+            // if there is no current transaction
+            if (current_transaction_items.size() == 0) {
+                tn.saveTransactions();
+                System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
+                in.input.close(); // close the input scanner
+                exit = true; // set exit to true for do while to exit program
+            } else {
+                System.out.println("\nError - Please complete payment or clear order first.");
+                in.enterToContinue();
+            }
 
         // Cafe menu choice if not invalid
         } else if (menu_choice != -1) {

@@ -94,13 +94,13 @@ public class Transaction {
 
         // cash transaction
         if (transaction_type == 1) {
-            str = String.format("%s, \"%s\", %.2f, %.2f, %.2f", timestamp, items_purchased.toString(), items_price,
+            str = String.format("%s, %s, %.2f, %.2f, %.2f", timestamp, items_purchased.toString().replace(", ", "] ["), items_price,
                     amount_tendered, change_tendered);
         }
 
         // card transaction with N/A for change column
         else if (transaction_type == 2) {
-            str = String.format("%s, \"%s\", %.2f, %s, N/A", timestamp, items_purchased.toString(), items_price,
+            str = String.format("%s, %s, %.2f, %s, N/A", timestamp, items_purchased.toString().replace(", ", "] ["), items_price,
                     card_type);
         }
 

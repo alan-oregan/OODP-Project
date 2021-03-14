@@ -40,7 +40,7 @@ class Menu {
         this.menu_list = fh.readInventoryCSV(inventory_file_path);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transactions(this, this.menu_list, transactions_file_path);
+        tn = new Transactions(this.menu_list, transactions_file_path);
     }
 
     // constructor with spacing specified
@@ -57,7 +57,7 @@ class Menu {
         // setting separator lengths
         system_separator = "=".repeat(this.spacing + 21);
         item_separator = "-".repeat(this.spacing + 13);
-        tn = new Transactions(this, menu_list, transactions_file_path);
+        tn = new Transactions(menu_list, transactions_file_path);
     }
 
     // clears the screen using the ansi escape codes to keep things clean
@@ -144,8 +144,7 @@ class Menu {
             if (current_transaction_items.size() > 0) {
                 // gets the transaction information
                 // adds the transaction to the transactions ArrayList
-                // and then prints the receipt
-                tn.completePayment();
+                this.displayReceipt(tn.completePayment());
                 // since payment complete
                 current_transaction_items.clear();
             } else {
@@ -184,17 +183,17 @@ class Menu {
         System.out.printf("\n%sItem/s Purchased\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, item.getItemName(), item.getItemPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, item.getItemName(), item.getItemPrice());
         }
 
         // receipt for cash payment
         if (transaction.getTransactionType() == 1) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Change:", transaction.getChangeTendered());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:", transaction.getChangeTendered());
 
         // receipt for card payment
         } else if (transaction.getTransactionType() == 2) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5s EUR\n", indent, "Payment:", transaction.getItemsPrice());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
             System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", transaction.getCardType());
         }
 

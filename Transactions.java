@@ -20,11 +20,10 @@ class Transactions {
     FileHandler fh;
 
     // constructor
-    public Transactions(Menu menu, ArrayList<MenuItem> menu_list, String transactions_file_path) {
+    public Transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
         // setting objects
         in = new Input();
         fh = new FileHandler();
-        this.menu = menu;
 
         // variables
         this.menu_list = menu_list;
@@ -45,7 +44,7 @@ class Transactions {
 
     // gets the transaction information to complete the transaction
     // and adds it to the transactions ArrayList
-    public void completePayment() {
+    public Transaction completePayment() {
 
         // gets the current time and date using the Date default initialisation
         Date time_stamp = new Date();
@@ -93,8 +92,7 @@ class Transactions {
         }
 
         transactions.add(transaction);
-
-        menu.displayReceipt(transaction);
+        return transaction;
     }
 
     public void saveTransactions() {

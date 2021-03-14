@@ -175,7 +175,7 @@ class Input {
         int max_value = exit_num;
 
         // getting input
-        System.out.printf("\nEnter your choice: ", exit_num);
+        System.out.printf("\nEnter choice: ", exit_num);
         int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
 
         // processing the input

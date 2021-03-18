@@ -90,18 +90,32 @@ public class Transaction {
     public void setCardType(String card_type) {this.card_type = card_type;}
 
     public String toString() {
-        String str = "Invalid transaction type"; // if the transaction_type is not 1 or 2
+        String str = timestamp + ",";
+
+        // get the items purchased and convert to a string with '/' separating each item
+        int i;
+        for (i = 0; i < items_purchased.size() - 1; i++) {
+            str += items_purchased.get(i).toString() + "/";
+        }
+        // adds the last item to the string without the '/' at the end
+        str += items_purchased.get(i).toString() + ",";
+
+        // add the items price
+        str += items_price + ",";
 
         // cash transaction
         if (transaction_type == 1) {
-            str = String.format("%s, %s, %.2f, %.2f, %.2f", timestamp, items_purchased.toString().replace(", ", "] ["), items_price,
-                    amount_tendered, change_tendered);
+            str += String.format("%.2f,%.2f", amount_tendered, change_tendered);
         }
 
         // card transaction with N/A for change column
         else if (transaction_type == 2) {
-            str = String.format("%s, %s, %.2f, %s, N/A", timestamp, items_purchased.toString().replace(", ", "] ["), items_price,
-                    card_type);
+            str += String.format("%s,N/A", card_type);
+        }
+
+        // if the transaction_type is not 1 or 2
+        else {
+            str += "Invalid transaction type";
         }
 
         // return the appropriate string for the transaction type

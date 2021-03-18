@@ -125,6 +125,7 @@ class Input {
     public double getTenderedAmount(String type, double min, double max) {
 
         double tendered_amount = 0.00;
+        String tendered_amount_string;
         boolean invalid = false;
         boolean no_max_limit = false;
 
@@ -138,6 +139,8 @@ class Input {
             // gets the amount tendered
             System.out.printf("\nEnter %s tendered (EUR): ", type);
             tendered_amount = this.validateDoubleInput(min, max, false, no_max_limit, 0);
+            tendered_amount_string = Double.toString(tendered_amount); // for validating decimal places
+
             if (tendered_amount == 0) {
                 invalid = true;
 
@@ -151,10 +154,8 @@ class Input {
                 }
 
             // to check if the tendered amount has more than 2 decimal places
-            // it converts the double to a string
-            // creates a sub string at the index of '.'
-            // then gets the amount of decimal places from the substring with .length() - 1 to account for the '.'
-            } else if ((Double.toString(tendered_amount).substring(Double.toString(tendered_amount).indexOf('.')).length() - 1) > 2) {
+            // gets the amount of decimal places by getting the difference between .length and index of the '.' - 1 to account for the '.'
+            } else if (((tendered_amount_string.length() - tendered_amount_string.indexOf('.')) - 1) > 2) {
                 invalid = true;
                 System.out.println("\nError - Invalid input please enter a tendered amount only up to the cent.");
             // if the input is valid

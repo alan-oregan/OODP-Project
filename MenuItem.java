@@ -23,5 +23,5 @@ public class MenuItem {
     public Double getItemPrice() {return item_price;}
 
     // toString method
-    public String toString() {return String.format("%s (%.2f)", item_name, item_price);}
+    public String toString() {return String.format("%s:%.2f", item_name, item_price);}
 }

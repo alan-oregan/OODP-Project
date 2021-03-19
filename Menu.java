@@ -60,20 +60,28 @@ class Menu {
         tn = new Transactions(menu_list, transactions_file_path);
     }
 
-    // clears the screen using the ansi escape codes to keep things clean
-    // uses the codes 2J to clear the console and H to return to the top of the console
-    // flushes the buffer stream to avoid possible data loss
-    public void clearScreen() {
-        System.out.println(system_separator); // if terminal doesn't support ansi codes
-        System.out.print("\033[2J\033[H");
-        System.out.flush();
+    // static method to clear the screen
+    public static void clearScreen(String backup_string) {
+        // tries to get the system name and if it is windows creates a process that clears the screen in cmd with cls
+        // if its not windows it uses ansi escape codes
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                // uses the codes 2J to clear the console and H to return to the top of the console
+                System.out.print("\033[2J\033[H");
+            }
+        } catch (java.io.IOException | java.lang.InterruptedException ex) {
+            // if there is an error print out a given backup string to break up the output
+            System.out.print(backup_string);
+        }
     }
 
     // prints the values in an appropriate format
     public void displayMenu() {
 
         // clears the screen
-        clearScreen();
+        Menu.clearScreen(system_separator);
 
         int item_ID = 1;
 

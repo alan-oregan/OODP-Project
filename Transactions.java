@@ -1,17 +1,17 @@
 // imports
 import java.util.Date; // for getting current timestamp
-import java.util.ArrayList;
+import java.util.ArrayList; // for sorting transaction data
 
 /*
 * Handles the processing of Transactions
 * Holds the transaction data
 */
-class Transactions {
+class transactions {
 
     // variables
     private ArrayList<MenuItem> menu_list;
     private ArrayList<MenuItem> transaction_items = new ArrayList<MenuItem>();
-    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private ArrayList<TransactionItem> transactions = new ArrayList<TransactionItem>();
     private String transactions_file_path;
 
     // objects
@@ -20,7 +20,7 @@ class Transactions {
     FileHandler fh;
 
     // constructor
-    public Transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
+    public transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
         // setting objects
         in = new Input();
         fh = new FileHandler();
@@ -42,20 +42,24 @@ class Transactions {
         return transaction_items;
     }
 
-    // gets the transaction information to complete the transaction
+    // gets the total price from the menu sub_total
+    // and gets the rest of the transaction information to complete the transaction
     // and adds it to the transactions ArrayList
-    public Transaction completePayment() {
+    public TransactionItem completePayment() {
 
-        // gets the current time and date using the Date default initialisation
+        // gets the current time and date using the Date constructor
         Date time_stamp = new Date();
 
-        // a Transaction abject that contains all the information to be for the transaction
-        Transaction transaction = new Transaction(time_stamp, transaction_items);
+        // looping through the transaction items
+        // and getting the item name and price from each MenuItem
+        // using that information to aad them to a list of items_purchased and total items Price
+        int items_price = 0;
+        for (MenuItem item : transaction_items) {
+            items_price += item.getItemPrice();
+        }
 
         // gets the payment option
         int payment_option = in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 });
-
-        transaction.setTransactionType(payment_option);
 
         // amount tendered / card type
 
@@ -63,16 +67,15 @@ class Transactions {
         if (payment_option == 1) {
 
             // amount tendered
-            double tendered_amount = in.getTenderedAmount("Cash", transaction.getItemsPrice(), 0);
-            transaction.setAmountTendered(tendered_amount);
-
-            // change given (2 ways)
+            double tendered_amount = in.getTenderedAmount("Cash", items_price, 0);
 
             // set change as the exact change
-            transaction.setChangeTendered((tendered_amount - transaction.getItemsPrice()));
+            double change_tendered = tendered_amount - items_price;
 
-            // let cashier input change
-            // transaction.setChangeTendered(in.getTenderedAmount("Change", 0.01, (tendered_amount - transaction.getItemsPrice())));
+            // let user input change
+            // change_tendered = in.getTenderedAmount("Change", 0.01, (change_tendered));
+
+            transactions.add(new cashTransaction(time_stamp, transaction_items, items_price, payment_option, tendered_amount, change_tendered));
         }
 
         // card is 2
@@ -81,18 +84,17 @@ class Transactions {
             // get card type
             int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
 
-            //returns 1 for Visa
-            if (card_type == 1) {
-                transaction.setCardType("Visa");
-
-                //returns  2 for mastercard
-            } else if (card_type == 2) {
-                transaction.setCardType("Mastercard");
+            String card_type_string = "";
+            switch (card_type) {
+                case 1: card_type_string = "Visa"; break;
+                case 2: card_type_string = "Mastercard"; break;
             }
+
+            transactions.add(new cardTransaction(time_stamp, transaction_items, items_price, payment_option, card_type_string));
+
         }
 
-        transactions.add(transaction);
-        return transaction;
+        return transactions.get(transactions.size()-1); // returns the most recent transaction
     }
 
     public void saveTransactions() {

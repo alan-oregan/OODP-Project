@@ -12,19 +12,19 @@ class Menu {
     // objects
     FileHandler fh;
     Input in;
-    Transactions tn;
+    transactions tn;
 
     // variables
     private ArrayList<MenuItem> menu_list;
     private String transactions_file_path;
     private ArrayList<MenuItem> current_transaction_items = new ArrayList<MenuItem>();
     private int menu_choice;
-    private int spacing = 25; // default spacing is 25
-    private String indent = " ".repeat(4); // 4 spaces for indent to keep consistency between terminals replaces \t
 
     // separating output for better readability
-    private String system_separator = "=".repeat(this.spacing + 21);
-    private String item_separator = "-".repeat(this.spacing + 13);
+    private int spacing = 25; // default spacing is 25
+    private String indent = " ".repeat(spacing/5);
+    private String system_separator = "=".repeat(this.spacing + (spacing/5)*4);
+    private String item_separator = "-".repeat(this.spacing + (spacing/5)*3);
 
     // if the program should exit, do while loop checks this public variable
     public static boolean exit = false;
@@ -37,10 +37,10 @@ class Menu {
 
         //variables
         this.transactions_file_path = transactions_file_path;
-        this.menu_list = fh.readInventoryCSV(inventory_file_path);
+        this.menu_list = fh.readInventoryCSV(inventory_file_path, true);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transactions(this.menu_list, transactions_file_path);
+        tn = new transactions(this.menu_list, transactions_file_path);
     }
 
     // constructor with spacing specified
@@ -51,13 +51,14 @@ class Menu {
 
         //variables
         this.transactions_file_path = transactions_file_path;
-        this.menu_list = fh.readInventoryCSV(inventory_file_path);
-        this.spacing = spacing; // changes the menu spacing according to the user preferences
+        menu_list = fh.readInventoryCSV(inventory_file_path, true);
 
         // setting separator lengths
-        system_separator = "=".repeat(this.spacing + 21);
-        item_separator = "-".repeat(this.spacing + 13);
-        tn = new Transactions(menu_list, transactions_file_path);
+        this.spacing = spacing; // changes the menu spacing according to the user preferences
+        indent = " ".repeat(spacing/5);
+        system_separator = "=".repeat(this.spacing + (spacing/5)*4);
+        item_separator = "-".repeat(this.spacing + (spacing/5)*3);
+        tn = new transactions(this.menu_list, transactions_file_path);
     }
 
     // static method to clear the screen
@@ -179,7 +180,7 @@ class Menu {
         }
     }
 
-    public void displayReceipt(Transaction transaction) {
+    public void displayReceipt(TransactionItem transaction) {
         System.out.printf("\n%s%s\n", " ".repeat(spacing / 2 + 7), "Receipt");
 
         System.out.println(indent + this.item_separator);
@@ -195,14 +196,15 @@ class Menu {
         }
 
         // receipt for cash payment
-        if (transaction.getTransactionType() == 1) {
+        if (transaction instanceof cashTransaction) {
             System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:", transaction.getChangeTendered());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:", ((cashTransaction) transaction).getChangeTendered());
 
         // receipt for card payment
-        } else if (transaction.getTransactionType() == 2) {
+        } else if (transaction instanceof cardTransaction) {
+            System.out.println(transaction.getClass().toString());
             System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", transaction.getCardType());
+            System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", ((cardTransaction) transaction).getCardType());
         }
 
         System.out.println(indent + this.item_separator);

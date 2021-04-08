@@ -1,6 +1,6 @@
 // imports
-import java.util.Scanner;
-import java.util.Arrays; // for converting arrays
+import java.util.Scanner; // for scanning input
+import java.util.Arrays; // for sorting and converting arrays
 
 /**
  * Input class handles user input,

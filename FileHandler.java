@@ -23,12 +23,15 @@ class FileHandler {
     }
 
     // reads the csv file and returns it as a 2d arrayList
-    public ArrayList<MenuItem> readInventoryCSV(String file_path) {
+    public ArrayList<MenuItem> readInventoryCSV(String file_path, boolean header) {
         try {
             File fileObject = new File(file_path);
             Scanner myReader = new Scanner(fileObject);
 
-            myReader.nextLine(); // skip first line (header)
+            // skip first line if there is a header
+            if (header == true) {
+                myReader.nextLine();
+            }
 
             // loops through the item rows/lines in the file while they exist
             while (myReader.hasNextLine()) {
@@ -63,7 +66,7 @@ class FileHandler {
     }
 
     // append to the file with the transaction
-    public void writeToTransactionsCSV(String file_path, ArrayList<Transaction> Transactions) {
+    public void writeToTransactionsCSV(String file_path, ArrayList<TransactionItem> Transactions) {
 
         try {
 
@@ -73,7 +76,7 @@ class FileHandler {
             String newLine = System.getProperty("line.separator");
 
             // loops through the transactions in the Transactions ArrayList
-            for (Transaction transaction : Transactions) {
+            for (TransactionItem transaction : Transactions) {
                 // writes the transaction information a new line using the toString method
                 wtr.write(newLine + transaction.toString());
             }
@@ -88,7 +91,7 @@ class FileHandler {
     }
 
     // overwrites or creates new file with key and adds the transaction information
-    public void writeToTransactionsCSV(String file_path, ArrayList<Transaction> Transactions, String key) {
+    public void writeToTransactionsCSV(String file_path, ArrayList<TransactionItem> Transactions, String key) {
 
         try {
 
@@ -101,7 +104,7 @@ class FileHandler {
             wtr.write(key + newLine);
 
             // loops through the transactions in the Transactions ArrayList
-            for (Transaction transaction : Transactions) {
+            for (TransactionItem transaction : Transactions) {
                 // writes the transaction information the line using the toString method
                 // and moves the cursor for the next line
                 wtr.write(transaction.toString() + newLine);

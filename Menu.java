@@ -12,7 +12,7 @@ class Menu {
     // objects
     private FileHandler fh;
     private Input in;
-    private transactions tn;
+    private Transaction tn;
 
     // variables
     private ArrayList<MenuItem> menu_list;
@@ -39,7 +39,7 @@ class Menu {
         menu_list = fh.readInventoryCSV(inventory_file_path, true);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new transactions(menu_list, transactions_file_path);
+        tn = new Transaction(menu_list, transactions_file_path);
     }
 
     // constructor with spacing specified
@@ -58,7 +58,7 @@ class Menu {
         system_separator = "=".repeat(spacing + (spacing / 5) * 4);
         item_separator = "-".repeat(spacing + (spacing / 5) * 2);
 
-        tn = new transactions(menu_list, transactions_file_path);
+        tn = new Transaction(menu_list, transactions_file_path);
     }
 
     // static method to clear the screen
@@ -153,10 +153,9 @@ class Menu {
             if (tn.getItems().size() > 0) {
                 // gets the transaction information
                 // adds the transaction to the transactions ArrayList
-                tn.completePayment();
-                displayReceipt();
-                // since payment complete
-                tn.getItems().clear();
+                if (tn.completePayment()) {
+                    displayReceipt();
+                }
             } else {
                 System.out.println("\nError - Please enter an item first.");
                 in.enterToContinue();
@@ -181,7 +180,7 @@ class Menu {
     }
 
     public void displayReceipt() {
-        TransactionItem transaction = tn.getRecentTransaction();
+        TransactionItem transaction = tn.getLatestTransaction();
 
         System.out.printf("\n%s%s\n", " ".repeat(spacing / 2 + 7), "Receipt");
 

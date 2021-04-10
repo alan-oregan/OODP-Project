@@ -1,5 +1,6 @@
 // imports
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /*
@@ -16,10 +17,13 @@ public class TransactionItem {
     private ArrayList<MenuItem> items_purchased;
     private double items_price = 0;
 
+    // objects
+    private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
     // constructor
     public TransactionItem(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price) {
-        this.timestamp = timestamp.toString();
-        this.items_purchased = new ArrayList<MenuItem>(items_purchased);
+        this.timestamp = df.format(timestamp);
+        this.items_purchased = items_purchased;
         this.items_price = items_price;
     }
 
@@ -37,22 +41,18 @@ public class TransactionItem {
     public void setItemsPrice(double items_price) {this.items_price = items_price;}
 
     public String toString() {
-        String str = timestamp + ",";
+        String items_string = "";
 
         // loops through the items purchased and converts them to a string
         // with '/' separating each item except for when there is only one item
         int i;
         for (i = 0; i < items_purchased.size() - 1; i++) {
-            str += items_purchased.get(i).toString() + "/";
+            items_string += items_purchased.get(i).toString() + "/";
         }
-
         // adds the last item to the string without the '/' at the end
-        str += items_purchased.get(i).toString() + ",";
-
-        // add the items price
-        str += items_price;
+        items_string += items_purchased.get(i).toString();
 
         // returns a string for the transaction data separated by commas
-        return str;
+        return String.format("%s,%s,%.2f", timestamp, items_string, items_price);
     }
 }

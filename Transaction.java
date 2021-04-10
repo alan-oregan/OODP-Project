@@ -6,7 +6,7 @@ import java.util.ArrayList; // for sorting transaction data
 * Handles the processing of Transactions
 * Holds the transaction data
 */
-class transactions {
+class Transaction {
 
     // variables
     private ArrayList<MenuItem> menu_list;
@@ -19,7 +19,7 @@ class transactions {
     private FileHandler fh;
 
     // constructor
-    public transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
+    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path) {
         // setting objects
         in = new Input();
         fh = new FileHandler();
@@ -44,14 +44,19 @@ class transactions {
         return items;
     }
 
+    // clears the items list
+    public void clearItems() {
+        items.clear();
+    }
+
     // returns the most recent transaction
-    public TransactionItem getRecentTransaction() {
+    public TransactionItem getLatestTransaction() {
         return transaction_list.get(transaction_list.size()-1);
     }
 
     // gets the rest of the transaction information
     // then adds it to the transactions ArrayList
-    public void completePayment() {
+    public boolean completePayment() {
 
         // looping through the items
         // and getting the total items Price
@@ -67,58 +72,54 @@ class transactions {
 
         switch (payment_option) {
 
-            // cash is 1
-            case 1: {
+        // cash is 1
+        case 1: {
 
-                // amount tendered
-                double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
+            // amount tendered
+            double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
 
-                // get exact change
-                double change = tendered_amount - total_items_price;
-
-                // possibly let user input change
-                // change_tendered = in.getTenderedAmount("Change", 0, change);
-
-                transaction_list
-                        .add(new cashTransaction(
-                                new Date(),
-                                items,
-                                total_items_price,
-                                tendered_amount,
-                                change
-                            ));
-
-                break;
+            if (tendered_amount == -1) {
+                return false; // transaction failed
             }
 
-            // card is 2
-            case 2: {
+            // get exact change
+            double change = tendered_amount - total_items_price;
 
-                // get card type
-                int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
+            // possibly let user input change
+            // loop while invalid
+            // do {
+            //     change = in.getTenderedAmount("Change", 0, change);
+            // } while (change == -1);
 
-                String card_type_string = "";
-                switch (card_type) {
-                    case 1: {
-                        card_type_string = "Visa";
-                        break;
-                    }
-                    case 2: {
-                        card_type_string = "Mastercard";
-                        break;
-                    }
-                }
+            transaction_list.add(new cashTransaction(new Date(), items, total_items_price, tendered_amount, change));
 
-                transaction_list
-                        .add(new cardTransaction(
-                                new Date(),
-                                items,
-                                total_items_price,
-                                card_type_string
-                        ));
-                break;
-            }
+            break;
         }
+
+        // card is 2
+        case 2: {
+
+            // get card type
+            int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
+
+            String card_type_string = "";
+            switch (card_type) {
+            case 1: {
+                card_type_string = "Visa";
+                break;
+            }
+            case 2: {
+                card_type_string = "Mastercard";
+                break;
+            }
+            }
+
+            transaction_list.add(new cardTransaction(new Date(), items, total_items_price, card_type_string));
+            break;
+        }
+        }
+        clearItems();
+        return true; // transaction succeeded
     }
 
     public void saveTransactions() {

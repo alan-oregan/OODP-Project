@@ -126,7 +126,6 @@ class Input {
 
         double tendered_amount = 0.00;
         String tendered_amount_string;
-        boolean invalid = false;
         boolean no_max_limit = false;
 
         // pass 0 for no max limit
@@ -134,37 +133,30 @@ class Input {
             no_max_limit = true;
         }
 
-        // gets cash tendered
-        do {
-            // gets the amount tendered
-            System.out.printf("\nEnter %s tendered (EUR): ", type);
-            tendered_amount = validateDoubleInput(min, max, false, no_max_limit, 0);
-            tendered_amount_string = Double.toString(tendered_amount); // for validating decimal places
+        // gets the amount tendered
+        System.out.printf("\nEnter %s tendered (EUR): ", type);
+        tendered_amount = validateDoubleInput(min, max, false, no_max_limit, -1);
+        tendered_amount_string = Double.toString(tendered_amount); // for validating decimal places
 
-            if (tendered_amount == 0) {
-                invalid = true;
+        if (tendered_amount == -1) {
 
-                // error only depends on the min
-                if (no_max_limit) {
-                    System.out.printf("\nError - Invalid input please enter a tendered amount greater than %.2f EUR.\n", min);
+            // error only depends on the min
+            if (no_max_limit) {
+                System.out.printf("\nError - Invalid input please enter %s tendered greater than %.2f EUR.\n", type, min);
 
-                // error depends on the min and max
-                } else {
-                    System.out.printf("\nError - Invalid input please enter a tendered amount between %.2f and %.2f EUR.\n", min, max);
-                }
-
-            // to check if the tendered amount has more than 2 decimal places
-            // gets the amount of decimal places by getting the difference between .length and index of the '.' - 1 to account for the '.'
-            } else if (((tendered_amount_string.length() - tendered_amount_string.indexOf('.')) - 1) > 2) {
-                invalid = true;
-                System.out.println("\nError - Invalid input please enter a tendered amount only up to the cent.");
-            // if the input is valid
+            // error depends on the min and max
             } else {
-                invalid = false;
+                System.out.printf("\nError - Invalid input please enter %s tendered between %.2f and %.2f EUR.\n", type, min, max);
             }
+            enterToContinue();
 
-        // repeat while invalid input
-        } while (invalid);
+        // to check if the tendered amount has more than 2 decimal places
+        // gets the amount of decimal places by getting the difference between .length and index of the '.' - 1 to account for the '.'
+        } else if (((tendered_amount_string.length() - tendered_amount_string.indexOf('.')) - 1) > 2) {
+            System.out.println("\nError - Invalid input please enter a tendered amount only up to the cent.");
+            tendered_amount = -1;
+            enterToContinue();
+        }
 
         return tendered_amount;
     }

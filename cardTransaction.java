@@ -3,13 +3,13 @@ import java.util.Date; // for getting current timestamp
 import java.util.ArrayList; // for sorting transaction data
 
 
-public class cardTransaction extends TransactionItem {
+public class CardTransaction extends TransactionItem {
 
         // for card transaction
         private String card_type;
 
         // constructor for card transaction
-        public cardTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
+        public CardTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
                 String card_type) {
             super(timestamp, items_purchased, items_price);
             this.card_type = card_type;

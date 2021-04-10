@@ -23,7 +23,7 @@ public class TransactionItem {
     // constructor
     public TransactionItem(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price) {
         this.timestamp = df.format(timestamp);
-        this.items_purchased = items_purchased;
+        this.items_purchased = new ArrayList<MenuItem>(items_purchased);
         this.items_price = items_price;
     }
 

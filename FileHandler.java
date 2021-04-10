@@ -89,33 +89,4 @@ class FileHandler {
             in.enterToContinue();
         }
     }
-
-    // overwrites or creates new file with key and adds the transaction information
-    public void writeToTransactionsCSV(String file_path, ArrayList<TransactionItem> Transactions, String key) {
-
-        try {
-
-            FileWriter wtr = new FileWriter(file_path, false); // append mode set to false
-
-            // gets the system line separator for new lines
-            String newLine = System.getProperty("line.separator");
-
-            // writes the key to the file and moves cursor to the next line
-            wtr.write(key + newLine);
-
-            // loops through the transactions in the Transactions ArrayList
-            for (TransactionItem transaction : Transactions) {
-                // writes the transaction information the line using the toString method
-                // and moves the cursor for the next line
-                wtr.write(transaction.toString() + newLine);
-            }
-
-            wtr.close(); // closes the FileWriter
-
-        // catches any IOException and prints the cause
-        } catch(IOException e) {
-            System.out.printf("Transaction File Error:\n%s\n", e);
-            in.enterToContinue();
-        }
-    }
 }

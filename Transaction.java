@@ -91,7 +91,7 @@ class Transaction {
             //     change = in.getTenderedAmount("Change", 0, change);
             // } while (change == -1);
 
-            transaction_list.add(new cashTransaction(new Date(), items, total_items_price, tendered_amount, change));
+            transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
 
             break;
         }
@@ -114,7 +114,7 @@ class Transaction {
             }
             }
 
-            transaction_list.add(new cardTransaction(new Date(), items, total_items_price, card_type_string));
+            transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type_string));
             break;
         }
         }

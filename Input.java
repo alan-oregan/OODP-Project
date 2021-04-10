@@ -112,7 +112,8 @@ class Input {
             // error with valid range printed
             if (option == 0) {
                 System.out.printf("\nError - Invalid input please enter a valid option between %d and %d.\n",
-                options[0], options[options.length - 1]);
+                        options[0], options[options.length - 1]);
+                enterToContinue();
             }
 
             // repeat while not valid
@@ -166,17 +167,20 @@ class Input {
         // variables
         int exit_num = menu_size;
         int max_value = exit_num;
+        int user_choice;
 
         // getting input
-        System.out.printf("\nEnter choice: ", exit_num);
-        int user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
+        do {
+            System.out.printf("\nEnter choice: ", exit_num);
+            user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
 
-        // processing the input
-        if (user_choice == -2) {
-            System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", max_value);
-            enterToContinue();
-            user_choice++;
-        }
+            // processing the input
+            if (user_choice == -2) {
+                System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", max_value);
+                enterToContinue();
+                user_choice++;
+            }
+        } while (user_choice == -2);
 
         // returning the user choice
         return user_choice;
@@ -187,17 +191,20 @@ class Input {
         // variables
         int exit_num = order_size;
         int max_value = exit_num;
+        int user_choice;
 
         // getting input
-        System.out.printf("\nEnter Item to remove: ", exit_num);
-        int user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
+        do {
+            System.out.printf("\nEnter Item to remove: ", exit_num);
+            user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
 
-        // processing the input
-        if (user_choice == -2) {
-            System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", max_value);
-            enterToContinue();
-            user_choice++;
-        }
+            // processing the input
+            if (user_choice == -2) {
+                System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", max_value);
+                enterToContinue();
+                user_choice++;
+            }
+        } while (user_choice == -2);
 
         // returning the user choice
         return user_choice;

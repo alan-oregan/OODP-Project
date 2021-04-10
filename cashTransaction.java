@@ -3,12 +3,12 @@ import java.util.Date; // for getting current timestamp
 import java.util.ArrayList; // for sorting transaction data
 
 
-public class cashTransaction extends TransactionItem {
+public class CashTransaction extends TransactionItem {
 
     private double amount_tendered;
     private double change_tendered;
 
-    public cashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
+    public CashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
             double amount_tendered, double change_tendered) {
         super(timestamp, items_purchased, items_price);
         this.amount_tendered = amount_tendered;

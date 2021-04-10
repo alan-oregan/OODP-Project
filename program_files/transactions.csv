@@ -1,7 +1,11 @@
-Date and time stamp (dow mon dd hh:mm:ss zzz yyyy), Item/s Purchased:Price (EUR), Price (EUR), Amount tendered (EUR) / Card type, Change given (EUR)
-Mon Apr 05 13:13:03 IST 2021,Benji Special:4.00/Flat White:1.50,5.5,6.00,0.50
-Tue Apr 06 14:46:51 IST 2021,Sandwich:2.00,2.0,10.00,8.00
-Wed Apr 07 23:57:38 IST 2021,Sandwich:2.00,2.0,2.00,0.00
-Sat Apr 10 00:27:12 IST 2021,Sandwich:2.00,2.0,Visa,N/A
-Sat Apr 10 00:28:01 IST 2021,Sandwich:2.00,2.0,Visa,N/A
-Sat Apr 10 02:40:45 IST 2021,Sandwich:2.00/Tea:1.00,3.0,Visa,N/A
+Date and time stamp (dd/MM/yyyy HH:mm:ss), Item/s Purchased:Price (EUR), Price (EUR), Amount tendered (EUR) / Card type, Change given (EUR)
+10/04/2021 17:31:05,Sandwich:2.00/Tea:1.00/Flat White:1.50/Hot Chocolate:3.00/Capachino:2.00/Americano:3.00/Sandwich:2.00,14.50,20.00,5.50
+10/04/2021 17:31:46,Flat White:1.50/Flat White:1.50/Flat White:1.50,4.50,Visa,N/A
+10/04/2021 17:32:09,Sandwich:2.00/Sandwich:2.00/Benji Special:4.00,8.00,Mastercard,N/A
+10/04/2021 17:32:33,Hot Chocolate:3.00/Sandwich:2.00,5.00,Visa,N/A
+10/04/2021 17:32:58,Tea:1.00/Sandwich:2.00/Benji Special:4.00,7.00,7.25,0.25
+10/04/2021 17:45:15,Sandwich:2.00/Tea:1.00/Capachino:2.00,5.00,10.00,5.00
+10/04/2021 17:46:28,Americano:3.00/Hot Chocolate:3.00,6.00,Visa,N/A
+10/04/2021 17:47:22,Benji Special:4.00/Flat White:1.50,5.50,Visa,N/A
+10/04/2021 21:09:24,Sandwich:2.00,2.00,Visa,N/A
+10/04/2021 21:18:44,Sandwich:2.00,2.00,10.00,8.00

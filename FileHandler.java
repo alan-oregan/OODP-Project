@@ -78,7 +78,7 @@ class FileHandler {
             // loops through the transactions in the Transactions ArrayList
             for (TransactionItem transaction : Transactions) {
                 // writes the transaction information a new line using the toString method
-                wtr.write(newLine + transaction.toString());
+                wtr.write(transaction.toString() + newLine);
             }
 
             wtr.close(); // closes the FileWriter

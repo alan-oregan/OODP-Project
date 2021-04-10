@@ -24,7 +24,7 @@ class Menu {
     private int spacing = 25; // default spacing is 25
     private String indent = " ".repeat(spacing/5);
     private String system_separator = "=".repeat(this.spacing + (spacing/5)*4);
-    private String item_separator = "-".repeat(this.spacing + (spacing/5)*3);
+    private String item_separator = "-".repeat(this.spacing + (spacing/5)*2);
 
     // if the program should exit, do while loop checks this public variable
     public static boolean exit = false;
@@ -57,7 +57,7 @@ class Menu {
         this.spacing = spacing; // changes the menu spacing according to the user preferences
         indent = " ".repeat(spacing/5);
         system_separator = "=".repeat(this.spacing + (spacing/5)*4);
-        item_separator = "-".repeat(this.spacing + (spacing/5)*3);
+        item_separator = "-".repeat(this.spacing + (spacing/5)*2);
         tn = new transactions(this.menu_list, transactions_file_path);
     }
 
@@ -202,7 +202,6 @@ class Menu {
 
         // receipt for card payment
         } else if (transaction instanceof cardTransaction) {
-            System.out.println(transaction.getClass().toString());
             System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
             System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", ((cardTransaction) transaction).getCardType());
         }

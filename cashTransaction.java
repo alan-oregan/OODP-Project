@@ -11,7 +11,6 @@ public class cashTransaction extends TransactionItem {
     public cashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price, int transaction_type,
             double amount_tendered, double change_tendered) {
         super(timestamp, items_purchased, items_price, transaction_type);
-
         this.amount_tendered = amount_tendered;
         this.change_tendered = change_tendered;
     }
@@ -26,6 +25,6 @@ public class cashTransaction extends TransactionItem {
 
     public String toString() {
         // returns the generic transaction string from the transactionItem class and add the cash specific data
-        return super.toString() + String.format("%.2f,%.2f", amount_tendered, change_tendered);
+        return String.format("%s,%.2f,%.2f", super.toString(), amount_tendered, change_tendered);
     }
 }

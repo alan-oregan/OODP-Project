@@ -22,6 +22,6 @@ public class cardTransaction extends TransactionItem {
 
         public String toString() {
             // returns the generic transaction string from the transactionItem class and add the card specific data
-            return super.toString() + String.format("%s,N/A", card_type);
+            return String.format("%s,%s,N/A", super.toString(), card_type);
         }
 }

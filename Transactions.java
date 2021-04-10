@@ -11,7 +11,7 @@ class transactions {
     // variables
     private ArrayList<MenuItem> menu_list;
     private ArrayList<MenuItem> transaction_items = new ArrayList<MenuItem>();
-    private ArrayList<TransactionItem> transactions = new ArrayList<TransactionItem>();
+    private ArrayList<TransactionItem> transaction_list = new ArrayList<TransactionItem>();
     private String transactions_file_path;
 
     // objects
@@ -30,32 +30,30 @@ class transactions {
         this.transactions_file_path = transactions_file_path;
     }
 
-    // adds a transaction item to the ArrayList then returns the ArrayList
-    public ArrayList<MenuItem> addTransactionItem(int menu_choice) {
-        transaction_items.add(menu_list.get(menu_choice));
+    // adds an item from the menu ArrayList at the given index to the transaction ArrayList then returns the updated transaction ArrayList
+    public ArrayList<MenuItem> addTransactionItem(int menu_item_index) {
+        transaction_items.add(menu_list.get(menu_item_index));
         return transaction_items;
     }
 
-    // removes a transaction item from the ArrayList then returns the ArrayList
-    public ArrayList<MenuItem> removeTransactionItem(int item_index) {
-        transaction_items.remove(item_index);
+    // removes the transaction item at the given index from the ArrayList then returns the updated transaction ArrayList
+    public ArrayList<MenuItem> removeTransactionItem(int transaction_item_index) {
+        transaction_items.remove(transaction_item_index);
         return transaction_items;
     }
 
     // gets the total price from the menu sub_total
-    // and gets the rest of the transaction information to complete the transaction
-    // and adds it to the transactions ArrayList
+    // gets the rest of the transaction information to complete the transaction
+    // then adds it to the transactions ArrayList
+    // returns the completed transaction information
     public TransactionItem completePayment() {
-
-        // gets the current time and date using the Date constructor
-        Date time_stamp = new Date();
 
         // looping through the transaction items
         // and getting the item name and price from each MenuItem
         // using that information to aad them to a list of items_purchased and total items Price
-        int items_price = 0;
+        double total_items_price = 0;
         for (MenuItem item : transaction_items) {
-            items_price += item.getItemPrice();
+            total_items_price += item.getItemPrice();
         }
 
         // gets the payment option
@@ -67,15 +65,14 @@ class transactions {
         if (payment_option == 1) {
 
             // amount tendered
-            double tendered_amount = in.getTenderedAmount("Cash", items_price, 0);
+            double tendered_amount = in.getTenderedAmount("Cash", total_items_price, 0);
 
             // set change as the exact change
-            double change_tendered = tendered_amount - items_price;
+            double change_tendered = tendered_amount - total_items_price;
 
             // let user input change
             // change_tendered = in.getTenderedAmount("Change", 0.01, (change_tendered));
-
-            transactions.add(new cashTransaction(time_stamp, transaction_items, items_price, payment_option, tendered_amount, change_tendered));
+            transaction_list.add(new cashTransaction(new Date(), transaction_items, total_items_price, payment_option, tendered_amount, change_tendered));
         }
 
         // card is 2
@@ -90,14 +87,13 @@ class transactions {
                 case 2: card_type_string = "Mastercard"; break;
             }
 
-            transactions.add(new cardTransaction(time_stamp, transaction_items, items_price, payment_option, card_type_string));
-
+            transaction_list.add(new cardTransaction(new Date(), transaction_items, total_items_price, payment_option, card_type_string));
         }
 
-        return transactions.get(transactions.size()-1); // returns the most recent transaction
+        return transaction_list.get(transaction_list.size()-1); // returns the most recent transaction
     }
 
     public void saveTransactions() {
-        fh.writeToTransactionsCSV(transactions_file_path, transactions);
+        fh.writeToTransactionsCSV(transactions_file_path, transaction_list);
     }
 }

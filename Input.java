@@ -9,7 +9,7 @@ import java.util.Arrays; // for sorting and converting arrays
 class Input {
 
     // variables
-    Scanner input;
+    private Scanner input;
 
     // constructor
     public Input() {
@@ -107,7 +107,7 @@ class Input {
             System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
-            option = (int) this.validateDoubleInput(options[0], options[options.length - 1], false, false, 0);
+            option = (int) validateDoubleInput(options[0], options[options.length - 1], false, false, 0);
 
             // error with valid range printed
             if (option == 0) {
@@ -138,7 +138,7 @@ class Input {
         do {
             // gets the amount tendered
             System.out.printf("\nEnter %s tendered (EUR): ", type);
-            tendered_amount = this.validateDoubleInput(min, max, false, no_max_limit, 0);
+            tendered_amount = validateDoubleInput(min, max, false, no_max_limit, 0);
             tendered_amount_string = Double.toString(tendered_amount); // for validating decimal places
 
             if (tendered_amount == 0) {
@@ -177,12 +177,12 @@ class Input {
 
         // getting input
         System.out.printf("\nEnter choice: ", exit_num);
-        int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
+        int user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
 
         // processing the input
         if (user_choice == -2) {
             System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", max_value);
-            this.enterToContinue();
+            enterToContinue();
             user_choice++;
         }
 
@@ -198,12 +198,12 @@ class Input {
 
         // getting input
         System.out.printf("\nEnter Item to remove: ", exit_num);
-        int user_choice = (int) this.validateDoubleInput(1, max_value, false, false, -1) - 1;
+        int user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
 
         // processing the input
         if (user_choice == -2) {
             System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", max_value);
-            this.enterToContinue();
+            enterToContinue();
             user_choice++;
         }
 

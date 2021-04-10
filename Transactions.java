@@ -10,14 +10,13 @@ class transactions {
 
     // variables
     private ArrayList<MenuItem> menu_list;
-    private ArrayList<MenuItem> transaction_items = new ArrayList<MenuItem>();
+    private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
     private ArrayList<TransactionItem> transaction_list = new ArrayList<TransactionItem>();
     private String transactions_file_path;
 
     // objects
-    Input in;
-    Menu menu;
-    FileHandler fh;
+    private Input in;
+    private FileHandler fh;
 
     // constructor
     public transactions(ArrayList<MenuItem> menu_list, String transactions_file_path) {
@@ -30,29 +29,34 @@ class transactions {
         this.transactions_file_path = transactions_file_path;
     }
 
-    // adds an item from the menu ArrayList at the given index to the transaction ArrayList then returns the updated transaction ArrayList
-    public ArrayList<MenuItem> addTransactionItem(int menu_item_index) {
-        transaction_items.add(menu_list.get(menu_item_index));
-        return transaction_items;
+    // adds an item from the menu ArrayList at the given index
+    // to the transaction ArrayList
+    public void addItem(int menu_item_index) {
+        items.add(menu_list.get(menu_item_index));
     }
 
-    // removes the transaction item at the given index from the ArrayList then returns the updated transaction ArrayList
-    public ArrayList<MenuItem> removeTransactionItem(int transaction_item_index) {
-        transaction_items.remove(transaction_item_index);
-        return transaction_items;
+    // removes the transaction item at the given index from the ArrayList
+    public void removeItem(int transaction_item_index) {
+        items.remove(transaction_item_index);
     }
 
-    // gets the total price from the menu sub_total
-    // gets the rest of the transaction information to complete the transaction
+    public ArrayList<MenuItem> getItems() {
+        return items;
+    }
+
+    // returns the most recent transaction
+    public TransactionItem getRecentTransaction() {
+        return transaction_list.get(transaction_list.size()-1);
+    }
+
+    // gets the rest of the transaction information
     // then adds it to the transactions ArrayList
-    // returns the completed transaction information
-    public TransactionItem completePayment() {
+    public void completePayment() {
 
-        // looping through the transaction items
-        // and getting the item name and price from each MenuItem
-        // using that information to aad them to a list of items_purchased and total items Price
+        // looping through the items
+        // and getting the total items Price
         double total_items_price = 0;
-        for (MenuItem item : transaction_items) {
+        for (MenuItem item : items) {
             total_items_price += item.getItemPrice();
         }
 
@@ -61,36 +65,60 @@ class transactions {
 
         // amount tendered / card type
 
-        // cash is 1
-        if (payment_option == 1) {
+        switch (payment_option) {
 
-            // amount tendered
-            double tendered_amount = in.getTenderedAmount("Cash", total_items_price, 0);
+            // cash is 1
+            case 1: {
 
-            // set change as the exact change
-            double change_tendered = tendered_amount - total_items_price;
+                // amount tendered
+                double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
 
-            // let user input change
-            // change_tendered = in.getTenderedAmount("Change", 0.01, (change_tendered));
-            transaction_list.add(new cashTransaction(new Date(), transaction_items, total_items_price, payment_option, tendered_amount, change_tendered));
-        }
+                // get exact change
+                double change = tendered_amount - total_items_price;
 
-        // card is 2
-        else if (payment_option == 2) {
+                // possibly let user input change
+                // change_tendered = in.getTenderedAmount("Change", 0, change);
 
-            // get card type
-            int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
+                transaction_list
+                        .add(new cashTransaction(
+                                new Date(),
+                                items,
+                                total_items_price,
+                                tendered_amount,
+                                change
+                            ));
 
-            String card_type_string = "";
-            switch (card_type) {
-                case 1: card_type_string = "Visa"; break;
-                case 2: card_type_string = "Mastercard"; break;
+                break;
             }
 
-            transaction_list.add(new cardTransaction(new Date(), transaction_items, total_items_price, payment_option, card_type_string));
-        }
+            // card is 2
+            case 2: {
 
-        return transaction_list.get(transaction_list.size()-1); // returns the most recent transaction
+                // get card type
+                int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
+
+                String card_type_string = "";
+                switch (card_type) {
+                    case 1: {
+                        card_type_string = "Visa";
+                        break;
+                    }
+                    case 2: {
+                        card_type_string = "Mastercard";
+                        break;
+                    }
+                }
+
+                transaction_list
+                        .add(new cardTransaction(
+                                new Date(),
+                                items,
+                                total_items_price,
+                                card_type_string
+                        ));
+                break;
+            }
+        }
     }
 
     public void saveTransactions() {

@@ -12,7 +12,7 @@ import java.util.Scanner; // for writing to the files
 class FileHandler {
 
     //objects
-    Input in;
+    private Input in;
 
     // variables
     private ArrayList<MenuItem> menu_items = new ArrayList<MenuItem>();

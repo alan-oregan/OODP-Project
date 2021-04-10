@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /*
 * transaction object for holding a transaction
+* Formats:
 * for cash: [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
 * for card: [Date and time stamp], [Item/s Purchased], [Price], [Card type], ["N/A"]
 */
@@ -14,14 +15,12 @@ public class TransactionItem {
     private String timestamp;
     private ArrayList<MenuItem> items_purchased;
     private double items_price = 0;
-    private int transaction_type;
 
     // constructor
-    public TransactionItem(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price, int transaction_type) {
+    public TransactionItem(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price) {
         this.timestamp = timestamp.toString();
         this.items_purchased = new ArrayList<MenuItem>(items_purchased);
         this.items_price = items_price;
-        this.transaction_type = transaction_type;
     }
 
     // getter and setter methods
@@ -36,11 +35,6 @@ public class TransactionItem {
     public double getItemsPrice() {return items_price;}
 
     public void setItemsPrice(double items_price) {this.items_price = items_price;}
-
-    public int getTransactionType() {return transaction_type;}
-
-    public void setTransactionType(int transaction_type) {this.transaction_type = transaction_type;}
-
 
     public String toString() {
         String str = timestamp + ",";

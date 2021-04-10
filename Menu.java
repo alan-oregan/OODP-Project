@@ -10,21 +10,20 @@ import java.util.ArrayList;
 class Menu {
 
     // objects
-    FileHandler fh;
-    Input in;
-    transactions tn;
+    private FileHandler fh;
+    private Input in;
+    private transactions tn;
 
     // variables
     private ArrayList<MenuItem> menu_list;
     private String transactions_file_path;
-    private ArrayList<MenuItem> current_transaction_items = new ArrayList<MenuItem>();
     private int menu_choice;
 
     // separating output for better readability
     private int spacing = 25; // default spacing is 25
     private String indent = " ".repeat(spacing/5);
-    private String system_separator = "=".repeat(this.spacing + (spacing/5)*4);
-    private String item_separator = "-".repeat(this.spacing + (spacing/5)*2);
+    private String system_separator = "=".repeat(spacing + (spacing / 5) * 4);
+    private String item_separator = "-".repeat(spacing + (spacing / 5) * 2);
 
     // if the program should exit, do while loop checks this public variable
     public static boolean exit = false;
@@ -37,10 +36,10 @@ class Menu {
 
         //variables
         this.transactions_file_path = transactions_file_path;
-        this.menu_list = fh.readInventoryCSV(inventory_file_path, true);
+        menu_list = fh.readInventoryCSV(inventory_file_path, true);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new transactions(this.menu_list, transactions_file_path);
+        tn = new transactions(menu_list, transactions_file_path);
     }
 
     // constructor with spacing specified
@@ -56,9 +55,10 @@ class Menu {
         // setting separator lengths
         this.spacing = spacing; // changes the menu spacing according to the user preferences
         indent = " ".repeat(spacing/5);
-        system_separator = "=".repeat(this.spacing + (spacing/5)*4);
-        item_separator = "-".repeat(this.spacing + (spacing/5)*2);
-        tn = new transactions(this.menu_list, transactions_file_path);
+        system_separator = "=".repeat(spacing + (spacing / 5) * 4);
+        item_separator = "-".repeat(spacing + (spacing / 5) * 2);
+
+        tn = new transactions(menu_list, transactions_file_path);
     }
 
     // static method to clear the screen
@@ -109,14 +109,14 @@ class Menu {
 
         System.out.printf("%s%2d. Exit\n", indent, item_ID++);
 
-        if (current_transaction_items.size() > 0) {
+        if (tn.getItems().size() > 0) {
             System.out.printf("%s%s\n", " ".repeat(spacing / 2 + 4), "Current Order");
             System.out.println(indent + item_separator);
 
             double sub_total = 0; // for calculating a subtotal
             item_ID = 1; // reset item id
             // print out each item in the transaction items and calculate sub total
-            for (MenuItem item : current_transaction_items) {
+            for (MenuItem item : tn.getItems()) {
                 System.out.printf("%s%2d. %s%s%5.2f EUR\n", indent, item_ID++, item.getItemName(), ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
                 sub_total += item.getItemPrice();
             }
@@ -136,10 +136,10 @@ class Menu {
         // if choice is remove item
         if (menu_choice == menu_list.size()) {
             // if there is a transaction item to remove
-            if (current_transaction_items.size() > 0) {
-                int item_index = in.getRemoveItemChoice(current_transaction_items.size());
+            if (tn.getItems().size() > 0) {
+                int item_index = in.getRemoveItemChoice(tn.getItems().size());
                 if (item_index != -1) {
-                    current_transaction_items = tn.removeTransactionItem(item_index);
+                    tn.removeItem(item_index);
                 }
             } else {
                 System.out.println("\nError - Please enter an item first.");
@@ -150,12 +150,13 @@ class Menu {
         // if choice is payment
         else if (menu_choice == menu_list.size() + 1) {
             // if there is a transaction to pay for
-            if (current_transaction_items.size() > 0) {
+            if (tn.getItems().size() > 0) {
                 // gets the transaction information
                 // adds the transaction to the transactions ArrayList
-                this.displayReceipt(tn.completePayment());
+                tn.completePayment();
+                displayReceipt();
                 // since payment complete
-                current_transaction_items.clear();
+                tn.getItems().clear();
             } else {
                 System.out.println("\nError - Please enter an item first.");
                 in.enterToContinue();
@@ -164,10 +165,9 @@ class Menu {
         // if choice is exit
         } else if (menu_choice == menu_list.size() + 2) {
             // if there is no current transaction
-            if (current_transaction_items.size() == 0) {
+            if (tn.getItems().size() == 0) {
                 tn.saveTransactions();
                 System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
-                in.input.close(); // close the input scanner
                 exit = true; // set exit to true for do while to exit program
             } else {
                 System.out.println("\nError - Please complete payment or clear order first.");
@@ -176,14 +176,16 @@ class Menu {
 
         // Cafe menu choice if not invalid
         } else if (menu_choice != -1) {
-            current_transaction_items = tn.addTransactionItem(menu_choice);
+            tn.addItem(menu_choice);
         }
     }
 
-    public void displayReceipt(TransactionItem transaction) {
+    public void displayReceipt() {
+        TransactionItem transaction = tn.getRecentTransaction();
+
         System.out.printf("\n%s%s\n", " ".repeat(spacing / 2 + 7), "Receipt");
 
-        System.out.println(indent + this.item_separator);
+        System.out.println(indent + item_separator);
 
         // prints receipt in an appropriate format
         // transaction_row format: Date and time stamp, Item Purchased, Price, Amount tendered / Card type, Change given
@@ -206,7 +208,7 @@ class Menu {
             System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", ((cardTransaction) transaction).getCardType());
         }
 
-        System.out.println(indent + this.item_separator);
+        System.out.println(indent + item_separator);
 
         in.enterToContinue();
     }

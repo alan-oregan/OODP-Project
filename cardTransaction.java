@@ -10,8 +10,8 @@ public class cardTransaction extends TransactionItem {
 
         // constructor for card transaction
         public cardTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
-                int transaction_type, String card_type) {
-            super(timestamp, items_purchased, items_price, transaction_type);
+                String card_type) {
+            super(timestamp, items_purchased, items_price);
             this.card_type = card_type;
         }
 

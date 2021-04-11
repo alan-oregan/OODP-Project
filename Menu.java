@@ -153,7 +153,7 @@ class Menu {
         // the number of menu items + number of system options
         menu_choice = in.getMenuChoice(menu_list.size() + system_options.length);
 
-        if (menu_choice - (menu_list.size()-1) < 0) {
+        if (menu_choice < menu_list.size()) {
             tn.addItem(menu_choice);
 
         } else {

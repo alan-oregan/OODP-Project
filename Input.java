@@ -165,18 +165,16 @@ class Input {
     public int getMenuChoice(int menu_size) {
 
         // variables
-        int exit_num = menu_size;
-        int max_value = exit_num;
         int user_choice;
 
         // getting input
         do {
-            System.out.printf("\nEnter choice: ", exit_num);
-            user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
+            System.out.printf("\nEnter choice: ");
+            user_choice = (int) validateDoubleInput(1, menu_size, false, false, -1) - 1;
 
             // processing the input
             if (user_choice == -2) {
-                System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", max_value);
+                System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", menu_size);
                 enterToContinue();
                 user_choice++;
             }
@@ -189,18 +187,20 @@ class Input {
     public int getRemoveItemChoice(int order_size) {
 
         // variables
-        int exit_num = order_size;
-        int max_value = exit_num;
         int user_choice;
 
+        // remove item automatically
+        if (order_size == 1) {
+            return 0;
+        }
         // getting input
         do {
-            System.out.printf("\nEnter Item to remove: ", exit_num);
-            user_choice = (int) validateDoubleInput(1, max_value, false, false, -1) - 1;
+            System.out.printf("\nEnter Item Order number to Remove: ");
+            user_choice = (int) validateDoubleInput(1, order_size, false, false, -1) - 1;
 
             // processing the input
             if (user_choice == -2) {
-                System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", max_value);
+                System.out.printf("\nError - Invalid input please enter an Item between 1 and %d.\n", order_size);
                 enterToContinue();
                 user_choice++;
             }

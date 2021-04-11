@@ -58,7 +58,7 @@ class Menu {
         this.spacing = spacing; // changes the menu spacing according to the user preferences
         indent_spacing = spacing / 5;
         indent = " ".repeat(indent_spacing);
-        system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
+        system_separator = "=".repeat(spacing + 13 + indent_spacing*2);
         item_separator = "-".repeat(spacing + 13);
 
         tn = new Transaction(menu_list, transactions_file_path);
@@ -83,7 +83,7 @@ class Menu {
 
     // prints the given heading to the middle relative to the spacing
     public void printHeader(String heading) {
-        int padding = (indent_spacing*2 + spacing)/2 + (heading.length());
+        int padding = indent_spacing + (spacing + 13)/2 + heading.length()/2;
         System.out.printf("\n%"+ padding +"s\n", heading); // adds padding using the format specifier
     }
 
@@ -157,7 +157,7 @@ class Menu {
             tn.addItem(menu_choice);
 
         } else {
-
+            // switch with the option from the array
             switch (system_options[menu_choice - (menu_list.size())]) {
                 case "Remove Order Item":
 
@@ -220,7 +220,7 @@ class Menu {
         System.out.println(indent + item_separator);
 
         System.out.printf("%sTime: %" + (spacing + 7) + "s\n", indent, transaction.getTimestamp());
-        System.out.printf("\n%sItem/s Purchased\n", indent);
+        System.out.printf("\n%sItem/s Purchased\n\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
             System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, item.getItemName(), item.getItemPrice());

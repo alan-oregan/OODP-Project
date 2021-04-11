@@ -16,19 +16,18 @@ public class CafeSystem {
     // main method
     public static void main(String[] args) {
 
-        // object instances
         // menu object passing the inventory and transaction file paths with spacing
         Menu menu = new Menu("program_files/inventory.csv", "program_files/transactions.csv", 30);
 
         // program loop while user doesn't exit
         do {
+
             // displays menu
             menu.displayMenu();
 
-            // gets users system menu choice and processes it
+            // gets users menu choice and processes it
             menu.menuChoice();
 
-        // repeat while exit is not true
         } while (Menu.continueMenu());
 
     // close gracefully

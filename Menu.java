@@ -9,12 +9,11 @@ import java.util.ArrayList;
  */
 class Menu {
 
-    // objects
-    private FileHandler fh;
-    private Input in;
-    private Transaction tn;
-
     // variables
+
+    // if the program should exit, do while loop checks this public variable
+    public static boolean exit = false;
+
     private ArrayList<MenuItem> menu_list;
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;
@@ -27,8 +26,11 @@ class Menu {
     private String system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
     private String item_separator = "-".repeat(spacing + 13);
 
-    // if the program should exit, do while loop checks this public variable
-    public static boolean exit = false;
+    // objects
+    private FileHandler fh;
+    private Input in;
+    private Transaction tn;
+
 
     // constructor with spacing default
     public Menu(String inventory_file_path, String transactions_file_path) {
@@ -44,6 +46,7 @@ class Menu {
         tn = new Transaction(menu_list, transactions_file_path);
     }
 
+
     // constructor with spacing specified
     public Menu(String inventory_file_path, String transactions_file_path, int spacing) {
         // object declarations
@@ -58,11 +61,12 @@ class Menu {
         this.spacing = spacing; // changes the menu spacing according to the user preferences
         indent_spacing = spacing / 5;
         indent = " ".repeat(indent_spacing);
-        system_separator = "=".repeat(spacing + 13 + indent_spacing*2);
+        system_separator = "=".repeat(spacing + 13 + indent_spacing * 2);
         item_separator = "-".repeat(spacing + 13);
 
         tn = new Transaction(menu_list, transactions_file_path);
     }
+
 
     // static method to clear the screen
     public static void clearScreen(String backup_string) {
@@ -81,11 +85,13 @@ class Menu {
         }
     }
 
+
     // prints the given heading to the middle relative to the spacing
     public void printHeader(String heading) {
-        int padding = indent_spacing + (spacing + 13)/2 + heading.length()/2;
-        System.out.printf("\n%"+ padding +"s\n", heading); // adds padding using the format specifier
+        int padding = indent_spacing + (spacing + 13) / 2 + heading.length() / 2;
+        System.out.printf("\n%" + padding + "s\n", heading); // adds padding using the format specifier
     }
+
 
     // prints the values in an appropriate format
     public void displayMenu() {
@@ -148,66 +154,72 @@ class Menu {
         System.out.println("\n" + system_separator);
     }
 
+
     public void menuChoice() {
 
         // the number of menu items + number of system options
         menu_choice = in.getMenuChoice(menu_list.size() + system_options.length);
 
+        // users menu choice is within the menu_list
         if (menu_choice < menu_list.size()) {
             tn.addItem(menu_choice);
 
+        // users menu choice is in the system_options
         } else {
+
             // switch with the option from the array
             switch (system_options[menu_choice - (menu_list.size())]) {
-                case "Remove Order Item":
 
-                    // if there is a transaction item to remove
-                    if (tn.getItems().size() > 0) {
-                        int item_index = in.getRemoveItemChoice(tn.getItems().size());
+            case "Remove Order Item":
 
-                        if (item_index != -1) {
-                            tn.removeItem(item_index);
-                        }
+                // if there is a transaction item to remove
+                if (tn.getItems().size() > 0) {
+                    int item_index = in.getRemoveItemChoice(tn.getItems().size());
 
-                    } else {
-                        System.out.println("\nError - Please enter an item first.");
-                        in.enterToContinue();
+                    if (item_index != -1) {
+                        tn.removeItem(item_index);
                     }
-                    break;
 
-                case "Complete Transaction":
+                } else {
+                    System.out.println("\nError - Please enter an item first.");
+                    in.enterToContinue();
+                }
+                break;
 
-                    // if there is a transaction to pay for
-                    if (tn.getItems().size() > 0) {
+            case "Complete Transaction":
 
-                        // gets the transaction information
-                        // if the transaction is successful then print the receipt
-                        if (tn.completePayment()) {
-                            displayReceipt();
-                        }
+                // if there is a transaction to pay for
+                if (tn.getItems().size() > 0) {
 
-                    } else {
-                        System.out.println("\nError - Please enter an item first.");
-                        in.enterToContinue();
+                    // gets the transaction information
+                    // if the transaction is successful then print the receipt
+                    if (tn.completePayment()) {
+                        displayReceipt();
                     }
-                    break;
 
-                case "Exit Program":
+                } else {
+                    System.out.println("\nError - Please enter an item first.");
+                    in.enterToContinue();
+                }
+                break;
 
-                    // if there is no current transaction
-                    if (tn.getItems().size() == 0) {
-                        tn.saveTransactions();
-                        System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
-                        exit = true; // set exit to true for do while to exit program
+            case "Exit Program":
 
-                    } else {
-                        System.out.println("\nError - Please complete payment or clear order first.");
-                        in.enterToContinue();
-                    }
-                    break;
+                // if there is no current transaction
+                if (tn.getItems().size() == 0) {
+                    tn.saveTransactions();
+                    System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
+                    exit = true; // set exit to true for do while to exit program
+
+                } else {
+                    System.out.println("\nError - Please complete payment or clear order first.");
+                    in.enterToContinue();
+                }
+                break;
             }
         }
     }
+
 
     // prints receipt in an appropriate format
     public void displayReceipt() {
@@ -223,24 +235,30 @@ class Menu {
         System.out.printf("\n%sItem/s Purchased\n\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, item.getItemName(), item.getItemPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, item.getItemName(),
+                    item.getItemPrice());
         }
 
         // receipt for cash payment
         if (transaction instanceof CashTransaction) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:", ((CashTransaction) transaction).getChangeTendered());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:",
+                    transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:",
+                    ((CashTransaction) transaction).getChangeTendered());
 
-        // receipt for card payment
+            // receipt for card payment
         } else if (transaction instanceof CardTransaction) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:", transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:", ((CardTransaction) transaction).getCardType());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:",
+                    transaction.getItemsPrice());
+            System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:",
+                    ((CardTransaction) transaction).getCardType());
         }
 
         System.out.println(indent + item_separator);
 
         in.enterToContinue();
     }
+
 
     public static boolean continueMenu() {
         // return true if exit is false

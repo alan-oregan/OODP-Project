@@ -1,6 +1,6 @@
 // imports
-import java.util.Scanner; // for scanning input
-import java.util.Arrays; // for sorting and converting arrays
+import java.util.Scanner;
+import java.util.Arrays;
 
 /**
  * Input class handles user input,
@@ -189,7 +189,7 @@ class Input {
         // variables
         int user_choice;
 
-        // remove item automatically
+        // remove item automatically if only one
         if (order_size == 1) {
             return 0;
         }

@@ -1,8 +1,11 @@
 // imports
-import java.util.Date; // for getting current timestamp
-import java.util.ArrayList; // for sorting transaction data
+import java.util.Date;
+import java.util.ArrayList;
 
-
+/*
+* CashTransaction inheriting from the parent Transaction Item Class
+* Holds the data for the Cash transaction
+*/
 public class CardTransaction extends TransactionItem {
 
         // for card transaction

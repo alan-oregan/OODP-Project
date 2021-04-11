@@ -4,15 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /*
-* transaction object for holding a transaction
-* Formats:
-* for cash: [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
-* for card: [Date and time stamp], [Item/s Purchased], [Price], [Card type], ["N/A"]
+* Parent transaction class for holding common transaction information
+* Child classes:
+*  - CashTransaction
+*  - CardTransaction
 */
-
 public class TransactionItem {
 
-    // for every transaction
+    // variables
     private String timestamp;
     private ArrayList<MenuItem> items_purchased;
     private double items_price = 0;

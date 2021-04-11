@@ -1,6 +1,6 @@
 // imports
-import java.util.Date; // for getting current timestamp
-import java.util.ArrayList; // for sorting transaction data
+import java.util.Date;
+import java.util.ArrayList;
 
 /*
 * Handles the processing of Transactions

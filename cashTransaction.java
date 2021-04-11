@@ -1,8 +1,11 @@
 // imports
-import java.util.Date; // for getting current timestamp
-import java.util.ArrayList; // for sorting transaction data
+import java.util.Date;
+import java.util.ArrayList;
 
-
+/*
+* CashTransaction inheriting from the parent Transaction Item Class
+* Holds the data for the Cash transaction
+*/
 public class CashTransaction extends TransactionItem {
 
     private double amount_tendered;
@@ -23,6 +26,8 @@ public class CashTransaction extends TransactionItem {
 
     public void setChangeTendered(double change_tendered) {this.change_tendered = change_tendered;}
 
+    // toString Format:
+    // [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
     public String toString() {
         // returns the generic transaction string from the transactionItem class and add the cash specific data
         return String.format("%s,%.2f,%.2f", super.toString(), amount_tendered, change_tendered);

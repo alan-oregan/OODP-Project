@@ -1,10 +1,10 @@
 // imports
-import java.io.File; // Import the File class
-import java.io.FileWriter; // for reading files
-import java.io.IOException; // Import the IOException class to handle file write errors
-import java.io.FileNotFoundException; // Import this class to handle file read errors
-import java.util.ArrayList; // for the ArrayLists of objects to return and write to files
-import java.util.Scanner; // for writing to the files
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * FileHandler class handles reading to and from the files for transactions and inventory.

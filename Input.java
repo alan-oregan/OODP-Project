@@ -66,7 +66,7 @@ class Input {
             boolean no_max_limit,
             double invalid_input) {
 
-        return validateDoubleInput(input.nextLine(), min_limit, max_limit, no_min_limit, no_max_limit, invalid_input)
+        return validateDoubleInput(input.nextLine(), min_limit, max_limit, no_min_limit, no_max_limit, invalid_input);
     }
 
 

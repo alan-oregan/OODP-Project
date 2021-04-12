@@ -83,7 +83,7 @@ class Menu {
             }
         } catch (java.io.IOException | java.lang.InterruptedException ex) {
             // if there is an error print out a given backup string to break up the output
-            System.out.print(backup_string);
+            System.out.print("\n"+backup_string);
         }
     }
 
@@ -184,7 +184,7 @@ class Menu {
                         }
 
                     } else {
-                        System.out.println("\nError - Please oder an item first by entering the item number associated.");
+                        System.out.println("\nError - Please order an item first by entering the item number associated.");
                         in.enterToContinue();
                     }
                     break;

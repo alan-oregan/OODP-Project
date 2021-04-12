@@ -11,12 +11,14 @@ public class CashTransaction extends TransactionItem {
     private double amount_tendered;
     private double change_tendered;
 
+
     public CashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
             double amount_tendered, double change_tendered) {
         super(timestamp, items_purchased, items_price);
         this.amount_tendered = amount_tendered;
         this.change_tendered = change_tendered;
     }
+
 
     public double getAmountTendered() {return amount_tendered;}
 
@@ -25,6 +27,7 @@ public class CashTransaction extends TransactionItem {
     public double getChangeTendered() {return change_tendered;}
 
     public void setChangeTendered(double change_tendered) {this.change_tendered = change_tendered;}
+
 
     // toString Method with the common information and cash information separated by commas
     // Format: [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]

@@ -11,6 +11,7 @@ public class CardTransaction extends TransactionItem {
         // for card transaction
         private String card_type;
 
+
         // constructor for card transaction
         public CardTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
                 String card_type) {
@@ -18,10 +19,12 @@ public class CardTransaction extends TransactionItem {
             this.card_type = card_type;
         }
 
+
         // getter and setter methods
         public String getCardType() {return card_type;}
 
         public void setCardType(String card_type) {this.card_type = card_type;}
+
 
         // toString Method with the common information and cash information separated by commas
         // Format: [Date and time stamp], [Item/s Purchased], [Price], [Card Type]

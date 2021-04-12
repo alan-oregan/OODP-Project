@@ -19,12 +19,14 @@ public class TransactionItem {
     // objects
     private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+
     // constructor
     public TransactionItem(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price) {
         this.timestamp = df.format(timestamp);
         this.items_purchased = new ArrayList<MenuItem>(items_purchased);
         this.items_price = items_price;
     }
+
 
     // getter and setter methods
     public String getTimestamp() {return timestamp;}
@@ -38,6 +40,7 @@ public class TransactionItem {
     public double getItemsPrice() {return items_price;}
 
     public void setItemsPrice(double items_price) {this.items_price = items_price;}
+
 
     // toString Method with the common information separated by commas
     // Format: [Date and time stamp], [Item/s Purchased], [Price]

@@ -9,6 +9,11 @@ import java.util.ArrayList;
  */
 class Menu {
 
+    // objects
+    private FileHandler fh;
+    private Input in;
+    private Transaction tn;
+
     // variables
     public static boolean exit = false;
     private ArrayList<MenuItem> menu_list;
@@ -21,47 +26,47 @@ class Menu {
     private int indent_spacing = spacing / 5;
     private String indent = " ".repeat(indent_spacing);
     private String system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
-    private String item_separator = "-".repeat(spacing + 13);
-
-    // objects
-    private FileHandler fh;
-    private Input in;
-    private Transaction tn;
+    private String item_separator = indent + "-".repeat(spacing + 13);
 
 
     // constructor with spacing default
-    public Menu(String inventory_file_path, String transactions_file_path) {
+    public Menu(String inventory_file_path, boolean header, String transactions_file_path, boolean append) {
         // object declarations
         fh = new FileHandler();
         in = new Input();
 
-        //variables
+        // variables
         this.transactions_file_path = transactions_file_path;
-        menu_list = fh.readInventoryCSV(inventory_file_path, true);
+
+        // read inventory for menu items
+        menu_list = fh.readInventoryCSV(inventory_file_path, header);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transaction(menu_list, transactions_file_path);
+        tn = new Transaction(menu_list, transactions_file_path, append);
     }
 
 
-    // constructor with spacing specified
-    public Menu(String inventory_file_path, String transactions_file_path, int spacing) {
+    // constructor with spacing specified by argument
+    public Menu(String inventory_file_path, boolean header, String transactions_file_path, boolean append, int spacing) {
         // object declarations
         fh = new FileHandler();
         in = new Input();
 
-        //variables
+        // variables
         this.transactions_file_path = transactions_file_path;
-        menu_list = fh.readInventoryCSV(inventory_file_path, false);
 
-        // setting separator lengths
-        this.spacing = spacing; // changes the menu spacing according to the user preferences
+        // read inventory for menu items
+        menu_list = fh.readInventoryCSV(inventory_file_path, header);
+
+        // setting spacing and separator lengths
+        this.spacing = spacing;
         indent_spacing = spacing / 5;
         indent = " ".repeat(indent_spacing);
         system_separator = "=".repeat(spacing + 13 + indent_spacing * 2);
-        item_separator = "-".repeat(spacing + 13);
+        item_separator = indent + "-".repeat(spacing + 13);
 
-        tn = new Transaction(menu_list, transactions_file_path);
+        // Declaring Transactions object with menu list from the variables
+        tn = new Transaction(menu_list, transactions_file_path, append);
     }
 
 
@@ -93,28 +98,28 @@ class Menu {
     // prints the values in an appropriate format
     public void displayMenu() {
 
-        // clears the screen
+        // clears the screen with system separator as a backup
         Menu.clearScreen(system_separator);
 
-        int item_ID = 1;
+        int item_ID = 1; // menu items id number start at 1
 
-        //menu title with spacing
+        // menu title with spacing
         printHeader("System Menu");
 
         System.out.println(system_separator);
 
         printHeader("Cafe Items");
 
-        System.out.println(indent + item_separator);
+        System.out.println(item_separator);
 
-        // loops through the values in the 2D ArrayList
+        // prints the menu items
         for (MenuItem item : menu_list) {
             System.out.printf("%s%2d. %s%s%5.2f EUR\n", indent, item_ID++, item.getItemName(),
                     ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
         }
 
         // Separates the system options
-        System.out.println(indent + item_separator);
+        System.out.println(item_separator);
 
         // prints the system options
         for (String option : system_options) {
@@ -129,10 +134,10 @@ class Menu {
 
             printHeader("Current Order");
 
-            System.out.println(indent + item_separator);
+            System.out.println(item_separator);
 
             double sub_total = 0; // for calculating a subtotal
-            item_ID = 1; // reset item id
+            item_ID = 1; // reset item id to 1
 
             // print out each item in the transaction items and calculate sub total
             for (MenuItem item : tn.getItems()) {
@@ -142,19 +147,20 @@ class Menu {
                 sub_total += item.getItemPrice();
             }
 
-            System.out.println(indent + item_separator);
+            System.out.println(item_separator);
 
             // + 3 to account for the difference with '%2d. '
             System.out.printf("%s%" + "-" + (spacing + 3) + "s %5.2f EUR\n", indent, "Sub-Total:", sub_total);
         }
 
+        // separates from the rest of the output
         System.out.println("\n" + system_separator);
     }
 
-
+    // Gets the users menu choice
     public void menuChoice() {
 
-        // the number of menu items + number of system options
+        // default min input is 1 the number of menu items + number of system options is the max input
         menu_choice = in.getMenuChoice(menu_list.size() + system_options.length);
 
         // users menu choice is within the menu_list
@@ -164,55 +170,55 @@ class Menu {
         // users menu choice is in the system_options
         } else {
 
-            // switch with the option from the array
+            // switch with the option chosen as a string from the array as a parameter
             switch (system_options[menu_choice - (menu_list.size())]) {
 
-            case "Remove Order Item":
+                case "Remove Order Item":
 
-                // if there is a transaction item to remove
-                if (tn.getItems().size() > 0) {
-                    int item_index = in.getRemoveItemChoice(tn.getItems().size());
+                    // if there is a transaction item to remove
+                    if (tn.getItems().size() > 0) {
+                        int item_index = in.getRemoveItemChoice(tn.getItems().size());
 
-                    if (item_index != -1) {
-                        tn.removeItem(item_index);
+                        if (item_index != -1) {
+                            tn.removeItem(item_index);
+                        }
+
+                    } else {
+                        System.out.println("\nError - Please oder an item first by entering the item number associated.");
+                        in.enterToContinue();
                     }
+                    break;
 
-                } else {
-                    System.out.println("\nError - Please enter an item first.");
-                    in.enterToContinue();
-                }
-                break;
+                case "Complete Transaction":
 
-            case "Complete Transaction":
+                    // if there is a transaction to pay for
+                    if (tn.getItems().size() > 0) {
 
-                // if there is a transaction to pay for
-                if (tn.getItems().size() > 0) {
+                        // gets the transaction information
+                        // if the transaction is successful then print the receipt
+                        if (tn.completePayment()) {
+                            displayReceipt();
+                        }
 
-                    // gets the transaction information
-                    // if the transaction is successful then print the receipt
-                    if (tn.completePayment()) {
-                        displayReceipt();
+                    } else {
+                        System.out.println("\nError - Please order an item first by entering the item number associated.");
+                        in.enterToContinue();
                     }
+                    break;
 
-                } else {
-                    System.out.println("\nError - Please enter an item first.");
-                    in.enterToContinue();
-                }
-                break;
+                case "Exit Program":
 
-            case "Exit Program":
+                    // if there is no pending current transaction
+                    if (tn.getItems().size() == 0) {
+                        tn.saveTransactions();
+                        System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
+                        exit = true; // set exit to true for do while loop to end
 
-                // if there is no current transaction
-                if (tn.getItems().size() == 0) {
-                    tn.saveTransactions();
-                    System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);
-                    exit = true; // set exit to true for do while to exit program
-
-                } else {
-                    System.out.println("\nError - Please complete payment or clear order first.");
-                    in.enterToContinue();
-                }
-                break;
+                    } else {
+                        System.out.println("\nError - Please complete payment or clear order first.");
+                        in.enterToContinue();
+                    }
+                    break;
             }
         }
     }
@@ -226,9 +232,10 @@ class Menu {
 
         printHeader("Receipt");
 
-        System.out.println(indent + item_separator);
+        System.out.println(item_separator);
 
         System.out.printf("%sTime: %" + (spacing + 7) + "s\n", indent, transaction.getTimestamp());
+
         System.out.printf("\n%sItem/s Purchased\n\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
@@ -251,14 +258,14 @@ class Menu {
                     ((CardTransaction) transaction).getCardType());
         }
 
-        System.out.println(indent + item_separator);
+        System.out.println(item_separator);
 
         in.enterToContinue();
     }
 
-
+    // for continuing the loop
+    // return true if exit is false
     public static boolean continueMenu() {
-        // return true if exit is false
         return !exit;
     }
 }

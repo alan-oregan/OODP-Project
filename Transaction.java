@@ -8,18 +8,20 @@ import java.util.ArrayList;
 */
 class Transaction {
 
+    // objects
+    private Input in;
+    private FileHandler fh;
+
     // variables
     private ArrayList<MenuItem> menu_list;
     private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
     private ArrayList<TransactionItem> transaction_list = new ArrayList<TransactionItem>();
     private String transactions_file_path;
+    private boolean append;
 
-    // objects
-    private Input in;
-    private FileHandler fh;
 
     // constructor
-    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path) {
+    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path, boolean append) {
         // setting objects
         in = new Input();
         fh = new FileHandler();
@@ -27,7 +29,9 @@ class Transaction {
         // variables
         this.menu_list = menu_list;
         this.transactions_file_path = transactions_file_path;
+        this.append = append;
     }
+
 
     // adds an item from the menu ArrayList at the given index
     // to the transaction ArrayList
@@ -35,24 +39,29 @@ class Transaction {
         items.add(menu_list.get(menu_item_index));
     }
 
+
     // removes the transaction item at the given index from the ArrayList
     public void removeItem(int transaction_item_index) {
         items.remove(transaction_item_index);
     }
 
+
     public ArrayList<MenuItem> getItems() {
         return items;
     }
+
 
     // clears the items list
     public void clearItems() {
         items.clear();
     }
 
+
     // returns the most recent transaction
     public TransactionItem getLatestTransaction() {
-        return transaction_list.get(transaction_list.size()-1);
+        return transaction_list.get(transaction_list.size() - 1);
     }
+
 
     // gets the rest of the transaction information
     // then adds it to the transactions ArrayList
@@ -69,7 +78,6 @@ class Transaction {
         int payment_option = in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 });
 
         // amount tendered / card type
-
         switch (payment_option) {
 
         // cash is 1
@@ -118,11 +126,14 @@ class Transaction {
             break;
         }
         }
+
+        // since transaction succeed
         clearItems();
-        return true; // transaction succeeded
+        return true;
     }
 
+
     public void saveTransactions() {
-        fh.writeToTransactionsCSV(transactions_file_path, transaction_list);
+        fh.writeToTransactionsCSV(transaction_list, transactions_file_path, append);
     }
 }

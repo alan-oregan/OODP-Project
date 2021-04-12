@@ -7,6 +7,7 @@ public class MenuItem {
     private String item_name;
     private Double item_price;
 
+
     // constructor
     public MenuItem(String item_name, Double item_price) {
         this.item_name = item_name;

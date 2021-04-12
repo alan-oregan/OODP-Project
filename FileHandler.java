@@ -17,10 +17,12 @@ class FileHandler {
     // variables
     private ArrayList<MenuItem> menu_items = new ArrayList<MenuItem>();
 
+
     // constructor
     public FileHandler() {
         in = new Input();
     }
+
 
     // reads the csv file and returns it as a 2d arrayList
     public ArrayList<MenuItem> readInventoryCSV(String file_path, boolean header) {
@@ -65,12 +67,13 @@ class FileHandler {
         return menu_items;
     }
 
+
     // append to the file with the transaction
-    public void writeToTransactionsCSV(String file_path, ArrayList<TransactionItem> Transactions) {
+    public void writeToTransactionsCSV(ArrayList<TransactionItem> Transactions, String file_path, boolean append) {
 
         try {
 
-            FileWriter wtr = new FileWriter(file_path, true); // append mode set to true
+            FileWriter wtr = new FileWriter(file_path, append); // append mode set to true
 
             // gets the system line separator for new lines
             String newLine = System.getProperty("line.separator");

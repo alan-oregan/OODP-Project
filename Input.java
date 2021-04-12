@@ -11,63 +11,27 @@ class Input {
     // variables
     private Scanner input;
 
+
     // constructor
     public Input() {
         input = new Scanner(System.in);
     }
 
-    // Input validation
-    public double validateDoubleInput(
-            double min_limit,
-            double max_limit,
-            boolean no_min_limit,
-            boolean no_max_limit,
-            double invalid_input) {
 
-        // variables
-        double double_user_input;
-
-        // trying to convert string input to double
-        try {
-            double_user_input = Double.parseDouble(input.nextLine());
-        }
-        // if conversion fails return as invalid input
-        catch (NumberFormatException e) {
-            return invalid_input;
-        }
-
-        // return the double input if:
-
-        // there is no minimum and no maximum limit,
-        // there is no the minimum and the value is less than the maximum limit,
-        // the value is more than the minimum and there is no the maximum limit,
-        // the value is more than the minimum and less than the maximum limit,
-
-        if ((no_min_limit && no_max_limit) || (no_min_limit && double_user_input <= max_limit)
-                || (double_user_input >= min_limit && no_max_limit)
-                || (double_user_input >= min_limit && double_user_input <= max_limit)) {
-
-            return double_user_input;
-
-        } else {
-            return invalid_input;
-        }
-    }
-
-    // overloaded to allow for string input to be passed as an argument
-    public double validateDoubleInput( String string_user_input,
+    // validates a given double as a string
+    public double validateDoubleInput(String string_input,
         double min_limit,
         double max_limit,
         boolean no_min_limit,
         boolean no_max_limit,
         double invalid_input) {
 
-        //variables
+        // variables
         double double_user_input;
 
         // trying to convert string input to double
         try {
-            double_user_input = Double.parseDouble(string_user_input);
+            double_user_input = Double.parseDouble(string_input);
         }
         // if conversion fails return as invalid input
         catch (NumberFormatException e) {
@@ -92,6 +56,19 @@ class Input {
             return invalid_input;
         }
     }
+
+
+    // overloaded Input validation with input taken from the user using a scanner
+    public double validateDoubleInput(
+            double min_limit,
+            double max_limit,
+            boolean no_min_limit,
+            boolean no_max_limit,
+            double invalid_input) {
+
+        return validateDoubleInput(input.nextLine(), min_limit, max_limit, no_min_limit, no_max_limit, invalid_input)
+    }
+
 
     public int limitOptionChoice(String prompt, int[] options) {
 
@@ -122,6 +99,7 @@ class Input {
         // returns the chosen option
         return option;
     }
+
 
     public double getTenderedAmount(String type, double min, double max) {
 
@@ -162,6 +140,7 @@ class Input {
         return tendered_amount;
     }
 
+
     public int getMenuChoice(int menu_size) {
 
         // variables
@@ -183,6 +162,7 @@ class Input {
         // returning the user choice
         return user_choice;
     }
+
 
     public int getRemoveItemChoice(int order_size) {
 
@@ -209,6 +189,7 @@ class Input {
         // returning the user choice
         return user_choice;
     }
+
 
     // uses a string input to pause the program output
     // requires user to press enter to continue

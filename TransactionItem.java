@@ -39,6 +39,8 @@ public class TransactionItem {
 
     public void setItemsPrice(double items_price) {this.items_price = items_price;}
 
+    // toString Method with the common information separated by commas
+    // Format: [Date and time stamp], [Item/s Purchased], [Price]
     public String toString() {
         String items_string = "";
 

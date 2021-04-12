@@ -22,7 +22,9 @@ public class CardTransaction extends TransactionItem {
         public String getCardType() {return card_type;}
 
         public void setCardType(String card_type) {this.card_type = card_type;}
-
+        
+        // toString Method with the common information and cash information separated by commas
+        // Format: [Date and time stamp], [Item/s Purchased], [Price], [Card Type]
         public String toString() {
             // returns the generic transaction string from the transactionItem class and add the card specific data
             return String.format("%s,%s,N/A", super.toString(), card_type);

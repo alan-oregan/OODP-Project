@@ -26,8 +26,8 @@ public class CashTransaction extends TransactionItem {
 
     public void setChangeTendered(double change_tendered) {this.change_tendered = change_tendered;}
 
-    // toString Format:
-    // [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
+    // toString Method with the common information and cash information separated by commas
+    // Format: [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
     public String toString() {
         // returns the generic transaction string from the transactionItem class and add the cash specific data
         return String.format("%s,%.2f,%.2f", super.toString(), amount_tendered, change_tendered);

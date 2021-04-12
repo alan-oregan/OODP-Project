@@ -54,7 +54,7 @@ class Input {
         }
     }
 
-    // Input validation
+    // overloaded to allow for string input to be passed as an argument
     public double validateDoubleInput( String string_user_input,
         double min_limit,
         double max_limit,
@@ -62,36 +62,36 @@ class Input {
         boolean no_max_limit,
         double invalid_input) {
 
-    //variables
-    double double_user_input;
+        //variables
+        double double_user_input;
 
-    // trying to convert string input to double
-    try {
-        double_user_input = Double.parseDouble(string_user_input);
+        // trying to convert string input to double
+        try {
+            double_user_input = Double.parseDouble(string_user_input);
+        }
+        // if conversion fails return as invalid input
+        catch (NumberFormatException e) {
+            return invalid_input;
+        }
+
+        // return the double input if:
+
+        // there is no minimum and no maximum limit,
+        // there is no the minimum and the value is less than the maximum limit,
+        // the value is more than the minimum and there is no the maximum limit,
+        // the value is more than the minimum and less than the maximum limit,
+
+        if ((no_min_limit && no_max_limit) ||
+            (no_min_limit && double_user_input <= max_limit) ||
+            (double_user_input >= min_limit && no_max_limit) ||
+            (double_user_input >= min_limit && double_user_input <= max_limit)) {
+
+            return double_user_input;
+
+        } else {
+            return invalid_input;
+        }
     }
-    // if conversion fails return as invalid input
-    catch (NumberFormatException e) {
-        return invalid_input;
-    }
-
-    // return the double input if:
-
-    // there is no minimum and no maximum limit,
-    // there is no the minimum and the value is less than the maximum limit,
-    // the value is more than the minimum and there is no the maximum limit,
-    // the value is more than the minimum and less than the maximum limit,
-
-    if ((no_min_limit && no_max_limit) ||
-        (no_min_limit && double_user_input <= max_limit) ||
-        (double_user_input >= min_limit && no_max_limit) ||
-        (double_user_input >= min_limit && double_user_input <= max_limit)) {
-
-        return double_user_input;
-
-    } else {
-        return invalid_input;
-    }
-}
 
     public int limitOptionChoice(String prompt, int[] options) {
 

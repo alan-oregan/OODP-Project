@@ -10,10 +10,7 @@ import java.util.ArrayList;
 class Menu {
 
     // variables
-
-    // if the program should exit, do while loop checks this public variable
     public static boolean exit = false;
-
     private ArrayList<MenuItem> menu_list;
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;

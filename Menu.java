@@ -52,7 +52,7 @@ class Menu {
 
         //variables
         this.transactions_file_path = transactions_file_path;
-        menu_list = fh.readInventoryCSV(inventory_file_path, true);
+        menu_list = fh.readInventoryCSV(inventory_file_path, false);
 
         // setting separator lengths
         this.spacing = spacing; // changes the menu spacing according to the user preferences

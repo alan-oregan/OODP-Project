@@ -11,7 +11,7 @@ public class CafeSystem {
     public static void main(String[] args) {
 
         // menu object passing the inventory and transaction file paths with spacing
-        Menu menu = new Menu("program_files/inventory.csv", false, "program_files/transactions.csv", true, 30);
+        Menu menu = new Menu("program_files/inventory.csv", false, "USD", "program_files/transactions.csv", true, 30);
 
         // program loop while user doesn't exit
         do {

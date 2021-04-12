@@ -17,6 +17,7 @@ class Menu {
     // variables
     public static boolean exit = false;
     private ArrayList<MenuItem> menu_list;
+    private String currency;
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;
     private int menu_choice;
@@ -30,13 +31,14 @@ class Menu {
 
 
     // constructor with spacing default
-    public Menu(String inventory_file_path, boolean header, String transactions_file_path, boolean append) {
+    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append) {
         // object declarations
         fh = new FileHandler();
         in = new Input();
 
         // variables
         this.transactions_file_path = transactions_file_path;
+        this.currency = currency;
 
         // read inventory for menu items
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
@@ -47,13 +49,14 @@ class Menu {
 
 
     // constructor with spacing specified by argument
-    public Menu(String inventory_file_path, boolean header, String transactions_file_path, boolean append, int spacing) {
+    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append, int spacing) {
         // object declarations
         fh = new FileHandler();
         in = new Input();
 
         // variables
         this.transactions_file_path = transactions_file_path;
+        this.currency = currency;
 
         // read inventory for menu items
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
@@ -114,8 +117,8 @@ class Menu {
 
         // prints the menu items
         for (MenuItem item : menu_list) {
-            System.out.printf("%s%2d. %s%s%5.2f EUR\n", indent, item_ID++, item.getItemName(),
-                    ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
+            System.out.printf("%s%2d. %s%s%5.2f %s\n", indent, item_ID++, item.getItemName(),
+                    ".".repeat(spacing - item.getItemName().length()), item.getItemPrice(), currency);
         }
 
         // Separates the system options
@@ -141,8 +144,8 @@ class Menu {
 
             // print out each item in the transaction items and calculate sub total
             for (MenuItem item : tn.getItems()) {
-                System.out.printf("%s%2d. %s%s%5.2f EUR\n", indent, item_ID++, item.getItemName(),
-                        ".".repeat(spacing - item.getItemName().length()), item.getItemPrice());
+                System.out.printf("%s%2d. %s%s%5.2f %s\n", indent, item_ID++, item.getItemName(),
+                        ".".repeat(spacing - item.getItemName().length()), item.getItemPrice(), currency);
 
                 sub_total += item.getItemPrice();
             }
@@ -150,7 +153,7 @@ class Menu {
             System.out.println(item_separator);
 
             // + 3 to account for the difference with '%2d. '
-            System.out.printf("%s%" + "-" + (spacing + 3) + "s %5.2f EUR\n", indent, "Sub-Total:", sub_total);
+            System.out.printf("%s%" + "-" + (spacing + 3) + "s %5.2f %s\n", indent, "Sub-Total:", sub_total, currency);
         }
 
         // separates from the rest of the output
@@ -239,21 +242,21 @@ class Menu {
         System.out.printf("\n%sItem/s Purchased\n\n", indent);
 
         for (MenuItem item : transaction.getItemsPurchased()) {
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, item.getItemName(),
-                    item.getItemPrice());
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f %s\n", indent, item.getItemName(),
+                    item.getItemPrice(), currency);
         }
 
         // receipt for cash payment
         if (transaction instanceof CashTransaction) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:",
-                    transaction.getItemsPrice());
-            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Change:",
-                    ((CashTransaction) transaction).getChangeTendered());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f %s\n", indent, "Payment:",
+                    transaction.getItemsPrice(), currency);
+            System.out.printf("%s%" + "-" + (spacing + 4) + "s%5.2f %s\n", indent, "Change:",
+                    ((CashTransaction) transaction).getChangeTendered(), currency);
 
             // receipt for card payment
         } else if (transaction instanceof CardTransaction) {
-            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f EUR\n", indent, "Payment:",
-                    transaction.getItemsPrice());
+            System.out.printf("\n%s%" + "-" + (spacing + 4) + "s%5.2f %s\n", indent, "Payment:",
+                    transaction.getItemsPrice(), currency);
             System.out.printf("%s%" + "-" + (spacing + 3) + "s%10s\n", indent, "Card type:",
                     ((CardTransaction) transaction).getCardType());
         }

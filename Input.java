@@ -1,5 +1,6 @@
 // imports
 import java.util.Scanner;
+
 import java.util.Arrays;
 
 /**
@@ -8,13 +9,24 @@ import java.util.Arrays;
  */
 class Input {
 
-    // variables
+    // objects
     private Scanner input;
+
+    // variables
+    private String currency;
 
 
     // constructor
+    public Input(String currency) {
+        input = new Scanner(System.in);
+        this.currency = currency;
+    }
+
+
+    // overload constructor to allow for no currency input
     public Input() {
         input = new Scanner(System.in);
+        currency = "EUR"; // default EUR if no currency is given
     }
 
 
@@ -70,6 +82,7 @@ class Input {
     }
 
 
+    // limit the option choice within the given array
     public int limitOptionChoice(String prompt, int[] options) {
 
         // variables
@@ -113,7 +126,7 @@ class Input {
         }
 
         // gets the amount tendered
-        System.out.printf("\nEnter %s tendered (EUR): ", type);
+        System.out.printf("\nEnter %s tendered (%s): ", type, currency);
         tendered_amount = validateDoubleInput(min, max, false, no_max_limit, -1);
         tendered_amount_string = Double.toString(tendered_amount); // for validating decimal places
 
@@ -121,11 +134,11 @@ class Input {
 
             // error only depends on the min
             if (no_max_limit) {
-                System.out.printf("\nError - Invalid input please enter %s tendered greater than %.2f EUR.\n", type, min);
+                System.out.printf("\nError - Invalid input please enter %s tendered greater than %.2f %s.\n", type, min, currency);
 
             // error depends on the min and max
             } else {
-                System.out.printf("\nError - Invalid input please enter %s tendered between %.2f and %.2f EUR.\n", type, min, max);
+                System.out.printf("\nError - Invalid input please enter %s tendered between %.2f and %.2f %s.\n", type, min, max, currency);
             }
             enterToContinue();
 

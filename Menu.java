@@ -32,9 +32,9 @@ class Menu {
 
     // constructor with spacing default
     public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append) {
-        // object declarations
+        // setting objects
         fh = new FileHandler();
-        in = new Input();
+        in = new Input(currency);
 
         // variables
         this.transactions_file_path = transactions_file_path;
@@ -44,15 +44,15 @@ class Menu {
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transaction(menu_list, transactions_file_path, append);
+        tn = new Transaction(menu_list, currency, transactions_file_path, append);
     }
 
 
     // constructor with spacing specified by argument
     public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append, int spacing) {
-        // object declarations
+        // setting objects
         fh = new FileHandler();
-        in = new Input();
+        in = new Input(currency);
 
         // variables
         this.transactions_file_path = transactions_file_path;
@@ -69,7 +69,7 @@ class Menu {
         item_separator = indent + "-".repeat(spacing + 13);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transaction(menu_list, transactions_file_path, append);
+        tn = new Transaction(menu_list, currency, transactions_file_path, append);
     }
 
 

@@ -21,9 +21,9 @@ class Transaction {
 
 
     // constructor
-    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path, boolean append) {
+    public Transaction(ArrayList<MenuItem> menu_list, String currency, String transactions_file_path, boolean append) {
         // setting objects
-        in = new Input();
+        in = new Input(currency);
         fh = new FileHandler();
 
         // variables

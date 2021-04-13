@@ -108,21 +108,10 @@ class Transaction {
         case 2: {
 
             // get card type
-            int card_type = in.limitOptionChoice("Visa/Mastercard?", new int[] { 1, 2 });
+            String card_type = in.limitOptionChoice(new String[] { "Visa", "Mastercard" });
 
-            String card_type_string = "";
-            switch (card_type) {
-            case 1: {
-                card_type_string = "Visa";
-                break;
-            }
-            case 2: {
-                card_type_string = "Mastercard";
-                break;
-            }
-            }
+            transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
 
-            transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type_string));
             break;
         }
         }

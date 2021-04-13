@@ -82,7 +82,7 @@ class Input {
     }
 
 
-    // limit the option choice within the given array
+    // limit the option choice within the given array and prompt and returns int entered
     public int limitOptionChoice(String prompt, int[] options) {
 
         // variables
@@ -93,7 +93,7 @@ class Input {
 
         // gets the payment option
         do {
-            // prints the prompt and array of options on one line with / as the delimiter
+            // prints the prompt and options array
             System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
@@ -111,6 +111,46 @@ class Input {
 
         // returns the chosen option
         return option;
+    }
+
+
+    // limit the option choice within the given string array and returns the string chosen
+    public String limitOptionChoice(String[] options) {
+
+        // variables
+        int option = 0;
+        String prompt = "";
+        String option_IDs = "";
+
+        // Create the prompt from the options array separated by /
+        int i;
+        for (i = 0; i < options.length - 1; i++) {
+            prompt += options[i] + "/";
+            option_IDs += (i + 1) + "/";
+
+        }
+        prompt += options[i]; // last item without /
+
+        // gets the payment option
+        do {
+            // prints the prompt and options
+            System.out.printf("\n%s? [%s%d]: ", prompt, option_IDs, (i+1));
+
+            // gets the input within the valid range using the double validator and casts the returned double to an int
+            option = (int) validateDoubleInput(1, options.length, false, false, 0);
+
+            // error with valid range printed
+            if (option == 0) {
+                System.out.printf("\nError - Invalid input please enter a valid option between %d and %d.\n",
+                        options[0], options[options.length - 1]);
+                enterToContinue();
+            }
+
+            // repeat while not valid
+        } while (option == 0);
+
+        // returns the chosen option from the options array
+        return options[option-1];
     }
 
 

@@ -59,15 +59,14 @@ When the coffee shop owner exits the system, all the days transactions are writt
 
 ## References Used
 
-- <https://www.youtube.com/watch?v=yO_ctH4mEk4>
-- <https://www.w3schools.com/java/java_arraylist.asp>
-- <https://www.youtube.com/watch?v=lcWV7hLYByk>
-- <https://stackoverflow.com/questions/2979383/java-clear-the-console>
-- <https://www.youtube.com/watch?v=Vs2ZR7-LJO0>
-- <https://www.w3schools.com/java/java_files_read.asp>
-- <https://www.w3schools.com/java/java_files_create.asp>
-- <https://stackoverflow.com/questions/2255500/can-i-multiply-strings-in-java-to-repeat-sequences>
-- <https://www.w3schools.com/java/java_arraylist.asp>
-- <https://www.tutorialspoint.com/convert-from-string-to-double-in-java#:~:text=To%20convert%20String%20to%20double%2C%20use%20the%20valueOf()%20method>.
-- <https://www.geeksforgeeks.org/format-specifiers-in-java/>
-- <https://stackoverflow.com/questions/6264576/number-of-decimal-digits-in-a-double>
+- [Java Text File I/O Introduction](https://www.youtube.com/watch?v=yO_ctH4mEk4)
+- [Java ArrayList W3Schools](https://www.w3schools.com/java/java_arraylist.asp)
+- [Text-based Menu Driven Program in Java [Part 2/3]](https://www.youtube.com/watch?v=lcWV7hLYByk)
+- [Java Clear Console Stack Overflow Answer](https://stackoverflow.com/questions/2979383/java-clear-the-console)
+- [Java Keyboard class for User Input Validation](https://www.youtube.com/watch?v=Vs2ZR7-LJO0)
+- [Java read files W3Schools](https://www.w3schools.com/java/java_files_read.asp)
+- [Java write files W3Schools](https://www.w3schools.com/java/java_files_create.asp)
+- [repeating sequence Stack Overflow Answer](https://stackoverflow.com/questions/2255500/can-i-multiply-strings-in-java-to-repeat-sequences)
+- [String to double tutorials point](https://www.tutorialspoint.com/convert-from-string-to-double-in-java#:~:text=To%20convert%20String%20to%20double%2C%20use%20the%20valueOf()%20method).
+- [format specifiers GeeksForGeeks](https://www.geeksforgeeks.org/format-specifiers-in-java/)
+- [Number of decimal digits in a double Stack Overflow Answer](https://stackoverflow.com/questions/6264576/number-of-decimal-digits-in-a-double)

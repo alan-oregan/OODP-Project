@@ -1,6 +1,5 @@
 // imports
 import java.util.Scanner;
-
 import java.util.Arrays;
 
 /**
@@ -13,7 +12,7 @@ class Input {
     private Scanner input;
 
     // variables
-    private String currency;
+    private String currency = "EUR"; // Default is EUR
 
 
     // constructor
@@ -23,10 +22,9 @@ class Input {
     }
 
 
-    // overload constructor to allow for no currency input
+    // overload constructor without currency specified
     public Input() {
         input = new Scanner(System.in);
-        currency = "EUR"; // default EUR if no currency is given
     }
 
 
@@ -69,8 +67,46 @@ class Input {
         }
     }
 
+    // validates a given integer as a string
+    public int validateIntInput(String string_input,
+            int min_limit,
+            int max_limit,
+            boolean no_min_limit,
+            boolean no_max_limit,
+            int invalid_input) {
 
-    // overloaded Input validation with input taken from the user using a scanner
+        // variables
+        int int_user_input;
+
+        // trying to convert string input to integer
+        try {
+            int_user_input = Integer.parseInt(string_input);
+        }
+        // if conversion fails return as invalid input
+        catch (NumberFormatException e) {
+            return invalid_input;
+        }
+
+        // return the integer input if:
+
+        // there is no minimum and no maximum limit,
+        // there is no the minimum and the value is less than the maximum limit,
+        // the value is more than the minimum and there is no the maximum limit,
+        // the value is more than the minimum and less than the maximum limit,
+
+        if ((no_min_limit && no_max_limit) || (no_min_limit && int_user_input <= max_limit)
+                || (int_user_input >= min_limit && no_max_limit)
+                || (int_user_input >= min_limit && int_user_input <= max_limit)) {
+
+            return int_user_input;
+
+        } else {
+            return invalid_input;
+        }
+    }
+
+    // overloaded Input validation methods with input taken from the user using a scanner
+
     public double validateDoubleInput(
             double min_limit,
             double max_limit,
@@ -79,6 +115,25 @@ class Input {
             double invalid_input) {
 
         return validateDoubleInput(input.nextLine(), min_limit, max_limit, no_min_limit, no_max_limit, invalid_input);
+    }
+
+
+    public int validateIntInput(
+            int min_limit,
+            int max_limit,
+            boolean no_min_limit,
+            boolean no_max_limit,
+            int invalid_input) {
+
+        return validateIntInput(input.nextLine(), min_limit, max_limit, no_min_limit, no_max_limit, invalid_input);
+    }
+
+
+    // uses a string input to pause the program output
+    // requires user to press enter to continue
+    public void enterToContinue() {
+        System.out.print("\nEnter to continue.");
+        input.nextLine();
     }
 
 
@@ -97,7 +152,7 @@ class Input {
             System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
-            option = (int) validateDoubleInput(options[0], options[options.length - 1], false, false, 0);
+            option = validateIntInput(options[0], options[options.length - 1], false, false, 0);
 
             // error with valid range printed
             if (option == 0) {
@@ -137,7 +192,7 @@ class Input {
             System.out.printf("\n%s? [%s%d]: ", prompt, option_IDs, (i+1));
 
             // gets the input within the valid range using the double validator and casts the returned double to an int
-            option = (int) validateDoubleInput(1, options.length, false, false, 0);
+            option = validateIntInput(1, options.length, false, false, 0);
 
             // error with valid range printed
             if (option == 0) {
@@ -153,7 +208,7 @@ class Input {
         return options[option-1];
     }
 
-
+    // gets amount tendered from the user
     public double getTenderedAmount(String type, double min, double max) {
 
         double tendered_amount = 0.00;
@@ -202,7 +257,7 @@ class Input {
         // getting input
         do {
             System.out.printf("\nEnter choice: ");
-            user_choice = (int) validateDoubleInput(1, menu_size, false, false, -1) - 1;
+            user_choice = validateIntInput(1, menu_size, false, false, -1) - 1;
 
             // processing the input
             if (user_choice == -2) {
@@ -229,7 +284,7 @@ class Input {
         // getting input
         do {
             System.out.printf("\nEnter Item Order number to Remove: ");
-            user_choice = (int) validateDoubleInput(1, order_size, false, false, -1) - 1;
+            user_choice = validateIntInput(1, order_size, false, false, -1) - 1;
 
             // processing the input
             if (user_choice == -2) {
@@ -241,13 +296,5 @@ class Input {
 
         // returning the user choice
         return user_choice;
-    }
-
-
-    // uses a string input to pause the program output
-    // requires user to press enter to continue
-    public void enterToContinue() {
-        System.out.print("\nEnter to continue.");
-        input.nextLine();
     }
 }

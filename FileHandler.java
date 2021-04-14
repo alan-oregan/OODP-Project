@@ -68,12 +68,12 @@ class FileHandler {
     }
 
 
-    // append to the file with the transaction
-    public void writeToTransactionsCSV(ArrayList<TransactionItem> Transactions, String file_path, boolean append) {
+    // write to the given file_path with the given transaction
+    public void writeToTransactionsCSV(ArrayList<TransactionItem> Transactions, String file_path, boolean append_mode) {
 
         try {
 
-            FileWriter wtr = new FileWriter(file_path, append); // append mode set to true
+            FileWriter wtr = new FileWriter(file_path, append_mode); // append mode set to true
 
             // gets the system line separator for new lines
             String newLine = System.getProperty("line.separator");

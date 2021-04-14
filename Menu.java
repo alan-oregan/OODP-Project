@@ -17,10 +17,13 @@ class Menu {
     // variables
     public static boolean exit = false;
     private ArrayList<MenuItem> menu_list;
-    private String currency;
+    private String currency = "EUR"; // Default is EUR
+
+    // change switch statement in menuChoice if changing system_options strings
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;
     private int menu_choice;
+    private boolean append_mode = true; // default true
 
     // separating output for better readability
     private int spacing = 25; // default spacing is 25
@@ -29,27 +32,8 @@ class Menu {
     private String system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
     private String item_separator = indent + "-".repeat(spacing + 13);
 
-
-    // constructor with spacing default
-    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append) {
-        // setting objects
-        fh = new FileHandler();
-        in = new Input(currency);
-
-        // variables
-        this.transactions_file_path = transactions_file_path;
-        this.currency = currency;
-
-        // read inventory for menu items
-        menu_list = fh.readInventoryCSV(inventory_file_path, header);
-
-        // Declaring Transactions object with menu list from the variables
-        tn = new Transaction(menu_list, currency, transactions_file_path, append);
-    }
-
-
-    // constructor with spacing specified by argument
-    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append, int spacing) {
+    // constructor
+    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append_mode, int spacing) {
         // setting objects
         fh = new FileHandler();
         in = new Input(currency);
@@ -69,8 +53,25 @@ class Menu {
         item_separator = indent + "-".repeat(spacing + 13);
 
         // Declaring Transactions object with menu list from the variables
-        tn = new Transaction(menu_list, currency, transactions_file_path, append);
+        tn = new Transaction(menu_list, currency, transactions_file_path, append_mode);
     }
+
+    // overloaded constructor to just use defaults
+    public Menu(String inventory_file_path, String transactions_file_path) {
+        // setting objects
+        fh = new FileHandler();
+        in = new Input(currency);
+
+        // variables
+        this.transactions_file_path = transactions_file_path;
+
+        // read inventory for menu items
+        menu_list = fh.readInventoryCSV(inventory_file_path, false);
+
+        // Declaring Transactions object with menu list from the variables
+        tn = new Transaction(menu_list, currency, transactions_file_path, append_mode);
+    }
+
 
 
     // static method to clear the screen
@@ -222,6 +223,10 @@ class Menu {
                         in.enterToContinue();
                     }
                     break;
+
+                // if switch and system_options have different strings
+                default:
+                    System.out.println("Error - Option not specified in menuChoice Switch");
             }
         }
     }

@@ -17,11 +17,11 @@ class Transaction {
     private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
     private ArrayList<TransactionItem> transaction_list = new ArrayList<TransactionItem>();
     private String transactions_file_path;
-    private boolean append;
+    private boolean append_mode;
 
 
     // constructor
-    public Transaction(ArrayList<MenuItem> menu_list, String currency, String transactions_file_path, boolean append) {
+    public Transaction(ArrayList<MenuItem> menu_list, String currency, String transactions_file_path, boolean append_mode) {
         // setting objects
         in = new Input(currency);
         fh = new FileHandler();
@@ -29,7 +29,7 @@ class Transaction {
         // variables
         this.menu_list = menu_list;
         this.transactions_file_path = transactions_file_path;
-        this.append = append;
+        this.append_mode = append_mode;
     }
 
 
@@ -74,46 +74,41 @@ class Transaction {
             total_items_price += item.getItemPrice();
         }
 
-        // gets the payment option
-        int payment_option = in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 });
+        // gets the payment option and processes it in a switch
+        switch (in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 })) {
 
-        // amount tendered / card type
-        switch (payment_option) {
+            case 1: {
 
-        // cash is 1
-        case 1: {
+                // amount tendered
+                double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
 
-            // amount tendered
-            double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
+                if (tendered_amount == -1) {
+                    return false; // transaction failed
+                }
 
-            if (tendered_amount == -1) {
-                return false; // transaction failed
+                // get exact change
+                double change = tendered_amount - total_items_price;
+
+                // possibly let user input change
+                // loop while invalid
+                // do {
+                //     change = in.getTenderedAmount("Change", 0, change);
+                // } while (change == -1);
+
+                transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
+
+                break;
             }
 
-            // get exact change
-            double change = tendered_amount - total_items_price;
+            case 2: {
 
-            // possibly let user input change
-            // loop while invalid
-            // do {
-            //     change = in.getTenderedAmount("Change", 0, change);
-            // } while (change == -1);
+                // get card type
+                String card_type = in.limitOptionChoice(new String[] { "Visa", "Mastercard" });
 
-            transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
+                transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
 
-            break;
-        }
-
-        // card is 2
-        case 2: {
-
-            // get card type
-            String card_type = in.limitOptionChoice(new String[] { "Visa", "Mastercard" });
-
-            transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
-
-            break;
-        }
+                break;
+            }
         }
 
         // since transaction succeed
@@ -121,8 +116,8 @@ class Transaction {
         return true;
     }
 
-
+    // 
     public void saveTransactions() {
-        fh.writeToTransactionsCSV(transaction_list, transactions_file_path, append);
+        fh.writeToTransactionsCSV(transaction_list, transactions_file_path, append_mode);
     }
 }

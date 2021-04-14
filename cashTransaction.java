@@ -8,10 +8,11 @@ import java.util.ArrayList;
 */
 public class CashTransaction extends TransactionItem {
 
+    // variables
     private double amount_tendered;
     private double change_tendered;
 
-
+    // constructor
     public CashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
             double amount_tendered, double change_tendered) {
         super(timestamp, items_purchased, items_price);
@@ -19,7 +20,7 @@ public class CashTransaction extends TransactionItem {
         this.change_tendered = change_tendered;
     }
 
-
+    // getter and setters
     public double getAmountTendered() {return amount_tendered;}
 
     public void setAmountTendered(double amount_tendered) {this.amount_tendered = amount_tendered;}

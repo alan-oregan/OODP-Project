@@ -263,7 +263,6 @@ class Input {
             if (user_choice == -2) {
                 System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", menu_size);
                 enterToContinue();
-                user_choice++;
             }
         } while (user_choice == -2);
 

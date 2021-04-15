@@ -5,7 +5,7 @@
  **/
 
 // main class
-public class CafeSystem {
+class CafeSystem {
 
     // main method
     public static void main(String[] args) {

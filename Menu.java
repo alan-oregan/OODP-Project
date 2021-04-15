@@ -74,21 +74,30 @@ class Menu {
 
 
 
+    // // static method to clear the screen
+    // public static void clearScreen(String backup_string) {
+    //     // tries to get the system name and if it is windows creates a process that clears the screen in cmd with cls
+    //     // if its not windows it uses ansi escape codes
+    //     try {
+    //         if (System.getProperty("os.name").contains("Windows")) {
+    //             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    //         } else {
+    //             // uses the codes 2J to clear the console and H to return to the top of the console
+    //             System.out.print("\033[2J\033[H");
+    //         }
+    //     } catch (java.io.IOException | java.lang.InterruptedException ex) {
+    //         // if there is an error print out a given backup string to break up the output
+    //         System.out.print("\n"+backup_string);
+    //     }
+    // }
+
+
     // static method to clear the screen
     public static void clearScreen(String backup_string) {
-        // tries to get the system name and if it is windows creates a process that clears the screen in cmd with cls
-        // if its not windows it uses ansi escape codes
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                // uses the codes 2J to clear the console and H to return to the top of the console
-                System.out.print("\033[2J\033[H");
-            }
-        } catch (java.io.IOException | java.lang.InterruptedException ex) {
-            // if there is an error print out a given backup string to break up the output
-            System.out.print("\n"+backup_string);
-        }
+        // prints out the backup string in case the terminal can't read ansi escape codes
+        System.out.print("\n" + backup_string);
+        // uses the codes 2J to clear the console and H to return to the top of the console
+        System.out.print("\033[2J\033[H");
     }
 
 
@@ -165,14 +174,14 @@ class Menu {
     public void menuChoice() {
 
         // default min input is 1 the number of menu items + number of system options is the max input
-        menu_choice = in.getMenuChoice(menu_list.size() + system_options.length);
+        menu_choice = in.getMenuChoice(menu_list.size() + system_options.length) - 1;
 
-        // users menu choice is within the menu_list
-        if (menu_choice < menu_list.size()) {
+        // users menu choice is valid within the menu_list
+        if (menu_choice < menu_list.size() && menu_choice != -2) {
             tn.addItem(menu_choice);
 
-        // users menu choice is in the system_options
-        } else {
+        // users menu choice is valid then it is in the system_options
+        } else if (menu_choice != -2){
 
             // switch with the option chosen as a string from the array as a parameter
             switch (system_options[menu_choice - (menu_list.size())]) {
@@ -226,7 +235,8 @@ class Menu {
 
                 // if switch and system_options have different strings
                 default:
-                    System.out.println("Error - Option not specified in menuChoice Switch");
+                    System.out.println("\nError - Option not specified in menuChoice Switch");
+                    in.enterToContinue();
             }
         }
     }

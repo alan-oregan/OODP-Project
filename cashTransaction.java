@@ -6,7 +6,7 @@ import java.util.ArrayList;
 * CashTransaction inheriting from the parent Transaction Item Class
 * Holds the data for the Cash transaction
 */
-public class CashTransaction extends TransactionItem {
+class CashTransaction extends TransactionItem {
 
     // variables
     private double amount_tendered;

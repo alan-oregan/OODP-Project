@@ -255,16 +255,14 @@ class Input {
         int user_choice;
 
         // getting input
-        do {
-            System.out.printf("\nEnter choice: ");
-            user_choice = validateIntInput(1, menu_size, false, false, -1) - 1;
+        System.out.printf("\nEnter choice: ");
+        user_choice = validateIntInput(1, menu_size, false, false, -1);
 
-            // processing the input
-            if (user_choice == -2) {
-                System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", menu_size);
-                enterToContinue();
-            }
-        } while (user_choice == -2);
+        // processing the input
+        if (user_choice == -1) {
+            System.out.printf("\nError - Invalid input please enter a menu option between 1 and %d.\n", menu_size);
+            enterToContinue();
+        }
 
         // returning the user choice
         return user_choice;

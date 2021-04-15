@@ -9,7 +9,7 @@ import java.util.ArrayList;
 *  - CashTransaction
 *  - CardTransaction
 */
-public class TransactionItem {
+class TransactionItem {
 
     // variables
     private String timestamp;

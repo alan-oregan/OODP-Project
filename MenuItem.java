@@ -1,7 +1,7 @@
 /*
 * Creating an object for the menu items array list
 */
-public class MenuItem {
+class MenuItem {
 
     //variables
     private String item_name;

@@ -22,7 +22,7 @@ The user is **allowed** to enter as **many items** as they want from the list of
 
 ### The Remove Option
 
-The user **can delete** items from their order by selecting the this option and entering the **item order number** from the current order displayed.
+The user **can delete** items from their order by selecting this option and entering the **item order number** from the **current order** displayed.
 
 ### The Payment Option
 
@@ -33,7 +33,7 @@ The program will then *process* the customers transaction using the following *s
 1. The total price is calculated from ordered item prices within **MenuItem ArrayList**.
 2. The user selects *Cash/Card* transaction.
    - If **cash transaction** then the **amount tendered** will be entered and **change** calculated from the price difference if any.
-   - If **card transaction** then the **card type** (Visa/Master) will be selected.
+   - If **card transaction** then the users **card type** *Visa/Master* will be selected.
 
 3. The program gets the transaction **timestamp** in the format *(dd/MM/yyyy HH:mm:ss)* and saves the transaction in an **ArrayList of TransactionItems**.
 

@@ -13,7 +13,7 @@ The program displays the menu from an inventory file, allows the user to process
 
 ## The System Menu
 
-The **menu items** are read from an **inventory csv file** in the format: ***[item name], [price]***
+The **menu items** are read from an **inventory csv file**.
 Each menu item name and price is added to an **ArrayList of MenuItem objects**.
 
 ### Item Number options
@@ -31,13 +31,14 @@ The user **complete the transaction** by selecting this option and entering the 
 The program will then *process* the customers transaction using the following *steps*:
 
 1. The total price is calculated from ordered item prices within **MenuItem ArrayList**.
-2. The user selects *CASH or CARD* transaction.
+2. The user selects *Cash/Card* transaction.
    - If **cash transaction** then the **amount tendered** will be entered and **change** calculated from the price difference if any.
    - If **card transaction** then the **card type** (Visa/Master) will be selected.
 
 3. The program gets the transaction **timestamp** in the format *(dd/MM/yyyy HH:mm:ss)* and saves the transaction in an **ArrayList of TransactionItems**.
 
 An appropriate **receipt** will then be generated on screen.
+The user can then **press enter to continue** to enter another order and the previous order details are **cleared from the screen**.
 
 ### The Exit Option
 
@@ -45,28 +46,36 @@ When the coffee shop owner exits the system, all the days transactions are writt
 
 ***
 
-## Transaction Formats
+## CSV File Formats
 
-### Cash Transaction format
+### Inventory Format
 
-#### [Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]
+- ***[item name], [price]***
 
-### Card Transaction format
+### Transactions Format
 
-#### [Date and time stamp], [Item/s Purchased], [Price], [Card Type]
+- **Cash Transaction format**
+  - ***[Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]***
+- Card Transaction format
+  - [Date and time stamp], [Item/s Purchased], [Price], [Card Type]
 
 ***
 
-## References Used
+## References used to help make the project
 
+- [Java Clear Console Stack Overflow Answer](https://stackoverflow.com/a/38365871)
+- [Repeating sequence Stack Overflow Answer](https://stackoverflow.com/a/49656610)
+- [Number of decimal digits in a double Stack Overflow Answer](https://stackoverflow.com/a/6264613)
 - [Java Text File I/O Introduction](https://www.youtube.com/watch?v=yO_ctH4mEk4)
-- [Java ArrayList W3Schools](https://www.w3schools.com/java/java_arraylist.asp)
 - [Text-based Menu Driven Program in Java [Part 2/3]](https://www.youtube.com/watch?v=lcWV7hLYByk)
-- [Java Clear Console Stack Overflow Answer](https://stackoverflow.com/questions/2979383/java-clear-the-console)
 - [Java Keyboard class for User Input Validation](https://www.youtube.com/watch?v=Vs2ZR7-LJO0)
+- [Java ArrayList W3Schools](https://www.w3schools.com/java/java_arraylist.asp)
 - [Java read files W3Schools](https://www.w3schools.com/java/java_files_read.asp)
 - [Java write files W3Schools](https://www.w3schools.com/java/java_files_create.asp)
-- [repeating sequence Stack Overflow Answer](https://stackoverflow.com/questions/2255500/can-i-multiply-strings-in-java-to-repeat-sequences)
-- [String to double tutorials point](https://www.tutorialspoint.com/convert-from-string-to-double-in-java#:~:text=To%20convert%20String%20to%20double%2C%20use%20the%20valueOf()%20method).
-- [format specifiers GeeksForGeeks](https://www.geeksforgeeks.org/format-specifiers-in-java/)
-- [Number of decimal digits in a double Stack Overflow Answer](https://stackoverflow.com/questions/6264576/number-of-decimal-digits-in-a-double)
+- [Format specifiers GeeksForGeeks](https://www.geeksforgeeks.org/format-specifiers-in-java/)
+
+***
+
+## UML Class Diagram
+
+![Mini Project UML Class Diagram](Mini%20Project%20UML%20Class%20Diagram.png)

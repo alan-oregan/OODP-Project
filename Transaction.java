@@ -116,7 +116,7 @@ class Transaction {
         return true;
     }
 
-    // 
+    // saves the transactions to the file path with append mode
     public void saveTransactions() {
         fh.writeToTransactionsCSV(transaction_list, transactions_file_path, append_mode);
     }

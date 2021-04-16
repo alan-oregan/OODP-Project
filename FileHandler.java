@@ -24,7 +24,7 @@ class FileHandler {
     }
 
 
-    // reads the csv file and returns it as a 2d arrayList
+    // reads the inventor csv file and returns the inventory items in an ArrayList of MenuItems
     public ArrayList<MenuItem> readInventoryCSV(String file_path, boolean header) {
         try {
             File fileObject = new File(file_path);

@@ -249,6 +249,7 @@ class Input {
     }
 
 
+    // gets the users menu choice within the range of the menu size
     public int getMenuChoice(int menu_size) {
 
         // variables
@@ -269,15 +270,17 @@ class Input {
     }
 
 
+    // gets the item index from the current order to remove it given the order size
     public int getRemoveItemChoice(int order_size) {
 
         // variables
         int user_choice;
 
-        // remove item automatically if only one
+        // if only one item remove automatically
         if (order_size == 1) {
             return 0;
         }
+
         // getting input
         do {
             System.out.printf("\nEnter Item Order number to Remove: ");

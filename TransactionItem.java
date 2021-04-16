@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /*
-* Parent transaction class for holding common transaction information
+* Parent TransactionItem class for holding common transaction information
 * Child classes:
 *  - CashTransaction
 *  - CardTransaction

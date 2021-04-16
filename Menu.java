@@ -23,10 +23,11 @@ class Menu {
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;
     private int menu_choice;
+    private boolean header = false; // default true
     private boolean append_mode = true; // default true
 
     // separating output for better readability
-    private int spacing = 25; // default spacing is 25
+    private int spacing = 30; // default spacing is 30
     private int indent_spacing = spacing / 5;
     private String indent = " ".repeat(indent_spacing);
     private String system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
@@ -41,6 +42,8 @@ class Menu {
         // variables
         this.transactions_file_path = transactions_file_path;
         this.currency = currency;
+        this.header = header;
+        this.append_mode = append_mode;
 
         // read inventory for menu items
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
@@ -66,7 +69,7 @@ class Menu {
         this.transactions_file_path = transactions_file_path;
 
         // read inventory for menu items
-        menu_list = fh.readInventoryCSV(inventory_file_path, false);
+        menu_list = fh.readInventoryCSV(inventory_file_path, header);
 
         // Declaring Transactions object with menu list from the variables
         tn = new Transaction(menu_list, currency, transactions_file_path, append_mode);

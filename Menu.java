@@ -23,7 +23,7 @@ class Menu {
     private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
     private String transactions_file_path;
     private int menu_choice;
-    private boolean header = false; // default true
+    private boolean header = false; // default false
     private boolean append_mode = true; // default true
 
     // separating output for better readability
@@ -33,8 +33,10 @@ class Menu {
     private String system_separator = "=".repeat(spacing + indent_spacing*2 + 13);
     private String item_separator = indent + "-".repeat(spacing + 13);
 
+
     // constructor
-    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path, boolean append_mode, int spacing) {
+    public Menu(String inventory_file_path, boolean header, String currency, String transactions_file_path,
+            boolean append_mode, int spacing) {
         // setting objects
         fh = new FileHandler();
         in = new Input(currency);
@@ -45,7 +47,7 @@ class Menu {
         this.header = header;
         this.append_mode = append_mode;
 
-        // read inventory for menu items
+        // read inventory file for menu item list
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
 
         // setting spacing and separator lengths
@@ -55,9 +57,10 @@ class Menu {
         system_separator = "=".repeat(spacing + 13 + indent_spacing * 2);
         item_separator = indent + "-".repeat(spacing + 13);
 
-        // Declaring Transactions object with menu list from the variables
+        // Declaring Transactions object with menu list and other parameters
         tn = new Transaction(menu_list, currency, transactions_file_path, append_mode);
     }
+
 
     // overloaded constructor to just use defaults
     public Menu(String inventory_file_path, String transactions_file_path) {
@@ -68,39 +71,29 @@ class Menu {
         // variables
         this.transactions_file_path = transactions_file_path;
 
-        // read inventory for menu items
+        // read inventory file for menu item list
         menu_list = fh.readInventoryCSV(inventory_file_path, header);
 
-        // Declaring Transactions object with menu list from the variables
+        // Declaring Transactions object with menu list and other parameters
         tn = new Transaction(menu_list, currency, transactions_file_path, append_mode);
     }
 
 
-
-    // // static method to clear the screen
-    // public static void clearScreen(String backup_string) {
-    //     // tries to get the system name and if it is windows creates a process that clears the screen in cmd with cls
-    //     // if its not windows it uses ansi escape codes
-    //     try {
-    //         if (System.getProperty("os.name").contains("Windows")) {
-    //             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    //         } else {
-    //             // uses the codes 2J to clear the console and H to return to the top of the console
-    //             System.out.print("\033[2J\033[H");
-    //         }
-    //     } catch (java.io.IOException | java.lang.InterruptedException ex) {
-    //         // if there is an error print out a given backup string to break up the output
-    //         System.out.print("\n"+backup_string);
-    //     }
-    // }
-
-
     // static method to clear the screen
     public static void clearScreen(String backup_string) {
-        // prints out the backup string in case the terminal can't read ansi escape codes
-        System.out.print("\n" + backup_string);
-        // uses the codes 2J to clear the console and H to return to the top of the console
-        System.out.print("\033[2J\033[H");
+        // tries to get the system name and if it is windows creates a process that clears the screen in cmd with cls
+        // if its not windows it uses ansi escape codes
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                // uses the codes 2J to clear the console and H to return to the top of the console
+                System.out.print("\033[2J\033[H");
+            }
+        } catch (java.io.IOException | java.lang.InterruptedException ex) {
+            // if there is an error print out a given backup string to break up the output
+            System.out.print("\n" + backup_string);
+        }
     }
 
 
@@ -111,7 +104,7 @@ class Menu {
     }
 
 
-    // prints the values in an appropriate format
+    // prints the menu items and system options in an appropriate format
     public void displayMenu() {
 
         // clears the screen with system separator as a backup
@@ -173,6 +166,7 @@ class Menu {
         System.out.println("\n" + system_separator);
     }
 
+
     // Gets the users menu choice
     public void menuChoice() {
 
@@ -184,7 +178,7 @@ class Menu {
             tn.addItem(menu_choice);
 
         // users menu choice is valid then it is in the system_options
-        } else if (menu_choice != -2){
+        } else if (menu_choice != -2) {
 
             // switch with the option chosen as a string from the array as a parameter
             switch (system_options[menu_choice - (menu_list.size())]) {
@@ -283,6 +277,7 @@ class Menu {
 
         in.enterToContinue();
     }
+
 
     // for continuing the loop
     // return true if exit is false

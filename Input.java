@@ -146,30 +146,25 @@ class Input {
         // sorts the array of options since range is between the smallest and largest value
         Arrays.sort(options);
 
-        // gets the payment option
-        do {
-            // prints the prompt and options array
-            System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
+        // prints the prompt and options array
+        System.out.printf("\n%s %s: ", prompt, Arrays.toString(options).replace(", ", "/"));
 
-            // gets the input within the valid range using the double validator and casts the returned double to an int
-            option = validateIntInput(options[0], options[options.length - 1], false, false, 0);
+        // gets the input within the valid range using the int validator
+        option = validateIntInput(options[0], options[options.length - 1], false, false, 0);
 
-            // error with valid range printed
-            if (option == 0) {
-                System.out.printf("\nError - Invalid input please enter a valid option between %d and %d.\n",
-                        options[0], options[options.length - 1]);
-                enterToContinue();
-            }
-
-            // repeat while not valid
-        } while (option == 0);
+        // error with valid range printed
+        if (option == 0) {
+            System.out.printf("\nError - Invalid input please enter a valid option between %d and %d.\n",
+                    options[0], options[options.length - 1]);
+            enterToContinue();
+        }
 
         // returns the chosen option
         return option;
     }
 
 
-    // limit the option choice within the given string array and returns the string chosen
+    // limit the option choice within the given string array and returns the string chosen or "Invalid"
     public String limitOptionChoice(String[] options) {
 
         // variables
@@ -186,23 +181,19 @@ class Input {
         }
         prompt += options[i]; // last item without /
 
-        // gets the payment option
-        do {
-            // prints the prompt and options
-            System.out.printf("\n%s? [%s%d]: ", prompt, option_IDs, (i+1));
+        // prints the prompt and options
+        System.out.printf("\n%s? [%s%d]: ", prompt, option_IDs, (i+1));
 
-            // gets the input within the valid range using the double validator and casts the returned double to an int
-            option = validateIntInput(1, options.length, false, false, 0);
+        // gets the input within the valid range using the int validator
+        option = validateIntInput(1, options.length, false, false, 0);
 
-            // error with valid range printed
-            if (option == 0) {
-                System.out.printf("\nError - Invalid input please enter a valid option between %d and %d.\n",
-                        options[0], options[options.length - 1]);
-                enterToContinue();
-            }
-
-            // repeat while not valid
-        } while (option == 0);
+        // error with valid range printed
+        if (option == 0) {
+            System.out.printf("\nError - Invalid input please enter a valid option between 1 and %d.\n",
+                    options.length);
+            enterToContinue();
+            return "Invalid";
+        }
 
         // returns the chosen option from the options array
         return options[option-1];
@@ -292,6 +283,7 @@ class Input {
                 enterToContinue();
                 user_choice++;
             }
+
         } while (user_choice == -2);
 
         // returning the user choice

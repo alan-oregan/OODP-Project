@@ -12,7 +12,7 @@ class CafeSystem {
 
         // menu object passing the parameters:
         // inventory file path, if heading exists, ISO 4217 standard currency code, transaction file path, append mode, item spacing
-        Menu menu = new Menu("program_files/inventory.csv", false, "EUR", "program_files/transactions.csv", true, 30);
+        Menu menu = new Menu("program_files/inventory.csv", false, "EUR", "program_files/transactions.csv", true, 25);
 
         // program loop while user doesn't exit
         do {
@@ -25,8 +25,7 @@ class CafeSystem {
 
         } while (Menu.continueMenu());
 
-    // close gracefully
-    System.out.println("Program Closed.");
+        // close gracefully
+        System.out.println("Program Closed.");
     }
 }
-// lets goooooooooooooooooooooooooooooooooooooooooooooooooo

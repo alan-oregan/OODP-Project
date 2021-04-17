@@ -77,6 +77,12 @@ class Transaction {
         // gets the payment option and processes it in a switch
         switch (in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 })) {
 
+            // invalid
+            case 0: {
+                return false;
+            }
+
+            // cash
             case 1: {
 
                 // amount tendered
@@ -86,24 +92,23 @@ class Transaction {
                     return false; // transaction failed
                 }
 
-                // get exact change
+                // get change
                 double change = tendered_amount - total_items_price;
-
-                // possibly let user input change
-                // loop while invalid
-                // do {
-                //     change = in.getTenderedAmount("Change", 0, change);
-                // } while (change == -1);
 
                 transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
 
                 break;
             }
 
+            // card
             case 2: {
 
-                // get card type
+                // returns invalid card type or returns "Invalid" if invalid
                 String card_type = in.limitOptionChoice(new String[] { "Visa", "Mastercard" });
+
+                if (card_type.equals("Invalid")) {
+                    return false; // transaction failed
+                }
 
                 transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
 

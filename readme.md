@@ -1,5 +1,7 @@
 # FOP2 Mini Project – 2021
 
+***
+
 ## Program Description
 
 *Cafe Point of Sale System*
@@ -9,9 +11,9 @@ Student Number: *B00133474*
 This is a point of sale computer program for a coffee shop.
 The program displays the menu from an inventory file, allows the user to process orders and save them to a transaction file.
 
-***
-
 ## The System Menu
+
+***
 
 The **menu items** are read from an **inventory csv file**.
 Each menu item name and price is added to an **ArrayList of MenuItem objects**.
@@ -44,9 +46,9 @@ The user can then **press enter to continue** to enter another order and the pre
 
 When the coffee shop owner exits the system, all the days transactions are written to a **transaction.csv** file from the **ArrayList of TransactionItems**.
 
-***
-
 ## CSV File Formats
+
+***
 
 ### Inventory Format
 
@@ -55,13 +57,15 @@ When the coffee shop owner exits the system, all the days transactions are writt
 ### Transactions Format
 
 - **Cash Transaction format**
-  - ***[Date and time stamp], [Item/s Purchased], [Price], [Amount tendered], [Change given]***
-- Card Transaction format
-  - [Date and time stamp], [Item/s Purchased], [Price], [Card Type]
+  - ***[Date and time stamp], [Item/s Purchased]\*, [Total Price], [Amount tendered], [Change given]***
+- **Card Transaction format**
+  - ***[Date and time stamp], [Item/s Purchased]\*, [Total Price], [Card Type]***
 
-***
+*\*The items purchased contain the price separated by a colon **:** and each each ordered item separated by a forward slash **/***
 
 ## References used to help make the project
+
+***
 
 - [Java Clear Console Stack Overflow Answer](https://stackoverflow.com/a/38365871)
 - [Repeating sequence Stack Overflow Answer](https://stackoverflow.com/a/49656610)
@@ -74,8 +78,8 @@ When the coffee shop owner exits the system, all the days transactions are writt
 - [Java write files W3Schools](https://www.w3schools.com/java/java_files_create.asp)
 - [Format specifiers GeeksForGeeks](https://www.geeksforgeeks.org/format-specifiers-in-java/)
 
-***
-
 ## UML Class Diagram
+
+***
 
 ![Mini Project UML Class Diagram](Mini%20Project%20UML%20Class%20Diagram.png)

@@ -11,12 +11,12 @@ Student Number: *B00133474*
 This is a point of sale computer program for a coffee shop.
 The program displays the menu from an inventory file, allows the user to process orders and save them to a transaction file.
 
-## The System Menu
+## The System src.Menu
 
 ***
 
 The **menu items** are read from an **inventory csv file**.
-Each menu item name and price is added to an **ArrayList of MenuItem objects**.
+Each menu item name and price is added to an **ArrayList of src.MenuItem objects**.
 
 ### Item Number options
 
@@ -32,7 +32,7 @@ The user **complete the transaction** by selecting this option and entering the 
 
 The program will then *process* the customers transaction using the following *steps*:
 
-1. The total price is calculated from ordered item prices within **MenuItem ArrayList**.
+1. The total price is calculated from ordered item prices within **src.MenuItem ArrayList**.
 2. The user selects *Cash/Card* transaction.
    - If **cash transaction** then the **amount tendered** will be entered and **change** calculated from the price difference if any.
    - If **card transaction** then the users **card type** *Visa/Master* will be selected.
@@ -56,9 +56,9 @@ When the coffee shop owner exits the system, all the days transactions are writt
 
 ### Transactions Format
 
-- **Cash Transaction format**
+- **Cash src.Transaction format**
   - ***[Date and time stamp], [Item/s Purchased]\*, [Total Price], [Amount tendered], [Change given]***
-- **Card Transaction format**
+- **Card src.Transaction format**
   - ***[Date and time stamp], [Item/s Purchased]\*, [Total Price], [Card Type]***
 
 *\*The items purchased contain the price separated by a colon **:** and each each ordered item separated by a forward slash **/***
@@ -71,8 +71,8 @@ When the coffee shop owner exits the system, all the days transactions are writt
 - [Repeating sequence Stack Overflow Answer](https://stackoverflow.com/a/49656610)
 - [Number of decimal digits in a double Stack Overflow Answer](https://stackoverflow.com/a/6264613)
 - [Java Text File I/O Introduction](https://www.youtube.com/watch?v=yO_ctH4mEk4)
-- [Text-based Menu Driven Program in Java [Part 2/3]](https://www.youtube.com/watch?v=lcWV7hLYByk)
-- [Java Keyboard class for User Input Validation](https://www.youtube.com/watch?v=Vs2ZR7-LJO0)
+- [Text-based src.Menu Driven Program in Java [Part 2/3]](https://www.youtube.com/watch?v=lcWV7hLYByk)
+- [Java Keyboard class for User src.Input Validation](https://www.youtube.com/watch?v=Vs2ZR7-LJO0)
 - [Java ArrayList W3Schools](https://www.w3schools.com/java/java_arraylist.asp)
 - [Java read files W3Schools](https://www.w3schools.com/java/java_files_read.asp)
 - [Java write files W3Schools](https://www.w3schools.com/java/java_files_create.asp)
@@ -82,4 +82,4 @@ When the coffee shop owner exits the system, all the days transactions are writt
 
 ***
 
-![Mini Project UML Class Diagram](Mini%20Project%20UML%20Class%20Diagram.png)
+![Mini Project UML Class Diagram](images/Mini%20Project%20UML%20Class%20Diagram.png)

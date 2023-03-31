@@ -3,13 +3,13 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 /**
- * Input class handles user input,
+ * src.Input class handles user input,
  * validates user input and returns the correct input type.
  */
 class Input {
 
     // objects
-    private Scanner input;
+    private final Scanner input;
 
     // variables
     private String currency = "EUR"; // Default is EUR
@@ -51,7 +51,7 @@ class Input {
         // return the double input if:
 
         // there is no minimum and no maximum limit,
-        // there is no the minimum and the value is less than the maximum limit,
+        // there is no minimum and the value is less than the maximum limit,
         // the value is more than the minimum and there is no the maximum limit,
         // the value is more than the minimum and less than the maximum limit,
 
@@ -90,8 +90,8 @@ class Input {
         // return the integer input if:
 
         // there is no minimum and no maximum limit,
-        // there is no the minimum and the value is less than the maximum limit,
-        // the value is more than the minimum and there is no the maximum limit,
+        // there is no minimum and the value is less than the maximum limit,
+        // the value is more than the minimum and there is no maximum limit,
         // the value is more than the minimum and less than the maximum limit,
 
         if ((no_min_limit && no_max_limit) || (no_min_limit && int_user_input <= max_limit)
@@ -105,7 +105,7 @@ class Input {
         }
     }
 
-    // overloaded Input validation methods with input taken from the user using a scanner
+    // overloaded src.Input validation methods with input taken from the user using a scanner
 
     public double validateDoubleInput(
             double min_limit,
@@ -169,17 +169,17 @@ class Input {
 
         // variables
         int option = 0;
-        String prompt = "";
-        String option_IDs = "";
+        StringBuilder prompt = new StringBuilder();
+        StringBuilder option_IDs = new StringBuilder();
 
         // Create the prompt from the options array separated by /
         int i;
         for (i = 0; i < options.length - 1; i++) {
-            prompt += options[i] + "/";
-            option_IDs += (i + 1) + "/";
+            prompt.append(options[i]).append("/");
+            option_IDs.append(i + 1).append("/");
 
         }
-        prompt += options[i]; // last item without /
+        prompt.append(options[i]); // last item without /
 
         // prints the prompt and options
         System.out.printf("\n%s? [%s%d]: ", prompt, option_IDs, (i+1));
@@ -204,12 +204,9 @@ class Input {
 
         double tendered_amount = 0.00;
         String tendered_amount_string;
-        boolean no_max_limit = false;
 
         // pass 0 for no max limit
-        if (max == 0) {
-            no_max_limit = true;
-        }
+        boolean no_max_limit = max == 0;
 
         // gets the amount tendered
         System.out.printf("\nEnter %s tendered (%s): ", type, currency);
@@ -274,7 +271,7 @@ class Input {
 
         // getting input
         do {
-            System.out.printf("\nEnter Item Order number to Remove: ");
+            System.out.print("\nEnter Item Order number to Remove: ");
             user_choice = validateIntInput(1, order_size, false, false, -1) - 1;
 
             // processing the input

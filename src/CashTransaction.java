@@ -3,7 +3,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 /*
-* CashTransaction inheriting from the parent Transaction Item Class
+* src.CashTransaction inheriting from the parent src.Transaction Item Class
 * Holds the data for the Cash transaction
 */
 class CashTransaction extends TransactionItem {

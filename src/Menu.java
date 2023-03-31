@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 
 /**
- * Menu class handles anything related to the menu in the coffee system.
+ * src.Menu class handles anything related to the menu in the coffee system.
  * displays the menu in the appropriate format,
  * processes the users menu choice,
  * holds the transaction data.
@@ -10,19 +10,18 @@ import java.util.ArrayList;
 class Menu {
 
     // objects
-    private FileHandler fh;
-    private Input in;
-    private Transaction tn;
+    private final FileHandler fh;
+    private final Input in;
+    private final Transaction tn;
 
     // variables
     public static boolean exit = false;
-    private ArrayList<MenuItem> menu_list;
+    private final ArrayList<MenuItem> menu_list;
     private String currency = "EUR"; // Default is EUR
 
     // change switch statement in menuChoice if changing system_options strings
-    private String[] system_options = { "Remove Order Item", "Complete Transaction", "Exit Program" };
-    private String transactions_file_path;
-    private int menu_choice;
+    private final String[] system_options = { "Remove Order Item", "Complete src.Transaction", "Exit Program" };
+    private final String transactions_file_path;
     private boolean header = false; // default false
     private boolean append_mode = true; // default true
 
@@ -113,7 +112,7 @@ class Menu {
         int item_ID = 1; // menu items id number start at 1
 
         // menu title with spacing
-        printHeader("System Menu");
+        printHeader("System src.Menu");
 
         System.out.println(system_separator);
 
@@ -148,7 +147,7 @@ class Menu {
             double sub_total = 0; // for calculating a subtotal
             item_ID = 1; // reset item id to 1
 
-            // print out each item in the transaction items and calculate sub total
+            // print out each item in the transaction items and calculate subtotal
             for (MenuItem item : tn.getItems()) {
                 System.out.printf("%s%2d. %s%s%5.2f %s\n", indent, item_ID++, item.getItemName(),
                         ".".repeat(spacing - item.getItemName().length()), item.getItemPrice(), currency);
@@ -167,11 +166,11 @@ class Menu {
     }
 
 
-    // Gets the users menu choice
+    // Gets the users' menu choice
     public void menuChoice() {
 
         // default min input is 1 the number of menu items + number of system options is the max input
-        menu_choice = in.getMenuChoice(menu_list.size() + system_options.length) - 1;
+        int menu_choice = in.getMenuChoice(menu_list.size() + system_options.length) - 1;
 
         // users menu choice is valid within the menu_list
         if (menu_choice < menu_list.size() && menu_choice != -2) {
@@ -199,7 +198,7 @@ class Menu {
                     }
                     break;
 
-                case "Complete Transaction":
+                case "Complete src.Transaction":
 
                     // if there is a transaction to pay for
                     if (tn.getItems().size() > 0) {
@@ -218,7 +217,7 @@ class Menu {
 
                 case "Exit Program":
 
-                    // if there is no pending current transaction
+                    // if there isn't a pending current transaction
                     if (tn.getItems().size() == 0) {
                         tn.saveTransactions();
                         System.out.printf("\nTransactions Saved to: %s\n", transactions_file_path);

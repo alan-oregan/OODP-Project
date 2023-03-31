@@ -4,8 +4,7 @@
  * Student Number: B00133474
  **/
 
-// main class
-class CafeSystem {
+class Main {
 
     // main method
     public static void main(String[] args) {

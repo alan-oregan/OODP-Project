@@ -9,15 +9,15 @@ import java.util.ArrayList;
 class Transaction {
 
     // objects
-    private Input in;
-    private FileHandler fh;
+    private final Input in;
+    private final FileHandler fh;
 
     // variables
-    private ArrayList<MenuItem> menu_list;
-    private ArrayList<MenuItem> items = new ArrayList<MenuItem>();
-    private ArrayList<TransactionItem> transaction_list = new ArrayList<TransactionItem>();
-    private String transactions_file_path;
-    private boolean append_mode;
+    private final ArrayList<MenuItem> menu_list;
+    private final ArrayList<MenuItem> items = new ArrayList<>();
+    private final ArrayList<TransactionItem> transaction_list = new ArrayList<>();
+    private final String transactions_file_path;
+    private final boolean append_mode;
 
 
     // constructor
@@ -75,15 +75,16 @@ class Transaction {
         }
 
         // gets the payment option and processes it in a switch
-        switch (in.limitOptionChoice("Cash/Card?", new int[] { 1, 2 })) {
+        switch (in.limitOptionChoice("Cash/Card?", new int[]{1, 2})) {
 
             // invalid
-            case 0: {
+            case 0 -> {
                 return false;
             }
 
+
             // cash
-            case 1: {
+            case 1 -> {
 
                 // amount tendered
                 double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
@@ -96,23 +97,20 @@ class Transaction {
                 double change = tendered_amount - total_items_price;
 
                 transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
-
-                break;
             }
 
+
             // card
-            case 2: {
+            case 2 -> {
 
                 // returns invalid card type or returns "Invalid" if invalid
-                String card_type = in.limitOptionChoice(new String[] { "Visa", "Mastercard" });
+                String card_type = in.limitOptionChoice(new String[]{"Visa", "Mastercard"});
 
                 if (card_type.equals("Invalid")) {
                     return false; // transaction failed
                 }
 
                 transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
-
-                break;
             }
         }
 

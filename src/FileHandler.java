@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * FileHandler class handles reading to and from the files for transactions and inventory.
+ * src.FileHandler class handles reading to and from the files for transactions and inventory.
  */
 class FileHandler {
 
     //objects
-    private Input in;
+    private final Input in;
 
     // variables
-    private ArrayList<MenuItem> menu_items = new ArrayList<MenuItem>();
+    private final ArrayList<MenuItem> menu_items = new ArrayList();
 
 
     // constructor
@@ -31,7 +31,7 @@ class FileHandler {
             Scanner myReader = new Scanner(fileObject);
 
             // skip first line if there is a header
-            if (header == true) {
+            if (header) {
                 myReader.nextLine();
             }
 
@@ -46,12 +46,12 @@ class FileHandler {
 
                 // takes the item price form the row as a string and converts it to a double
                 // with a minimum limit of 0 and no maximum value
-                // invalid input being -1 so we can skip the items with invalid prices
+                // invalid input being -1, so we can skip the items with invalid prices
                 double item_price = in.validateDoubleInput(item_row[1], 0, 0, false, true, -1);
 
                 // skips the items with invalid prices
                 if (item_price != -1) {
-                    // add the string item name and double item price to the ArrayList of MenuItem objects
+                    // add the string item name and double item price to the ArrayList of src.MenuItem objects
                     menu_items.add(new MenuItem(item_name, item_price));
                 }
             }
@@ -88,7 +88,7 @@ class FileHandler {
 
             // catches any IOException and prints the cause
         } catch (IOException e) {
-            System.out.printf("Transaction File Error:\n%s\n", e);
+            System.out.printf("src.Transaction File Error:\n%s\n", e);
             in.enterToContinue();
         }
     }

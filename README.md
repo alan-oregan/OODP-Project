@@ -11,6 +11,9 @@ The program displays the menu from an inventory file,allows the user to process 
 ---
 ![[OODP-Project-UML.drawio.png]]
 
+## GUI Design
+
+![Screenshot of GUI]()
 
 ## Behavioural Patterns
 ---

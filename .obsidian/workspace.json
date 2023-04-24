@@ -1,0 +1,169 @@
+{
+  "main": {
+    "id": "d1c00d46cbefc00c",
+    "type": "split",
+    "children": [
+      {
+        "id": "f3619dd956838a3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ea9383948eb9213c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "dc3a5a3c44487131",
+    "type": "split",
+    "children": [
+      {
+        "id": "190635af278ad51e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c010f1d21698cd84",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "cb819428022846a6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "b7eee4b7590a88a9",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "770268c87fe94261",
+    "type": "split",
+    "children": [
+      {
+        "id": "568c1fc4614ec64a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e156f37e1720fd6b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "f2c7a16b169eb0e1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "README.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "256a569f1b827ef8",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "d9e5c23207fb885e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "ea9383948eb9213c",
+  "lastOpenFiles": [
+    "out/production/OODP-Project/Menu/RemoveCommand.class",
+    "out/production/OODP-Project/Menu/PaymentCommand.class",
+    "out/production/OODP-Project/Menu/MenuCommand.class",
+    "out/production/OODP-Project/Menu/CloseCommand.class",
+    "out/production/OODP-Project/Menu/CafeMenuGUI.class",
+    "out/production/OODP-Project/Menu/AddCommand.class",
+    "out/production/OODP-Project/Menu",
+    "src/Menu/MenuCommand.java~",
+    "src/Menu/CafeMenuGUI.java~",
+    "src/Menu/CloseCommand.java~",
+    "src/Menu/AddCommand.java~",
+    "images/OODP-Project-UML.drawio.png",
+    "README.md",
+    "OLD README.md",
+    "OODP.md",
+    "images.md"
+  ]
+}

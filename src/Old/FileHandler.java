@@ -1,4 +1,4 @@
-// imports
+package Old;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * src.FileHandler class handles reading to and from the files for transactions and inventory.
+ * src.Old.FileHandler class handles reading to and from the files for transactions and inventory.
  */
 class FileHandler {
 
@@ -51,7 +51,7 @@ class FileHandler {
 
                 // skips the items with invalid prices
                 if (item_price != -1) {
-                    // add the string item name and double item price to the ArrayList of src.MenuItem objects
+                    // add the string item name and double item price to the ArrayList of MenuItem objects
                     menu_items.add(new MenuItem(item_name, item_price));
                 }
             }
@@ -88,7 +88,7 @@ class FileHandler {
 
             // catches any IOException and prints the cause
         } catch (IOException e) {
-            System.out.printf("src.Transaction File Error:\n%s\n", e);
+            System.out.printf("src.Old.Transaction File Error:\n%s\n", e);
             in.enterToContinue();
         }
     }

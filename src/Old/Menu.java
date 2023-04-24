@@ -1,8 +1,8 @@
-// imports
+package Old;
 import java.util.ArrayList;
 
 /**
- * src.Menu class handles anything related to the menu in the coffee system.
+ * Old.Menu class handles anything related to the menu in the coffee system.
  * displays the menu in the appropriate format,
  * processes the users menu choice,
  * holds the transaction data.
@@ -20,7 +20,7 @@ class Menu {
     private String currency = "EUR"; // Default is EUR
 
     // change switch statement in menuChoice if changing system_options strings
-    private final String[] system_options = { "Remove Order Item", "Complete src.Transaction", "Exit Program" };
+    private final String[] system_options = { "Remove Order Item", "Complete src.Old.Transaction", "Exit Program" };
     private final String transactions_file_path;
     private boolean header = false; // default false
     private boolean append_mode = true; // default true
@@ -112,7 +112,7 @@ class Menu {
         int item_ID = 1; // menu items id number start at 1
 
         // menu title with spacing
-        printHeader("System src.Menu");
+        printHeader("System Menu");
 
         System.out.println(system_separator);
 
@@ -198,7 +198,7 @@ class Menu {
                     }
                     break;
 
-                case "Complete src.Transaction":
+                case "Complete src.Old.Transaction":
 
                     // if there is a transaction to pay for
                     if (tn.getItems().size() > 0) {

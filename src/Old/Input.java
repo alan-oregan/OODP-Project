@@ -1,9 +1,9 @@
-// imports
+package Old;
 import java.util.Scanner;
 import java.util.Arrays;
 
 /**
- * src.Input class handles user input,
+ * src.Old.Input class handles user input,
  * validates user input and returns the correct input type.
  */
 class Input {
@@ -105,7 +105,7 @@ class Input {
         }
     }
 
-    // overloaded src.Input validation methods with input taken from the user using a scanner
+    // overloaded src.Old.Input validation methods with input taken from the user using a scanner
 
     public double validateDoubleInput(
             double min_limit,

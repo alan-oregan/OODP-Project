@@ -1,13 +1,13 @@
-// imports
+package Old;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /*
-* Parent src.TransactionItem class for holding common transaction information
+* Parent src.Old.TransactionItem class for holding common transaction information
 * Child classes:
-*  - src.CashTransaction
-*  - src.CardTransaction
+*  - src.Old.CashTransaction
+*  - src.Old.CardTransaction
 */
 class TransactionItem {
 

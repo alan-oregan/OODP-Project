@@ -1,9 +1,9 @@
-// imports
+package Old;
 import java.util.Date;
 import java.util.ArrayList;
 
 /*
-* src.CashTransaction inheriting from the parent src.Transaction Item Class
+* src.Old.CashTransaction inheriting from the parent src.Old.Transaction Item Class
 * Holds the data for the Cash transaction
 */
 class CashTransaction extends TransactionItem {

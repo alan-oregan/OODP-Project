@@ -1,15 +1,18 @@
-package Old;
-import java.util.Date;
+package Transaction;
+
+import Menu.MenuItem;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
-* Parent src.Old.TransactionItem class for holding common transaction information
+* Parent TransactionItem class for holding common transaction information
 * Child classes:
-*  - src.Old.CashTransaction
-*  - src.Old.CardTransaction
+*  - CashTransaction
+*  - CardTransaction
 */
-class TransactionItem {
+public class TransactionItem {
 
     // variables
     private String timestamp;

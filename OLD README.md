@@ -4,7 +4,7 @@
 
 ## Program Description
 
-*Cafe Point of Sale System*
+*Café Point of Sale System*
 Created by: *Alan O'Regan*
 Student Number: *B00133474*
 
@@ -30,7 +30,7 @@ The user **can delete** items from their order by selecting this option and ente
 
 The user **complete the transaction** by selecting this option and entering the required information.
 
-The program will then *process* the customers transaction using the following *steps*:
+The program will then *process* the customer's transaction using the following *steps*:
 
 1. The total price is calculated from ordered item prices within **MenuItem ArrayList**.
 2. The user selects *Cash/Card* transaction.
@@ -61,7 +61,7 @@ When the coffee shop owner exits the system, all the days transactions are writt
 - **Card src.Old.Transaction format**
   - ***[Date and time stamp], [Item/s Purchased]\*, [Total Price], [Card Type]***
 
-*\*The items purchased contain the price separated by a colon **:** and each each ordered item separated by a forward slash **/***
+*\*The items purchased contain the price separated by a colon **:** and each ordered item separated by a forward slash **/***
 
 ## References used to help make the project
 

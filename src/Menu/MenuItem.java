@@ -1,9 +1,9 @@
-package Old;
+package Menu;
 
 /*
-* Creating an object for the menu items array list
+* Data class data stores menu item name and price
 */
-class MenuItem {
+public class MenuItem {
 
     //variables
     private String item_name;

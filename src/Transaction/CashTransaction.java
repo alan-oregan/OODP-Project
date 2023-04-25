@@ -1,6 +1,9 @@
-package Old;
-import java.util.Date;
+package Transaction;
+
+import Menu.MenuItem;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
 * src.Old.CashTransaction inheriting from the parent src.Old.Transaction Item Class
@@ -14,7 +17,7 @@ class CashTransaction extends TransactionItem {
 
     // constructor
     public CashTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
-            double amount_tendered, double change_tendered) {
+                           double amount_tendered, double change_tendered) {
         super(timestamp, items_purchased, items_price);
         this.amount_tendered = amount_tendered;
         this.change_tendered = change_tendered;

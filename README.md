@@ -3,30 +3,45 @@
 __Author:__ _Alan O'Regan_
 __Student Number:__ _B00133474_
 
-#### Description:
+#### Application Overview:
 This is a point of sale computer program for a coffee shop.
 The program displays the menu from an inventory file,allows the user to process orders and then save them to a transaction file.
 
-## UML Diagram
+## Functional Requirements
 ---
-![[OODP-Project-UML.drawio.png]]
 
-## GUI Design
 
+## User Requirements and Interface
+---
 ![Screenshot of GUI]()
 
-## Behavioural Patterns
+
+### UML Class Diagram
 ---
-### Command Pattern
+![[images/OODP-Project-UML.drawio.png]]
 
-
-## Structural Patterns
+## Design Patterns
 ---
-### Decorator Pattern
+
+### Behavioural
+
+#### Command
 
 
-## Creational Patterns
----
-### Singleton Pattern
+### Structural
 
-### Builder Pattern
+#### Decorator
+
+
+### Creational
+
+#### Singletons
+
+As I was implementing the singleton pattern I thought why not make it a static class, and so I looked into the idea and found this: 
+
+> A Singletons can implement interfaces, inherit from other classes and allow inheritance. While a static class cannot inherit their instance members. So Singletons is more flexible than static classes and can maintain state.
+
+_source https://net-informations.com/faq/netfaq/singlestatic.htm
+
+#### Transaction
+

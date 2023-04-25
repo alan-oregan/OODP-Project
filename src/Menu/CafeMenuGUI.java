@@ -18,8 +18,8 @@ public class CafeMenuGUI extends JFrame implements ActionListener {
     private final JList<String> orderList;
     private final DefaultListModel<String> orderListModel;
 
-    private Stack<MenuCommand> redoStack = new Stack<>();
-    private Stack<MenuCommand> undoStack = new Stack<>();
+    private final Stack<MenuCommand> redoStack = new Stack<>();
+    private final Stack<MenuCommand> undoStack = new Stack<>();
 
     public JList<String> getMenuList() {
         return menuList;
@@ -126,11 +126,5 @@ public class CafeMenuGUI extends JFrame implements ActionListener {
     public void executeCommand(MenuCommand command) {
         command.execute();
         undoStack.push(command);
-    }
-
-    public static void main(String[] args) {
-        // Create and show Cafe Menu GUI
-        CafeMenuGUI cafeMenu = new CafeMenuGUI();
-        cafeMenu.setVisible(true);
     }
 }

@@ -10,7 +10,7 @@ public class AddCommand extends JFrame implements MenuCommand, ActionListener {
     private final JLabel itemLabel;
     private final JSpinner quantitySpinner;
 
-    private String selectedItem;
+    private final String selectedItem;
     private String addedItem;
 
     // Create Add to Order window

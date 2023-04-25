@@ -1,6 +1,9 @@
-package Old;
-import java.util.Date;
+package Transaction;
+
+import Menu.MenuItem;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 /*
 * src.Old.CashTransaction inheriting from the parent src.Old.Transaction Item Class
@@ -14,7 +17,7 @@ class CardTransaction extends TransactionItem {
 
         // constructor for card transaction
         public CardTransaction(Date timestamp, ArrayList<MenuItem> items_purchased, double items_price,
-                String card_type) {
+                               String card_type) {
             super(timestamp, items_purchased, items_price);
             this.card_type = card_type;
         }

@@ -1,4 +1,4 @@
-package Builder;
+package Transaction;
 
 public class CardTransactionBuilder {
 }

@@ -20,6 +20,9 @@ public class FileHandler {
     private static FileHandler fileHandler;
 
     // variables
+    private static final String INVENTORY_FILE_PATH = "src\\Data\\inventory.csv";
+    private static final String TRANSACTIONS_FILE_PATH = "src\\Data\\transactions.csv";
+
     private final ArrayList<MenuItem> menuItems = new ArrayList<>();
 
 
@@ -36,15 +39,13 @@ public class FileHandler {
 
 
     // reads the inventor csv file and returns the inventory items in an ArrayList of MenuItems
-    public synchronized ArrayList<MenuItem> readInventoryCSV(String file_path, boolean header) {
+    public synchronized ArrayList<MenuItem> readInventoryCSV() {
         try {
-            File fileObject = new File(file_path);
+            File fileObject = new File(INVENTORY_FILE_PATH);
             Scanner myReader = new Scanner(fileObject);
 
-            // skip first line if there is a header
-            if (header) {
-                myReader.nextLine();
-            }
+            // skip first line since there is a header
+            myReader.nextLine();
 
             // loops through the item rows/lines in the file while they exist
             while (myReader.hasNextLine()) {
@@ -70,7 +71,7 @@ public class FileHandler {
             myReader.close(); // closes the Scanner
 
         } catch (FileNotFoundException e) {
-            System.out.printf("Error - Inventory file not found at %s.\n", file_path);
+            System.out.printf("Error - Inventory file not found at %s.\n", INVENTORY_FILE_PATH);
             e.printStackTrace();
         }
 
@@ -79,11 +80,11 @@ public class FileHandler {
 
 
     // write to the given filePath with the given transaction
-    public synchronized void writeToTransactionsCSV(ArrayList<TransactionItem> Transactions, String filePath, boolean append) {
+    public synchronized void writeToTransactionsCSV(ArrayList<TransactionItem> Transactions) {
 
         try {
 
-            FileWriter wtr = new FileWriter(filePath, append);
+            FileWriter wtr = new FileWriter(TRANSACTIONS_FILE_PATH, true);
 
             // gets the system line separator for new lines
             String newLine = System.getProperty("line.separator");
@@ -98,7 +99,7 @@ public class FileHandler {
 
             // catches any IOException and prints the cause
         } catch (IOException e) {
-            System.out.printf("Error - Could not transaction File at %s.\n", filePath);
+            System.out.printf("Error - Could not transaction File at %s.\n", TRANSACTIONS_FILE_PATH);
             e.printStackTrace();
         }
     }

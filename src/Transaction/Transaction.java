@@ -18,13 +18,15 @@ public class Transaction {
     private final FileHandler fileHandler = FileHandler.GetFileHandler();
 
     // variables
+    private static final String CURRENCY = "EUR";
+
     private final ArrayList<MenuItem> menu_list;
     private final ArrayList<MenuItem> items = new ArrayList<>();
     private final ArrayList<TransactionItem> transaction_list = new ArrayList<>();
     private final String transactions_file_path;
     private final boolean append_mode;
 
-    public Transaction(ArrayList<MenuItem> menu_list, String currency, String transactions_file_path, boolean append_mode) {
+    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path, boolean append_mode) {
         this.menu_list = menu_list;
         this.transactions_file_path = transactions_file_path;
         this.append_mode = append_mode;
@@ -117,6 +119,6 @@ public class Transaction {
 
     // saves the transactions to the file path with append mode
     public void saveTransactions() {
-        fileHandler.writeToTransactionsCSV(transaction_list, transactions_file_path, append_mode);
+        fileHandler.writeToTransactionsCSV(transaction_list);
     }
 }

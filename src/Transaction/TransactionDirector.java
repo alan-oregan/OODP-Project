@@ -9,10 +9,12 @@ import java.util.Date;
  */
 public class TransactionDirector {
 
+    private static final OrderHandler orderHandler = OrderHandler.GetOrderHandler();
+
     public static Transaction getNewCardTransaction(String cardType) {
         return new TransactionBuilder(new Date(),
-                OrderHandler.GetTransactionHandler().getTotalPrice(),
-                OrderHandler.GetTransactionHandler().getOrderItemsArray(),
+                orderHandler.getTotalPrice(),
+                orderHandler.getOrderItemsArray(),
                 true)
                 .setCardType(cardType)
                 .build();
@@ -21,8 +23,8 @@ public class TransactionDirector {
     public static Transaction getNewCashTransaction(double amountTendered, double changeTendered) {
         return new TransactionBuilder(
                 new Date(),
-                OrderHandler.GetTransactionHandler().getTotalPrice(),
-                OrderHandler.GetTransactionHandler().getOrderItemsArray(),
+                orderHandler.getTotalPrice(),
+                orderHandler.getOrderItemsArray(),
                 false)
                 .setAmountTendered(amountTendered)
                 .setChangeTendered(changeTendered)

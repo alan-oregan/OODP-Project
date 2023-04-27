@@ -94,6 +94,6 @@ public class Transaction implements TransactionLog {
     }
 
     public String getTransactionLog() {
-        return String.format("%s,%s,%s", totalPrice, isCardTransaction);
+        return String.format("%s,%s", totalPrice, isCardTransaction);
     }
 }

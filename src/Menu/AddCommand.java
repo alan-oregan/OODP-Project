@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class AddCommand extends JFrame implements MenuCommand, ActionListener {
     // Singletons
-    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+    private final OrderHandler orderHandler = OrderHandler.GetOrderHandler();
 
     private final CafeMenuGUI parent;
     private final JLabel itemLabel;

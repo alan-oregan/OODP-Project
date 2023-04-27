@@ -11,7 +11,7 @@ public class CloseCommand implements MenuCommand {
 
     @Override
     public void execute() {
-        if (OrderHandler.GetTransactionHandler().saveTransactions()) {
+        if (OrderHandler.GetOrderHandler().saveTransactions()) {
             parent.dispose();
         }
         else {

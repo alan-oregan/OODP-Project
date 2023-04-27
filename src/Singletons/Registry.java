@@ -19,7 +19,7 @@ public class Registry {
         return switch (singletonClass.getSimpleName()) {
             case "FileHandler" -> (T) FileHandler.GetFileHandler();
             case "Validator" -> (T) Validator.GetValidator();
-            case "OrderHandler" -> (T) OrderHandler.GetTransactionHandler();
+            case "OrderHandler" -> (T) OrderHandler.GetOrderHandler();
             default -> throw new SingletonException(String.format("Unknown Singleton: \"%s\" not in registry", singletonClass));
         };
     }

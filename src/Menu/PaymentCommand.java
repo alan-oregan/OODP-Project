@@ -17,7 +17,7 @@ public class PaymentCommand extends JFrame implements MenuCommand, ActionListene
     private static final String[] CARD_OPTIONS = {"Visa", "Mastercard"};
 
     // singletons
-    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+    private final OrderHandler orderHandler = OrderHandler.GetOrderHandler();
 
     private final CafeMenuGUI parent;
 

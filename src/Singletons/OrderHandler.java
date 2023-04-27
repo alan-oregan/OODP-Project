@@ -30,7 +30,7 @@ public class OrderHandler {
         transactions = new ArrayList<>();
     }
 
-    public static OrderHandler GetTransactionHandler() {
+    public static OrderHandler GetOrderHandler() {
         if (orderHandler == null)
             orderHandler = new OrderHandler();
         return orderHandler;

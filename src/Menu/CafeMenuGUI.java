@@ -22,7 +22,7 @@ public class CafeMenuGUI extends JFrame implements ActionListener {
 
     // singletons
     private final FileHandler fileHandler = FileHandler.GetFileHandler();
-    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+    private final OrderHandler orderHandler = OrderHandler.GetOrderHandler();
 
     // stacks for undo/redo
     private final Stack<MenuCommand>

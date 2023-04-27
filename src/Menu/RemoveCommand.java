@@ -4,7 +4,7 @@ import Singletons.OrderHandler;
 
 public class RemoveCommand implements MenuCommand {
     // Singletons
-    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+    private final OrderHandler orderHandler = OrderHandler.GetOrderHandler();
 
     private final CafeMenuGUI parent;
     private final MenuItem selectedItem;

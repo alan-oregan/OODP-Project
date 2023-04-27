@@ -8,9 +8,8 @@ public class Validator {
     }
 
     public static Validator GetValidator() {
-        if (validator == null) {
+        if (validator == null)
             validator = new Validator();
-        }
         return validator;
     }
 

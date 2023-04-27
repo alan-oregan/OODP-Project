@@ -1,124 +1,99 @@
 package Transaction;
 
 import Menu.MenuItem;
-import Singletons.FileHandler;
-import Singletons.Validator;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /*
-* Handles the processing of Transactions
-* Holds the transaction data
-*/
-public class Transaction {
+* Transaction class for the transaction
+ */
+public class Transaction implements TransactionLog {
 
-    // objects
-    private final Validator validator = Validator.GetValidator();
-    private final FileHandler fileHandler = FileHandler.GetFileHandler();
+    // Required parameters
+    private Date date;
+    private double totalPrice;
+    private MenuItem[] itemsPurchased;
 
-    // variables
-    private static final String CURRENCY = "EUR";
+    // Optional parameters
+    private boolean isCardTransaction;
 
-    private final ArrayList<MenuItem> menu_list;
-    private final ArrayList<MenuItem> items = new ArrayList<>();
-    private final ArrayList<TransactionItem> transaction_list = new ArrayList<>();
-    private final String transactions_file_path;
-    private final boolean append_mode;
+    // for card transaction
+    private String cardType;
 
-    public Transaction(ArrayList<MenuItem> menu_list, String transactions_file_path, boolean append_mode) {
-        this.menu_list = menu_list;
-        this.transactions_file_path = transactions_file_path;
-        this.append_mode = append_mode;
+    // for cash transaction
+    private double amountTendered;
+    private double changeTendered;
+
+    // constructor
+    public Transaction(TransactionBuilder transactionBuilder) {
+        this.date = transactionBuilder.getDate();
+        this.totalPrice = transactionBuilder.getTotalPrice();
+        this.itemsPurchased = transactionBuilder.getItemsPurchased();
+        this.isCardTransaction = transactionBuilder.isCardTransaction();
+        this.cardType = transactionBuilder.getCardType();
+        this.amountTendered = transactionBuilder.getAmountTendered();
+        this.changeTendered = transactionBuilder.getChangeTendered();
     }
 
 
-    // adds an item from the menu ArrayList at the given index
-    // to the transaction ArrayList
-    public void addItem(int menu_item_index) {
-        items.add(menu_list.get(menu_item_index));
+    // getter and setter methods
+    public Date getDate() {
+        return date;
     }
 
-
-    // removes the transaction item at the given index from the ArrayList
-    public void removeItem(int transaction_item_index) {
-        items.remove(transaction_item_index);
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-
-    public ArrayList<MenuItem> getItems() {
-        return items;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-
-    // clears the items list
-    public void clearItems() {
-        items.clear();
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-
-    // returns the most recent transaction
-    public TransactionItem getLatestTransaction() {
-        return transaction_list.get(transaction_list.size() - 1);
+    public MenuItem[] getItemsPurchased() {
+        return itemsPurchased;
     }
 
+    public void setItemsPurchased(MenuItem[] itemsPurchased) {
+        this.itemsPurchased = itemsPurchased;
+    }
 
-//    // gets the rest of the transaction information
-//    // then adds it to the transactions ArrayList
-//    public boolean completePayment() {
-//
-//        // looping through the items
-//        // and getting the total items Price
-//        double total_items_price = 0;
-//        for (MenuItem item : items) {
-//            total_items_price += item.getItemPrice();
-//        }
-//
-//        // gets the payment option and processes it in a switch
-//        switch (in.limitOptionChoice("Cash/Card?", new int[]{1, 2})) {
-//
-//            // invalid
-//            case 0 -> {
-//                return false;
-//            }
-//
-//            // cash
-//            case 1 -> {
-//
-//                // amount tendered
-//                double tendered_amount = in.getTenderedAmount("Amount", total_items_price, 0);
-//
-//                if (tendered_amount == -1) {
-//                    return false; // transaction failed
-//                }
-//
-//                // get change
-//                double change = tendered_amount - total_items_price;
-//
-//                transaction_list.add(new CashTransaction(new Date(), items, total_items_price, tendered_amount, change));
-//            }
-//
-//            // card
-//            case 2 -> {
-//
-//                // returns invalid card type or returns "Invalid" if invalid
-//                String card_type = in.limitOptionChoice(new String[]{"Visa", "Mastercard"});
-//
-//                if (card_type.equals("Invalid")) {
-//                    return false; // transaction failed
-//                }
-//
-//                transaction_list.add(new CardTransaction(new Date(), items, total_items_price, card_type));
-//            }
-//        }
-//
-//        // since transaction succeed
-//        clearItems();
-//        return true;
-//    }
+    public boolean isCardTransaction() {
+        return isCardTransaction;
+    }
 
-    // saves the transactions to the file path with append mode
-    public void saveTransactions() {
-        fileHandler.writeToTransactionsCSV(transaction_list);
+    public void setCardTransaction(boolean cardTransaction) {
+        isCardTransaction = cardTransaction;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public double getAmountTendered() {
+        return amountTendered;
+    }
+
+    public void setAmountTendered(double amountTendered) {
+        this.amountTendered = amountTendered;
+    }
+
+    public double getChangeTendered() {
+        return changeTendered;
+    }
+
+    public void setChangeTendered(double changeTendered) {
+        this.changeTendered = changeTendered;
+    }
+
+    public String getTransactionLog() {
+        return String.format("%s,%s,%s", totalPrice, isCardTransaction);
     }
 }

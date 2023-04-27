@@ -1,28 +1,31 @@
 package Menu;
 
-public class RemoveCommand implements MenuCommand  {
+import Singletons.OrderHandler;
+
+public class RemoveCommand implements MenuCommand {
+    // Singletons
+    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
 
     private final CafeMenuGUI parent;
-
-    private final String selectedItem;
+    private final MenuItem selectedItem;
 
     RemoveCommand(CafeMenuGUI parent) {
         this.parent = parent;
-        selectedItem = parent.getOrderList().getSelectedValue();
+        selectedItem = parent.getOrderJList().getSelectedValue();
     }
 
     @Override
     public void execute() {
-        parent.getOrderListModel().removeElement(selectedItem);
+        orderHandler.removeItem(selectedItem);
     }
 
     @Override
     public void undo() {
-        parent.getOrderListModel().addElement(selectedItem);
+        orderHandler.addItem(selectedItem);
     }
 
     @Override
     public void redo() {
-        parent.getOrderListModel().removeElement(selectedItem);
+        orderHandler.removeItem(selectedItem);
     }
 }

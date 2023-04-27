@@ -1,11 +1,24 @@
 package Menu;
 
+import static Menu.CafeMenuGUI.CURRENCY;
+
+import Singletons.OrderHandler;
+
+import Transaction.Transaction;
+import Transaction.TransactionDirector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PaymentCommand extends JFrame implements MenuCommand, ActionListener {
+    private static final String[] PAYMENT_OPTIONS = {"Cash", "Card"};
+    private static final String[] CARD_OPTIONS = {"Visa", "Mastercard"};
+
+    // singletons
+    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+
     private final CafeMenuGUI parent;
 
     private final JLabel totalLabel;
@@ -17,6 +30,7 @@ public class PaymentCommand extends JFrame implements MenuCommand, ActionListene
     public PaymentCommand(CafeMenuGUI parent) {
         super("Make a Payment");
         this.parent = parent;
+        this.total = orderHandler.getTotalPrice();
 
         this.setSize(300, 200);
         this.setLocationRelativeTo(null);
@@ -34,40 +48,73 @@ public class PaymentCommand extends JFrame implements MenuCommand, ActionListene
         this.add(paymentPanel);
     }
 
-    // Display payment confirmation
     @Override
     public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(this, "Thank you for your payment of €" + String.format("%.2f", total));
-        parent.getOrderListModel().clear();
-        this.dispose();
+        double amount = 0;
+        boolean valid = false;
+
+        Transaction transaction = null;
+
+        int paymentOptionChoice = JOptionPane.showOptionDialog(this, "How would you like to pay?", "Payment Type",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, PAYMENT_OPTIONS, PAYMENT_OPTIONS[0]);
+
+        switch (PAYMENT_OPTIONS[paymentOptionChoice]) {
+            case "Cash":
+                while (!valid) {
+                    try {
+                        amount = Double.parseDouble(JOptionPane.showInputDialog(this, "Enter amount to pay:"));
+                        valid = true;
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "Invalid amount entered");
+                    }
+                }
+                if (amount >= total) {
+                    JOptionPane.showMessageDialog(this,
+                            String.format("Thank you for your payment of %s%.2f, your change is %s%.2f",
+                                    CURRENCY, amount, CURRENCY, amount - total),
+                            "Payment Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    transaction = TransactionDirector.getNewCashTransaction(amount, amount - total);
+                    orderHandler.clearOrder();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Insufficient amount entered");
+                }
+                break;
+
+            case "Card":
+
+                int cardOptionChoice = JOptionPane.showOptionDialog(this, "What is you card type?", "Card Type",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, CARD_OPTIONS, CARD_OPTIONS[0]);
+
+                String cardNumber = JOptionPane.showInputDialog(this, "Enter card number:");
+
+                if (cardNumber != null) {
+                    JOptionPane.showMessageDialog(this, "Thank you for your payment of €" + String.format("%.2f", total));
+                    transaction = TransactionDirector.getNewCardTransaction(CARD_OPTIONS[cardOptionChoice]);
+                    orderHandler.clearOrder();
+                    this.dispose();
+                }
+                break;
+        }
+
+        orderHandler.addTransaction(transaction);
     }
 
-    // Calculate total and display Make a Payment window
+    // display Make a Payment window
     @Override
     public void execute() {
-        for (int i = 0; i < parent.getOrderListModel().getSize(); i++) {
-            String orderItem = parent.getOrderListModel().getElementAt(i);
-            String[] orderParts = orderItem.split(" x ");
-            String itemName = orderParts[0];
-            int quantity = Integer.parseInt(orderParts[1]);
-            switch (itemName) {
-                case "Espresso" -> total += 1.50 * quantity;
-                case "Latte" -> total += 2.50 * quantity;
-                case "Cappuccino" -> total += 3.00 * quantity;
-                case "Mocha" -> total += 3.50 * quantity;
-            }
-        }
+        orderHandler.getTotalPrice();
         totalLabel.setText("Total: €" + String.format("%.2f", total));
         this.setVisible(true);
     }
 
     @Override
     public void undo() {
-
+        // cannot undo payment
     }
 
     @Override
     public void redo() {
-
+        // cannot redo payment
     }
 }

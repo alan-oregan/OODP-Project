@@ -1,31 +1,33 @@
 package Menu;
 
+import Singletons.OrderHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddCommand extends JFrame implements MenuCommand, ActionListener {
+    // Singletons
+    private final OrderHandler orderHandler = OrderHandler.GetTransactionHandler();
+
     private final CafeMenuGUI parent;
     private final JLabel itemLabel;
     private final JSpinner quantitySpinner;
 
-    private final String selectedItem;
-    private String addedItem;
+    private MenuItem selectedItem;
+    private MenuItem addedItem;
 
     // Create Add to Order window
     AddCommand(CafeMenuGUI parent) {
         super("Add to Order");
         this.parent = parent;
 
-        selectedItem = parent.getMenuList().getSelectedValue();
-
         this.setSize(300, 200);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         itemLabel = new JLabel();
-        itemLabel.setText(selectedItem);
 
         JLabel quantityLabel = new JLabel("Quantity:");
         quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
@@ -46,13 +48,24 @@ public class AddCommand extends JFrame implements MenuCommand, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Add selected item and quantity to order list
-        int quantity = (int) quantitySpinner.getValue();
 
-        addedItem = selectedItem + " x " + quantity;
+        this.selectedItem = parent.getMenuJList().getSelectedValue();
 
-        parent.getOrderListModel().addElement(addedItem);
-        this.dispose();
+        if (selectedItem != null) {
+
+            itemLabel.setText(selectedItem.toString());
+
+            // Add selected item and quantity to order list
+            int quantity = (int) quantitySpinner.getValue();
+
+            addedItem = selectedItem;
+
+            orderHandler.addItem(addedItem);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an item to add to your order.", "No item selected",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
@@ -62,11 +75,11 @@ public class AddCommand extends JFrame implements MenuCommand, ActionListener {
 
     @Override
     public void undo() {
-        parent.getOrderListModel().removeElement(addedItem);
+        orderHandler.removeItem(addedItem);
     }
 
     @Override
     public void redo() {
-        parent.getOrderListModel().addElement(addedItem);
+        orderHandler.addItem(addedItem);
     }
 }

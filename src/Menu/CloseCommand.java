@@ -1,5 +1,7 @@
 package Menu;
 
+import Singletons.OrderHandler;
+
 public class CloseCommand implements MenuCommand {
     private final CafeMenuGUI parent;
 
@@ -9,7 +11,12 @@ public class CloseCommand implements MenuCommand {
 
     @Override
     public void execute() {
-        parent.dispose();
+        if (OrderHandler.GetTransactionHandler().saveTransactions()) {
+            parent.dispose();
+        }
+        else {
+            System.out.println("Error saving transactions");
+        }
     }
 
     @Override

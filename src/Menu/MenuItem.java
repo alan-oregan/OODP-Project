@@ -1,30 +1,34 @@
 package Menu;
 
+import static Menu.CafeMenuGUI.CURRENCY;
+
 /*
-* Data class data stores menu item name and price
-*/
+ * Data class data stores menu item name and price
+ */
 public class MenuItem {
 
     //variables
-    private String item_name;
-    private double item_price;
+    private final String itemName;
+    private final double itemPrice;
 
 
     // constructor
-    public MenuItem(String item_name, double item_price) {
-        this.item_name = item_name;
-        this.item_price = item_price;
+    public MenuItem(String itemName, double itemPrice) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
     }
 
-    // getter and setter methods
-    public void setItemName(String item_name) {this.item_name = item_name;}
+    // getter methods
+    public String getName() {
+        return itemName;
+    }
 
-    public String getItemName() {return item_name;}
-
-    public void setItemPrice(double item_price) {this.item_price = item_price;}
-
-    public double getItemPrice() {return item_price;}
+    public double getPrice() {
+        return itemPrice;
+    }
 
     // toString method
-    public String toString() {return String.format("%s:%.2f", item_name, item_price);}
+    public String toString() {
+        return String.format("%s%.2f %s", CURRENCY, itemPrice, itemName);
+    }
 }

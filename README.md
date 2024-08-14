@@ -70,4 +70,4 @@ Source: <https://net-informations.com/faq/netfaq/singlestatic.htm>
 
 #### Builder
 I also implemented the builder pattern as it allows for the creation of a transaction object with different attributes depending on the transaction type.
-![Builder Pattern UML](images/OODP-Project-Builder-UML.png]
+![Builder Pattern UML](images/OODP-Project-Builder-UML.png)

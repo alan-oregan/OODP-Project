@@ -66,7 +66,7 @@ As I was implementing the singleton pattern I thought why not make it a static c
 
 > A Singletons can implement interfaces, inherit from other classes and allow inheritance. While a static class cannot inherit their instance members. So Singletons is more flexible than static classes and can maintain state.
 
-_source https://net-informations.com/faq/netfaq/singlestatic.htm
+Source: <https://net-informations.com/faq/netfaq/singlestatic.htm>
 
 #### Builder
 I also implemented the builder pattern as it allows for the creation of a transaction object with different attributes depending on the transaction type.
